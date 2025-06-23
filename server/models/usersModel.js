@@ -1,40 +1,54 @@
-const mongoose=require('mongoose')
+const mongoose = require('mongoose')
 
 
-const userSchema=new mongoose.Schema({
-    name:{
-        type:String,
-        required:true
+const userSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
     },
-    email:{
-        type:String,
-        unique:true,
-        required:true
+    email: {
+        type: String,
+        unique: true,
+        required: true
     },
-    password:{
-        type:String,
-        required:true
+    avatar: {
+        type: String,
     },
-    avatar:{
-        type:String,
-        default:"https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-user-avatar-login-interface-abstract-blue-icon-png-image_3917504.jpg"
+    provider: {
+        type: String,
+        default: "local",
     },
-    subscription:{
-        type:Object,
-        default:{
-            plan:"none",
-            status:"none",
-            startDate:"none",
-            endDate:"none"
+    googleId: {
+        type: String,
+        default: null,
+    },
+    password: {
+        type: String,
+        default: null,
+    },
+    subscription: {
+        type: Object,
+        default: {
+            plan: "none",
+            status: "none",
+            startDate: "none",
+            endDate: "none"
         }
     },
-    enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }]
+    enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+    isVerified: { type: Boolean, default: false },
+    otp:{
+        type:String
+    },
+    otpExpiry:{
+        type:Date
+    }
 },
-{
-  timestamps: true
-}
+    {
+        timestamps: true
+    }
 )
 
-const userModel=mongoose.model('users',userSchema)
+const userModel = mongoose.model('users', userSchema)
 
-module.exports=userModel
+module.exports = userModel
