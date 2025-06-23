@@ -2,27 +2,27 @@
 # Node Modules
 # ----------------------
 node_modules/
-client/node_modules/
+client/edunova/node_modules/
 server/node_modules/
 
 # ----------------------
 # Environment Variables
 # ----------------------
 .env             # root env
-/client/.env
+/client/edunova/.env
 /server/.env
 
 # Ignore environment variable variants (React)
-client/.env.local
-client/.env.development.local
-client/.env.test.local
-client/.env.production.local
+client/edunova/.env.local
+client/edunova/.env.development.local
+client/edunova/.env.test.local
+client/edunova/.env.production.local
 
 # ----------------------
 # Build Artifacts
 # ----------------------
-client/build/
-client/dist/
+client/edunova/build/
+client/edunova/dist/
 server/build/
 server/dist/
 
