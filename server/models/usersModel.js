@@ -16,7 +16,8 @@ const userSchema=new mongoose.Schema({
         required:true
     },
     avatar:{
-        type:String
+        type:String,
+        default:"https://png.pngtree.com/png-clipart/20210915/ourmid/pngtree-user-avatar-login-interface-abstract-blue-icon-png-image_3917504.jpg"
     },
     subscription:{
         type:Object,
@@ -34,6 +35,6 @@ const userSchema=new mongoose.Schema({
 }
 )
 
-const userModel=mongoose.model('Users',userSchema)
+const userModel=mongoose.model('users',userSchema)
 
 module.exports=userModel
