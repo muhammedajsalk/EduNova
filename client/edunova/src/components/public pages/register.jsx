@@ -24,12 +24,11 @@ export default function Register() {
       .catch((err) => console.log(err.response?.data?.message || err.message))
   }
 
-
   const { values, handleBlur, handleSubmit, handleChange, errors, touched } = useFormik({
     initialValues: initialValue,
     validationSchema: registerSceama,
     onSubmit: (values) => {
-       createAccount(values)
+      createAccount(values)
     }
   })
 
@@ -42,12 +41,9 @@ export default function Register() {
       .catch((err) => console.error("OTP send error:", err.response?.data?.message || err.message))
   }
 
-  console.log(values)
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
       <div className="w-full max-w-6xl bg-white rounded-xl shadow-md flex flex-col md:flex-row overflow-hidden">
-
-        {/* Left Section */}
         <div className="w-full md:w-1/2 bg-gray-100 flex flex-col items-center justify-center p-8">
           <img
             src="https://images.unsplash.com/photo-1584697964154-94d8f6f8303f"
@@ -59,12 +55,8 @@ export default function Register() {
             Join thousands of instructors sharing their knowledge
           </p>
         </div>
-
-        {/* Right Section */}
         <div className="w-full md:w-1/2 p-8 md:p-10">
           <h2 className="text-xl md:text-2xl font-bold mb-4">Create Account</h2>
-
-          {/* Role Toggle */}
           <div className="flex mb-4 border border-gray-300 rounded-md overflow-hidden w-full max-w-xs">
             <button
               onClick={() => setRole("Student")}
@@ -82,7 +74,6 @@ export default function Register() {
             </button>
           </div>
 
-          {/* Social Buttons */}
           <div className="space-y-3 mb-6">
             <GoogleLogin
               onSuccess={(credentialResponse) => {
@@ -99,15 +90,11 @@ export default function Register() {
               }}
             />
           </div>
-
-          {/* Divider */}
           <div className="flex items-center my-4">
             <div className="flex-grow h-px bg-gray-300"></div>
             <span className="px-3 text-gray-500 text-sm">or</span>
             <div className="flex-grow h-px bg-gray-300"></div>
           </div>
-
-          {/* Form Fields */}
           <form className="space-y-4" onSubmit={handleSubmit}>
             <input
               type="text"
@@ -129,7 +116,7 @@ export default function Register() {
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
-              <button className="w-50 border border-gray-300 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium" onClick={sentOtp}>Get Otp</button>
+              <button className="w-50 border border-gray-300 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium" onClick={sentOtp} disabled={errors.email}>Get Otp</button>
             </div>
             {errors.email && touched.email && (<p className="text-red-500">{errors.email}</p>)}
             {otpInput && (
@@ -161,13 +148,10 @@ export default function Register() {
             <button
               type="submit"
               className="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700"
-              onClick={createAccount}
             >
               Create Account
             </button>
           </form>
-
-          {/* Footer */}
           <p className="text-xs text-gray-500 mt-4 text-center">
             By signing up, you agree to our <span className="text-blue-600 underline">Terms of Service</span> and <span className="text-blue-600 underline">Privacy Policy</span>.
           </p>

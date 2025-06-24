@@ -31,6 +31,15 @@ async function userRegister(req, res) {
                 sameSite: 'strict',
                 maxAge: 60 * 60 * 1000
             })
+            isEmailIsAvailable.provider="google"
+            isEmailIsAvailable.name=name
+            isEmailIsAvailable.googleId=sub
+            isEmailIsAvailable.isVerified=true
+            isEmailIsAvailable.otp=null
+            isEmailIsAvailable.otpExpiry=null
+            isEmailIsAvailable.avatar=picture
+
+            await isEmailIsAvailable.save()
             return res.status(200).json({
                 success: true,
                 message: "user loged succefully"

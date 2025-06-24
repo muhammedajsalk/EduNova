@@ -2,7 +2,6 @@ const userModel = require('../../models/usersModel')
 const nodemailer = require("nodemailer");
 require('dotenv').config()
 
-
 const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -10,7 +9,6 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASS,
     },
 });
-
 
 async function otpSent(req, res, next) {
     const { email } = req.body
@@ -33,7 +31,7 @@ async function otpSent(req, res, next) {
     await transporter.sendMail({
         to: email,
         subject: "Your OTP Code",
-        html: `<h3>Your OTP is: <b>${otp}</b></h3><p>Valid for 5 minutes.</p>`,
+        html: `<h3>Your OTP is: <b>${otp}</b></h3><p>Valid for 5 minutes.do not share others keep privacy</p>`,
     });
 
     res.json({ message: "OTP sent to email." });
