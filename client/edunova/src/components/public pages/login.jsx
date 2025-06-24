@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { GoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
 import { useFormik } from 'formik'
-import { registerSceama } from '../../../schema/schema';
+import { LoginSceama } from '../../../schema/schema';
+import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+
+
 
 
 function Login() {
@@ -15,14 +19,16 @@ function Login() {
     }
 
     function loginAccount(values) {
-        axios.post("http://localhost:5000/api/users/auth/register", values, { withCredentials: true })
-            .then((res) => console.log(res.data.message))
-            .catch((err) => console.log(err.response?.data?.message || err.message))
+        axios.post("http://localhost:5000/api/users/auth/login", values, { withCredentials: true })
+            .then((res) => {
+                toast.success(res.data.message)
+            })
+            .catch((err) => toast.error(err.response?.data?.message || err.message))
     }
 
     const { values, handleBlur, handleSubmit, handleChange, errors, touched } = useFormik({
         initialValues: initialValue,
-        validationSchema: registerSceama,
+        validationSchema: LoginSceama,
         onSubmit: (values) => {
             loginAccount(values)
         }
@@ -32,11 +38,11 @@ function Login() {
             <div className="w-full max-w-6xl bg-white rounded-xl shadow-md flex flex-col md:flex-row overflow-hidden">
                 <div className="w-full md:w-1/2 bg-gray-100 flex flex-col items-center justify-center p-8">
                     <img
-                        src="https://images.unsplash.com/photo-1584697964154-94d8f6f8303f"
+                        src="https://media.istockphoto.com/id/2105091005/photo/young-student-taking-notes-while-e-learning-on-laptop-at-the-university.jpg?s=612x612&w=0&k=20&c=5AoTWNFmHm-HeQfx0FzB3LPm3MKQXgokYelEvmC_47E="
                         alt="Instructor"
                         className="rounded-lg w-full h-64 object-cover mb-6"
                     />
-                    <h2 className="text-xl md:text-2xl font-bold mb-2 text-center">Start Your Teaching Journey</h2>
+                    <h2 className="text-xl md:text-2xl font-bold mb-2 text-center">Start Your Student Journey</h2>
                     <p className="text-gray-600 text-center text-sm md:text-base">
                         Join thousands of instructors sharing their knowledge
                     </p>
@@ -63,11 +69,11 @@ function Login() {
                     <div className="space-y-3 mb-6">
                         <GoogleLogin
                             onSuccess={(credentialResponse) => {
-                                axios.post('http://localhost:5000/api/users/auth/register', credentialResponse, { withCredentials: true })
-                                    .then((res) => console.log(res.data.message))
+                                axios.post('http://localhost:5000/api/users/auth/login', credentialResponse, { withCredentials: true })
+                                    .then((res) => toast.success(res.data.message))
                                     .catch((err) => {
                                         const msg = err.response?.data?.message || err.message;
-                                        console.log(msg)
+                                        toast.error(msg)
                                     }
                                     )
                             }}
@@ -117,10 +123,11 @@ function Login() {
                     </p>
 
                     <p className="text-sm text-center mt-4">
-                        create an account? <a href="#" className="text-blue-600 font-medium">Sign up</a>
+                        create an account? <Link to={'/register'}><span className="text-blue-600 font-medium">Sign up</span></Link>
                     </p>
                 </div>
             </div>
+            <ToastContainer position="top-right" autoClose={3000} />
         </div>
     )
 }

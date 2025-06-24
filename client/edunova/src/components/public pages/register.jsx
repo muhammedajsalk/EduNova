@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useFormik } from 'formik'
 import { registerSceama } from '../../../schema/schema';
 import { ToastContainer, toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 export default function Register() {
   const [role, setRole] = useState("Student");
@@ -178,7 +179,7 @@ export default function Register() {
           </p>
 
           <p className="text-sm text-center mt-4">
-            Already have an account? <a href="#" className="text-blue-600 font-medium">Sign in</a>
+            Already have an account? <Link to={'/login'}><span className="text-blue-600 font-medium">Sign in</span></Link>
           </p>
         </div>
       </div>
