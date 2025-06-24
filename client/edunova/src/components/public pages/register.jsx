@@ -3,6 +3,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
 import { useFormik } from 'formik'
 import { registerSceama } from '../../../schema/schema';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Register() {
   const [role, setRole] = useState("Student");
@@ -20,8 +21,14 @@ export default function Register() {
       alert("Please confirm your email by entering the 6-digit OTP.");
     }
     axios.post("http://localhost:5000/api/users/auth/register", values, { withCredentials: true })
-      .then((res) => console.log(res.data.message))
-      .catch((err) => console.log(err.response?.data?.message || err.message))
+      .then((res) => {
+        toast.success(res.data.message)
+      }
+      )
+      .catch((err) => {
+        toast.error(err.response?.data?.message || err.message)
+        console.log(err.response?.data?.message || err.message)
+      })
   }
 
   const { values, handleBlur, handleSubmit, handleChange, errors, touched } = useFormik({
@@ -34,11 +41,18 @@ export default function Register() {
 
   function sentOtp(e) {
     e.preventDefault()
-    if (!values.email) return alert("Enter your email first.");
+    if (!values.email) return toast.warning("Enter your email first");
     setOtpInput(true)
+    toast.success("the Otp send successfully")
     axios.post("http://localhost:5000/api/users/auth/otpSent", { email: values.email })
       .then((res) => console.log(res.data.message))
-      .catch((err) => console.error("OTP send error:", err.response?.data?.message || err.message))
+      .catch((err) => {
+        console.error("OTP send error:", err.response?.data?.message || err.message)
+        toast.error(err.response?.data?.message || err.message)
+      })
+    setTimeout(()=>{
+       setOtpInput(false)
+    },180000)
   }
 
   return (
@@ -46,11 +60,11 @@ export default function Register() {
       <div className="w-full max-w-6xl bg-white rounded-xl shadow-md flex flex-col md:flex-row overflow-hidden">
         <div className="w-full md:w-1/2 bg-gray-100 flex flex-col items-center justify-center p-8">
           <img
-            src="https://images.unsplash.com/photo-1584697964154-94d8f6f8303f"
+            src="https://media.istockphoto.com/id/1757344400/photo/smiling-college-student-writing-during-a-class-at-the-university.jpg?s=612x612&w=0&k=20&c=_o2ZaJedvI0VfuH2rjGjMpYqXlBm_0BUv9Qxy2tHqK0="
             alt="Instructor"
             className="rounded-lg w-full h-64 object-cover mb-6"
           />
-          <h2 className="text-xl md:text-2xl font-bold mb-2 text-center">Start Your Teaching Journey</h2>
+          <h2 className="text-xl md:text-2xl font-bold mb-2 text-center">Start Your Student Journey</h2>
           <p className="text-gray-600 text-center text-sm md:text-base">
             Join thousands of instructors sharing their knowledge
           </p>
@@ -78,10 +92,13 @@ export default function Register() {
             <GoogleLogin
               onSuccess={(credentialResponse) => {
                 axios.post('http://localhost:5000/api/users/auth/register', credentialResponse, { withCredentials: true })
-                  .then((res) => console.log(res.data.message))
+                  .then((res) => {
+                    toast.success(res.data.message)
+                  }
+                  )
                   .catch((err) => {
                     const msg = err.response?.data?.message || err.message;
-                    console.log(msg)
+                    toast.error(msg)
                   }
                   )
               }}
@@ -116,7 +133,9 @@ export default function Register() {
                 onBlur={handleBlur}
                 onChange={handleChange}
               />
-              <button className="w-50 border border-gray-300 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium" onClick={sentOtp} disabled={errors.email}>Get Otp</button>
+              {!otpInput && (
+                <button className="w-50 border border-gray-300 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium" onClick={sentOtp} disabled={errors.email}>Get Otp</button>
+              )}
             </div>
             {errors.email && touched.email && (<p className="text-red-500">{errors.email}</p>)}
             {otpInput && (
@@ -143,7 +162,9 @@ export default function Register() {
               onChange={handleChange}
             />
             {errors.password && touched.password && (<p className="text-red-500">{errors.password}</p>)}
-            <p className="text-sm text-gray-500">Password strength: <span className="text-red-500">Weak</span></p>
+            {otpInput && (
+              <p className='text-blue-500'>after 3 min send otp system is on</p>
+            )}
 
             <button
               type="submit"
@@ -161,6 +182,7 @@ export default function Register() {
           </p>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
