@@ -6,10 +6,8 @@ require('dotenv').config()
 
 async function resetPassword(req, res) {
     try {
-        const { token } = req.query
-        console.log(req.query)
+        const { token,password } = req.body
         if (!token) return res.status(404).json({ success: false, message: "token is missing" })
-        const { password } = req.body
         jwt.verify(token, process.env.JWT_SECRET_CODE,(error,decode)=>{
            if(error) return res.status(404).json({ success: false, message: "Invalid or expired token" })
            req.user=decode

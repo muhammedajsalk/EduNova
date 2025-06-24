@@ -15,7 +15,7 @@ function Routers() {
         <Route path='/' element={<HomePage/>}></Route>
         <Route path='/policy' element={<TermsPrivacy/>}></Route>
         <Route path='/ForgotPassword' element={<ForgotPassword/>}></Route>
-        <Route path='/ResetPassword' element={<ResetPassword/>}></Route>
+        <Route path='/ResetPassword/:token' element={<ResetPassword/>}></Route>
     </Routes>
   )
 }

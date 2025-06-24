@@ -20,7 +20,7 @@ async function forgetPassword(req, res) {
                 pass: process.env.EMAIL_PASS,
             },
         });
-        const resetLink = `${process.env.CLIENT_URL}/ResetPassword?token=${token}`;
+        const resetLink = `${process.env.CLIENT_URL}/ResetPassword/${token}`;
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,

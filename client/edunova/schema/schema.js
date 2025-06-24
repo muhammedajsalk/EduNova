@@ -18,3 +18,10 @@ export const LoginSceama=yup.object(
         password:yup.string().matches(passwordRegex,"Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character").required("please enter your password"),
     }
 )
+
+export const ResetPasswordSceama=yup.object(
+    {
+        password:yup.string().matches(passwordRegex,"Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character").required("please enter your password"),
+        cpassword:yup.string().oneOf([yup.ref("password")],"entered password do not match!").required("please enter conform password")
+    }
+)

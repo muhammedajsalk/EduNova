@@ -9,8 +9,9 @@ export default function ForgotPassword() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        toast.success("sent the request for link")
         axios.post("http://localhost:5000/api/users/auth/forgetPassword", { email })
-            .then((res) => toast.success("Password reset link sent to your email."))
+            .then((res) => toast.success("you can recieve the email"))
             .catch((err) => {
                 toast.error(err.response?.data?.message || err.message)
                 console.log(err.response?.data?.message || err.message)
