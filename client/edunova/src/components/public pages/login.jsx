@@ -110,7 +110,7 @@ function Login() {
                             onChange={handleChange}
                         />
                         {errors.password && touched.password && (<p className="text-red-500">{errors.password}</p>)}
-
+                        <Link to={"/ForgotPassword"}><p className="text-blue-600">Forget Password?</p></Link>
                         <button
                             type="submit"
                             className="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700"
