@@ -14,11 +14,11 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
-          <li><Link to={'/'}>Home</Link></li>
-          <li><Link to={'/about'}>About</Link></li>
-          <li><Link to={'/courses'}>Courses</Link></li>
-          <li><Link to={'/findMentor'}>Mentorship</Link></li>
-          <li><Link to={'/subscription'}>Subscriptions</Link></li>
+          <li className="hover:underline decoration-indigo-600"><Link to={'/'}>Home</Link></li>
+          <li className="hover:underline decoration-indigo-600"><Link to={'/about'}>About</Link></li>
+          <li className="hover:underline decoration-indigo-600"><Link to={'/courses'}>Courses</Link></li>
+          <li className="hover:underline decoration-indigo-600"><Link to={'/findMentor'}>Mentorship</Link></li>
+          <li className="hover:underline decoration-indigo-600"><Link to={'/subscription'}>Subscriptions</Link></li>
         </ul>
 
         {/* Desktop Actions */}
