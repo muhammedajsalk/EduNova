@@ -12,6 +12,7 @@ import AboutPage from './components/public pages/about'
 import SubscriptionPage from './components/public pages/Subscription'
 import FindMentorPage from './components/public pages/FindMentorPage'
 import LearningDashboard from './components/users/LearningDashboard'
+import InstructorRegister from './components/instructors/instructorRegister'
 
 function Routers() {
   return (
@@ -28,6 +29,7 @@ function Routers() {
         <Route path='/subscription' element={<SubscriptionPage/>}></Route>
         <Route path='/findMentor' element={<FindMentorPage/>}></Route>
         <Route path='/learningDashboard' element={<LearningDashboard/>}></Route>
+        <Route path='/instructorRegistor' element={<InstructorRegister/>}></Route>
     </Routes>
   )
 }

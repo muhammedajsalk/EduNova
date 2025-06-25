@@ -25,3 +25,22 @@ export const ResetPasswordSceama=yup.object(
         cpassword:yup.string().oneOf([yup.ref("password")],"entered password do not match!").required("please enter conform password")
     }
 )
+
+
+export const instructorSchema = yup.object().shape({
+  name: yup.string().required("Name is required").min(3, "Too short"),
+  email: yup.string().email("Invalid email").required("Email is required"),
+  password: yup.string()
+    .required("Password is required")
+    .min(6, "Password must be at least 6 characters"),
+  bio: yup.string()
+    .required("Bio is required")
+    .min(20, "Bio should be more descriptive"),
+  skills: yup.string()
+    .required("Skills are required")
+    .min(3, "Too short"),
+  linkedInProfile: yup.string()
+    .url("Invalid URL")
+    .nullable()
+    .notRequired(),
+});

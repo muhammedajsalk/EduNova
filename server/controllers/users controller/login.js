@@ -18,7 +18,7 @@ async function login(req, res) {
             const { email, name, picture, sub } = payload
             const isEmailIsAvailable = await userModel.findOne({ email: email })
             if (isEmailIsAvailable) {
-                const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
+                const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id,role:isEmailIsAvailable.role }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
                 res.cookie("accesTokken", accesTokken, {
                     httpOnly: true,
                     secure: false,
@@ -49,7 +49,7 @@ async function login(req, res) {
             })
             const saved = await newUser.save()
 
-            const accesTokken = await jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
+            const accesTokken = await jwt.sign({ id: newUser._id,role:newUser.role }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
 
             res.cookie("accesTokken", accesTokken, {
                 httpOnly: true,

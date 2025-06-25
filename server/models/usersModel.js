@@ -50,6 +50,10 @@ const userSchema = new mongoose.Schema({
     resetTokenExpiry:{
         type:Date,
         default:null
+    },
+    role:{
+        type:String,
+        default:"user"
     }
 },
     {

@@ -15,7 +15,9 @@ async function otpSent(req, res, next) {
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
     const user = await userModel.findOne({ email })
-    if(user.email&&user.isVerified) return res.status(400).json({ message: "the email is already existing" });
+    if(user){
+       if(user.email&&user.isVerified) return res.status(400).json({ message: "the email is already existing" });
+    }
     if (!user) {
         const newUser = new userModel({
             name: "user",
