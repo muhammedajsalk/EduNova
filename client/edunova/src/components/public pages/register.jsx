@@ -82,14 +82,14 @@ export default function Register() {
           <div className="flex mb-4 border border-gray-300 rounded-md overflow-hidden w-full max-w-xs">
             <button
               onClick={() => setRole("Student")}
-              className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "Student" ? "bg-blue-600 text-white" : "bg-white text-gray-700"
+              className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "Student" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
                 }`}
             >
               Student
             </button>
             <button
               onClick={() => setRole("Instructor")}
-              className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "Instructor" ? "bg-blue-600 text-white" : "bg-white text-gray-700"
+              className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "Instructor" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
                 }`}
             >
               Instructor
@@ -143,7 +143,7 @@ export default function Register() {
               />
               {!otpInput && (
                 <button
-                  className="w-50 border border-gray-300 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium flex items-center justify-center gap-2"
+                  className="w-50 border border-gray-300 px-4 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700 text-white font-medium flex items-center justify-center gap-2"
                   onClick={sentOtp}
                   disabled={errors.email || sendingOtp}
                 >
@@ -187,23 +187,23 @@ export default function Register() {
             />
             {errors.password && touched.password && (<p className="text-red-500">{errors.password}</p>)}
             {otpInput && (
-              <p className='text-blue-500'>after 3 min send otp system is on</p>
+              <p className='text-indigo-500'>after 3 min send otp system is on</p>
             )}
 
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700"
+              className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700"
             >
               Create Account
             </button>
           </form>
           <p className="text-xs text-gray-500 mt-4 text-center">
             <Link to={'/policy'}>
-              By signing up, you agree to our <span className="text-blue-600 underline">Terms of Service</span> and <span className="text-blue-600 underline">Privacy Policy</span>.
+              By signing up, you agree to our <span className="text-indigo-600 underline">Terms of Service</span> and <span className="text-indigo-600 underline">Privacy Policy</span>.
             </Link>
           </p>
           <p className="text-sm text-center mt-4">
-            Already have an account? <Link to={'/login'}><span className="text-blue-600 font-medium">Sign in</span></Link>
+            Already have an account? <Link to={'/login'}><span className="text-indigo-600 font-medium">Sign in</span></Link>
           </p>
         </div>
       </div>

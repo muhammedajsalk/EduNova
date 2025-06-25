@@ -14,16 +14,17 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Courses</a></li>
-          <li><a href="#">Mentorship</a></li>
-          <li><a href="#">Subscriptions</a></li>
+          <li><Link to={'/'}>Home</Link></li>
+          <li><Link to={'/about'}>About</Link></li>
+          <li><Link to={'/courses'}>Courses</Link></li>
+          <li><Link to={'/findMentor'}>Mentorship</Link></li>
+          <li><Link to={'/subscription'}>Subscriptions</Link></li>
         </ul>
 
         {/* Desktop Actions */}
         <div className="hidden md:flex items-center space-x-4">
           <button className="text-gray-700 font-medium"><Link to={'/login'}>Log in</Link></button>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-md font-medium">
+          <button className="bg-indigo-600 text-white px-4 py-2 rounded-md font-medium">
             <Link to={'/register'}>Sign up</Link>
           </button>
         </div>
@@ -47,7 +48,7 @@ export default function Navbar() {
           </ul>
           <div className="flex flex-col space-y-2">
             <button className="text-gray-700 font-medium text-left"><Link to={'/login'}>Log in</Link></button>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-md font-medium w-fit">
+            <button className="bg-indigo-600 text-white px-4 py-2 rounded-md font-medium w-fit">
               <Link to={'/register'}>Sign up</Link>
             </button>
           </div>

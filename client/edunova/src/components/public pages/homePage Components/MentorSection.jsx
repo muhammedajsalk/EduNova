@@ -65,7 +65,7 @@ export default function MentorSection() {
               </span>
             </div>
 
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-full font-medium hover:bg-blue-700 transition text-sm">
+            <button className="bg-indigo-600 text-white px-4 py-2 rounded-full font-medium hover:bg-indigo-700 transition text-sm">
               Book Session
             </button>
           </div>

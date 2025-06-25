@@ -42,14 +42,14 @@ export default function ForgotPassword() {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             placeholder="you@example.com"
                         />
                     </div>
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition flex justify-center items-center"
+                        className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-semibold transition flex justify-center items-center"
                     >
                         {forgetLink ? (
                             <>
@@ -65,7 +65,7 @@ export default function ForgotPassword() {
                     </button>
                 </form>
                 <div className="mt-6 text-center text-sm">
-                    <span className="text-blue-600 hover:underline">
+                    <span className="text-indigo-600 hover:underline">
                         <Link to={'/login'}>
                             Back to Login
                         </Link>

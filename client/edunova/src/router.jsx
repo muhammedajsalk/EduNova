@@ -6,6 +6,11 @@ import HomePage from './components/public pages/home'
 import TermsPrivacy from './components/public pages/TermPolicy'
 import ForgotPassword from './components/public pages/ForgetPassword'
 import ResetPassword from './components/public pages/ResetPassword'
+import CourseListing from './components/public pages/CourseListing'
+import CourseDetails from './components/public pages/coursesDetails'
+import AboutPage from './components/public pages/about'
+import SubscriptionPage from './components/public pages/Subscription'
+import FindMentorPage from './components/public pages/FindMentorPage'
 
 function Routers() {
   return (
@@ -16,6 +21,11 @@ function Routers() {
         <Route path='/policy' element={<TermsPrivacy/>}></Route>
         <Route path='/ForgotPassword' element={<ForgotPassword/>}></Route>
         <Route path='/ResetPassword/:token' element={<ResetPassword/>}></Route>
+        <Route path='/courses' element={<CourseListing/>}></Route>
+        <Route path='/courseDetails' element={<CourseDetails/>}></Route>
+        <Route path='/about' element={<AboutPage/>}></Route>
+        <Route path='/subscription' element={<SubscriptionPage/>}></Route>
+        <Route path='/findMentor' element={<FindMentorPage/>}></Route>
     </Routes>
   )
 }

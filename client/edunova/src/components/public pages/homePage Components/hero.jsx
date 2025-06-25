@@ -12,10 +12,10 @@ export default function HeroSection() {
           Access courses, 1-on-1 mentorship, and a thriving learning community
         </p>
         <div className="flex flex-wrap gap-4 mb-8">
-          <button className="bg-blue-600 text-white px-6 py-2 rounded-full font-semibold">
+          <button className="bg-indigo-600 text-white px-6 py-2 rounded-full font-semibold">
             Explore Courses
           </button>
-          <button className="border border-blue-600 text-blue-600 px-6 py-2 rounded-full font-semibold">
+          <button className="border border-indigo-600 text-indigo-600 px-6 py-2 rounded-full font-semibold">
             Become an Instructor
           </button>
         </div>

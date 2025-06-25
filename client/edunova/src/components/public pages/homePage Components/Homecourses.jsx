@@ -62,8 +62,8 @@ export default function HomeCourses() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-blue-600 font-bold text-lg">{course.price}</span>
-                <button className="bg-blue-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-blue-700 transition">
+                <span className="text-indigo-600 font-bold text-lg">{course.price}</span>
+                <button className="bg-indigo-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-indigo-700 transition">
                   Enroll Now
                 </button>
               </div>
