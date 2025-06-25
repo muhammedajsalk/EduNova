@@ -5,18 +5,20 @@ import { ToastContainer, toast } from 'react-toastify';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState("");
-    const [message, setMessage] = useState("");
+    const [forgetLink, setForgetLink] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        toast.success("sent the request for link")
+        setForgetLink(true)
         axios.post("http://localhost:5000/api/users/auth/forgetPassword", { email })
-            .then((res) => toast.success("you can recieve the email"))
+            .then((res) => toast.success("sent a reset link in your email"))
             .catch((err) => {
                 toast.error(err.response?.data?.message || err.message)
                 console.log(err.response?.data?.message || err.message)
             }
-            )
+            ).finally(() => {
+                setForgetLink(false)
+            })
     };
 
     return (
@@ -47,18 +49,21 @@ export default function ForgotPassword() {
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition"
+                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-semibold transition flex justify-center items-center"
                     >
-                        Send Reset Link
+                        {forgetLink ? (
+                            <>
+                                <svg className="animate-spin h-4 w-4 text-white text-center" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                                </svg>
+                                Sending...
+                            </>
+                        ) : (
+                            "Send Reset Link"
+                        )}
                     </button>
                 </form>
-
-                {message && (
-                    <div className="mt-4 text-center text-sm text-green-600">
-                        {message}
-                    </div>
-                )}
-
                 <div className="mt-6 text-center text-sm">
                     <span className="text-blue-600 hover:underline">
                         <Link to={'/login'}>

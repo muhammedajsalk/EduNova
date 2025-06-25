@@ -24,8 +24,23 @@ async function forgetPassword(req, res) {
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
-            subject: "Password Reset Request",
-            html: `<p>Click <a href="${resetLink}">here</a> to reset your password.</p>`,
+            subject: "Reset Your Password - Action Required",
+            html: `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+      <h2 style="color: #333;">Password Reset Request</h2>
+      <p>Hello,</p>
+      <p>You recently requested to reset your password. Click the button below to reset it:</p>
+      <div style="text-align: center; margin: 30px 0;">
+        <a href="${resetLink}" 
+           style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;">
+           Reset Password
+        </a>
+      </div>
+      <p>This link will expire in 5 minutes for your security.</p>
+      <p>If you did not request this, please ignore this email. No changes will be made to your account.</p>
+      <p>Regards,<br/>EduNova Support Team</p>
+    </div>
+  `
         });
         return res.status(200).json({ success: true, message: "EMAIL_USER" })
     } catch (error) {
@@ -34,4 +49,4 @@ async function forgetPassword(req, res) {
     }
 }
 
-module.exports=forgetPassword
+module.exports = forgetPassword

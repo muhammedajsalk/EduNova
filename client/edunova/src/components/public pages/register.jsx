@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 export default function Register() {
   const [role, setRole] = useState("Student");
   const [otpInput, setOtpInput] = useState(false)
+  const [sendingOtp, setSendingOtp] = useState(false);
 
   const initialValue = {
     name: "",
@@ -43,17 +44,23 @@ export default function Register() {
   function sentOtp(e) {
     e.preventDefault()
     if (!values.email) return toast.warning("Enter your email first");
-    setOtpInput(true)
-    toast.success("the Otp send successfully")
+    setSendingOtp(true);
     axios.post("http://localhost:5000/api/users/auth/otpSent", { email: values.email })
-      .then((res) => console.log(res.data.message))
+      .then((res) => {
+        setOtpInput(true)
+        toast.success(res.data.message)
+      })
       .catch((err) => {
         console.error("OTP send error:", err.response?.data?.message || err.message)
         toast.error(err.response?.data?.message || err.message)
       })
-    setTimeout(()=>{
-       setOtpInput(false)
-    },180000)
+      .finally(() => {
+        setSendingOtp(false);
+      });
+    setTimeout(() => {
+      setOtpInput(false)
+      setSendingOtp(false);
+    }, 180000)
   }
 
   return (
@@ -135,7 +142,23 @@ export default function Register() {
                 onChange={handleChange}
               />
               {!otpInput && (
-                <button className="w-50 border border-gray-300 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium" onClick={sentOtp} disabled={errors.email}>Get Otp</button>
+                <button
+                  className="w-50 border border-gray-300 px-4 py-2 rounded-md bg-blue-600 hover:bg-blue-700 text-white font-medium flex items-center justify-center gap-2"
+                  onClick={sentOtp}
+                  disabled={errors.email || sendingOtp}
+                >
+                  {sendingOtp ? (
+                    <>
+                      <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                      </svg>
+                      Sending...
+                    </>
+                  ) : (
+                    "Get OTP"
+                  )}
+                </button>
               )}
             </div>
             {errors.email && touched.email && (<p className="text-red-500">{errors.email}</p>)}
