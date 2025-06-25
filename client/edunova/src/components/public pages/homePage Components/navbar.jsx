@@ -14,10 +14,10 @@ export default function Navbar() {
 
         {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
+          <li><a href="#">Home</a></li>
           <li><a href="#">Courses</a></li>
           <li><a href="#">Mentorship</a></li>
-          <li><a href="#">Community</a></li>
-          <li><a href="#">About</a></li>
+          <li><a href="#">Subscriptions</a></li>
         </ul>
 
         {/* Desktop Actions */}

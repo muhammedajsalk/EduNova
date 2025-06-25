@@ -119,7 +119,9 @@ function Login() {
                         </button>
                     </form>
                     <p className="text-xs text-gray-500 mt-4 text-center">
-                        By signing up, you agree to our <span className="text-blue-600 underline">Terms of Service</span> and <span className="text-blue-600 underline">Privacy Policy</span>.
+                        <Link to={'/policy'}>
+                            By signing up, you agree to our <span className="text-blue-600 underline">Terms of Service</span> and <span className="text-blue-600 underline">Privacy Policy</span>.
+                        </Link>
                     </p>
 
                     <p className="text-sm text-center mt-4">
