@@ -13,6 +13,7 @@ import SubscriptionPage from './components/public pages/Subscription'
 import FindMentorPage from './components/public pages/FindMentorPage'
 import LearningDashboard from './components/users/LearningDashboard'
 import InstructorRegister from './components/instructors/instructorRegister'
+import InstructorDashboard from './components/instructors/instractorDahboard'
 
 function Routers() {
   return (
@@ -21,8 +22,8 @@ function Routers() {
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/' element={<HomePage/>}></Route>
         <Route path='/policy' element={<TermsPrivacy/>}></Route>
-        <Route path='/ForgotPassword' element={<ForgotPassword/>}></Route>
-        <Route path='/ResetPassword/:token' element={<ResetPassword/>}></Route>
+        <Route path='/ForgotPassword/:role' element={<ForgotPassword/>}></Route>
+        <Route path='/ResetPassword/:token/:role' element={<ResetPassword/>}></Route>
         <Route path='/courses' element={<CourseListing/>}></Route>
         <Route path='/courseDetails' element={<CourseDetails/>}></Route>
         <Route path='/about' element={<AboutPage/>}></Route>
@@ -30,6 +31,7 @@ function Routers() {
         <Route path='/findMentor' element={<FindMentorPage/>}></Route>
         <Route path='/learningDashboard' element={<LearningDashboard/>}></Route>
         <Route path='/instructorRegistor' element={<InstructorRegister/>}></Route>
+        <Route path='/instructorDashBoard' element={<InstructorDashboard/>}></Route>
     </Routes>
   )
 }

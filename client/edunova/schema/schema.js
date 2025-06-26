@@ -43,4 +43,24 @@ export const instructorSchema = yup.object().shape({
     .url("Invalid URL")
     .nullable()
     .notRequired(),
+
+  avatar: yup.mixed()
+    .required('Avatar is required')
+    .test('fileSize', 'Image is too large (max 5MB)', value => !value || value.size <= 5 * 1024 * 1024)
+    .test('fileType', 'Unsupported Format', value => 
+      !value || ['image/jpeg', 'image/png'].includes(value.type)
+    ),
+
+  demoVideo: yup.mixed()
+  .required('Demo video is required')
+  .test('fileSize', 'Video is too large (max 15MB)', value => !value || value.size <= 15 * 1024 * 1024)
+  .test('fileType', 'Unsupported Format', value => 
+    !value || value.type.startsWith('video/')
+  ),
+
+
+  degreeCertificate: yup.mixed().required('Degree certificate is required'),
+  experienceLetter:  yup.mixed().nullable(),
+  certification:yup.mixed().nullable(),
+  idProof: yup.mixed().required('ID proof is required'),
 });

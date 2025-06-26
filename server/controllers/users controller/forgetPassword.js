@@ -1,13 +1,15 @@
 const userModel = require("../../models/usersModel")
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const instructorModel = require("../../models/instructorModel");
 require('dotenv').config()
 
 
 async function forgetPassword(req, res) {
     try {
-        const { email } = req.body
-        const user = await userModel.findOne({ email })
+        const { email ,role} = req.body
+        const model = role === "user" ? userModel : instructorModel;
+        const user = await model.findOne({ email })
         if (!user) return res.status(400).json({ success: false, message: "please register" })
         const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET_CODE, { expiresIn: '15m' })
         user.resetToken = token
@@ -20,7 +22,7 @@ async function forgetPassword(req, res) {
                 pass: process.env.EMAIL_PASS,
             },
         });
-        const resetLink = `${process.env.CLIENT_URL}/ResetPassword/${token}`;
+        const resetLink = `${process.env.CLIENT_URL}/ResetPassword/${token}/${role}`;
         await transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,

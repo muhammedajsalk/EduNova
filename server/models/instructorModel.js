@@ -13,7 +13,6 @@ const instructorSchema = new mongoose.Schema({
 
     password: {
         type: String,
-        required: true,
     },
 
     avatar: {
@@ -53,10 +52,6 @@ const instructorSchema = new mongoose.Schema({
     }],
 
     // Verification Info
-    approved: {
-        type: Boolean,
-        default: false,
-    },
 
     demoVideo: {
         type: String,
@@ -70,12 +65,14 @@ const instructorSchema = new mongoose.Schema({
         degreeCertificate: { type: String },
         experienceLetter: { type: String },
         idProof: { type: String },
+        certification:{type:String}
+        
     },
 
     verificationStatus: {
         type: String,
-        enum: ["pending", "approved", "rejected"],
-        default: "pending",
+        enum: ["pending", "approved", "rejected","default"],
+        default: "default",
     },
 
     rejectionReason: {
@@ -112,11 +109,11 @@ const instructorSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: "user"
+        default: "instructor"
     }
 }, {
     timestamps: true,
 });
 
-const instructorModel=mongoose.model("Instructor", instructorSchema);
+const instructorModel=mongoose.model("instructor", instructorSchema);
 module.exports = instructorModel

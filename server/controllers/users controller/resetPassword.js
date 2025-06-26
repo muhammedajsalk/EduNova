@@ -1,18 +1,20 @@
 const userModel = require("../../models/usersModel")
 const jwt = require("jsonwebtoken");
-const bcrypt = require('bcryptjs')
+const bcrypt = require('bcryptjs');
+const instructorModel = require("../../models/instructorModel");
 require('dotenv').config()
 
 
 async function resetPassword(req, res) {
     try {
-        const { token,password } = req.body
+        const { token,password ,role} = req.body
         if (!token) return res.status(404).json({ success: false, message: "token is missing" })
         jwt.verify(token, process.env.JWT_SECRET_CODE,(error,decode)=>{
            if(error) return res.status(404).json({ success: false, message: "Invalid or expired token" })
            req.user=decode
         })
-        const user = await userModel.findById(req.user.id)
+        const model = role === "user" ? userModel : instructorModel;
+        const user = await model.findById(req.user.id)
         if (!user || user.resetToken !== token || user.resetTokenExpiry < Date.now()) {
             return res.status(400).json({ message: "Invalid or expired token" });
         }

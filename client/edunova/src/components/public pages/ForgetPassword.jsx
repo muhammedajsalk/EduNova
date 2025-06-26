@@ -1,16 +1,17 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState("");
     const [forgetLink, setForgetLink] = useState(false)
+    const {role}=useParams()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setForgetLink(true)
-        axios.post("http://localhost:5000/api/users/auth/forgetPassword", { email })
+        axios.post("http://localhost:5000/api/users/auth/forgetPassword", { email ,role})
             .then((res) => toast.success("sent a reset link in your email"))
             .catch((err) => {
                 toast.error(err.response?.data?.message || err.message)

@@ -6,7 +6,7 @@ import { useFormik } from "formik";
 import { ResetPasswordSceama } from "../../../schema/schema";
 
 export default function ResetPassword() {
-    const { token } = useParams();
+    const { token ,role} = useParams();
     const navigate = useNavigate();
 
     const initialValues = {
@@ -22,7 +22,8 @@ export default function ResetPassword() {
                 try {
                     const res = await axios.post("http://localhost:5000/api/users/auth/resetPassword", {
                         token,
-                        password: values.password
+                        password: values.password,
+                        role
                     });
                     toast.success(res.data.message);
                     setTimeout(() => navigate("/login"), 4000);

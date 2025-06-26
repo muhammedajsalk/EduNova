@@ -3,8 +3,9 @@ import { useFormik } from 'formik';
 import axios from 'axios';
 import { instructorSchema } from '../../../schema/schema';
 import { FaCloudUploadAlt } from 'react-icons/fa';
+import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
-// Reusable File Input Button
 const FileInputButton = ({ id, label, onChange, accept, file }) => (
   <div className="flex flex-col gap-1">
     <label className="text-gray-700 font-medium">{label}</label>
@@ -38,45 +39,72 @@ export default function InstructorRegister() {
     idProof: null,
   });
 
+  const navigate = useNavigate()
+
   const [emailOTP, setEmailOTP] = useState('');
   const [phoneOTP, setPhoneOTP] = useState('');
   const [verifiedEmail, setVerifiedEmail] = useState(false);
   const [verifiedPhone, setVerifiedPhone] = useState(false);
+  const [sendingOtp, setSendingOtp] = useState(false);
+  const [submiting, setSubmiting] = useState(false)
+  const [otpSentIn, setOtpSentIn] = useState(true)
+  const [verifiedEmailIn, setVerifiedEmailIn] = useState(false)
 
   const formik = useFormik({
     initialValues: {
       name: '',
       email: '',
-      phone: '',
       password: '',
       bio: '',
       skills: '',
       linkedInProfile: '',
+      avatar: null,
+      demoVideo: null,
+      degreeCertificate: null,
+      experienceLetter: null,
+      certification: null,
+      idProof: null,
     },
     validationSchema: instructorSchema,
-    onSubmit: async (values) => {
-      if (!verifiedEmail || !verifiedPhone) {
-        alert("Please verify both email and phone.");
+    onSubmit: async () => {
+      if (!verifiedEmail) {
+        alert("Please verify the email.");
         return;
       }
 
+      setSubmiting(true)
+
       const formData = new FormData();
-      Object.entries(values).forEach(([key, value]) => formData.append(key, value));
-      formData.append('avatar', avatar);
-      formData.append('demoVideo', demoVideo);
-      Object.entries(documents).forEach(([key, value]) => formData.append(key, value));
+
+      const textFields = ['name', 'email', 'password', 'bio', 'skills', 'linkedInProfile'];
+      textFields.forEach(field => {
+        formData.append(field, formik.values[field]);
+      });
+
+      if (avatar) formData.append('avatar', avatar);
+      if (demoVideo) formData.append('demoVideo', demoVideo);
+      Object.entries(documents).forEach(([key, value]) => {
+        if (value) formData.append(key, value);
+      });
 
       try {
-        await axios.post('/api/instructors/register', formData);
-        alert('Registration submitted for review!');
+        const res = await axios.post('http://localhost:5000/api/instructor/auth/register', formData);
+        setTimeout(() => {
+          toast.success(res.data.message);
+          navigate('/login')
+          setSubmiting(false)
+        }, 3000);
       } catch (err) {
-        alert('Error submitting registration.');
+        setSubmiting(false)
+        toast.error(err.response?.data?.message || err.message);
       }
-    },
+    }
+
   });
 
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
+    formik.setFieldValue(field, file)
     if (!file) return;
     if (field in documents) setDocuments((prev) => ({ ...prev, [field]: file }));
     else if (field === 'avatar') {
@@ -89,21 +117,48 @@ export default function InstructorRegister() {
 
   const inputClass = 'border p-2 rounded-md w-full focus:outline-none focus:ring-2 focus:ring-indigo-400';
 
-  const handleSendOTP = async (type) => {
-    const target = type === 'email' ? formik.values.email : formik.values.phone;
-    if (!target) return alert(`Please enter your ${type} first.`);
-    // await axios.post(`/api/send-otp/${type}`, { target });
-    alert(`OTP sent to your ${type}.`);
+
+  const handleSendOTP = async () => {
+    setTimeout(() => {
+      setOtpSentIn(true)
+      setVerifiedEmailIn(false)
+    }, 180000);
+    const target = formik.values.email
+    if (!target) return toast.warning("please enter your email");
+    setSendingOtp(true)
+    axios.post("http://localhost:5000/api/users/auth/otpSent", { email: formik.values.email, role: "instructor" })
+      .then((res) => {
+        toast.success(res.data.message)
+        setOtpSentIn(false)
+        setVerifiedEmailIn(true)
+      })
+      .catch((err) => {
+        console.error("OTP send error:", err.response?.data?.message || err.message)
+        setOtpSentIn(true)
+        setVerifiedEmailIn(false)
+        toast.error(err.response?.data?.message || err.message)
+      })
+      .finally(() => {
+        setSendingOtp(false);
+      });
   };
 
-  const handleVerifyOTP = async (type) => {
-    const enteredOTP = type === 'email' ? emailOTP : phoneOTP;
-    if (!enteredOTP) return alert("Enter OTP to verify.");
-    // const res = await axios.post(`/api/verify-otp/${type}`, { otp: enteredOTP });
-    if (type === 'email') setVerifiedEmail(true);
-    if (type === 'phone') setVerifiedPhone(true);
-    alert(`${type} verified!`);
+
+  const handleVerifyOTP = async () => {
+    const enteredOTP = emailOTP
+    if (!enteredOTP) return toast.warning("Enter OTP to verify.");
+    const email = formik.values.email
+    axios.post('http://localhost:5000/api/instructor/auth/emailVerify', { email, role: "instructor", otp: emailOTP })
+      .then((res) => {
+        setVerifiedEmail(true)
+        toast.success(res.data.message)
+      })
+      .catch((err) => {
+        toast.error(err.response?.data?.message || err.message)
+      }
+      )
   };
+
 
   return (
     <div className="max-w-5xl mx-auto p-6">
@@ -139,10 +194,25 @@ export default function InstructorRegister() {
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
               />
+              {formik.touched.email && formik.errors.email && (
+                <p className="text-red-500 text-sm">{formik.errors.email}</p>
+              )}
               <div className="flex gap-2 mt-2">
-                <button type="button" onClick={() => handleSendOTP('email')} className="text-indigo-600 text-sm">
-                  Send OTP
-                </button>
+                {otpSentIn && (
+                  <button type="button" onClick={() => handleSendOTP('email')} className="w-30 border text-white border-gray-300 px-2 py-2 rounded-md bg-indigo-600 hover:bg-indigo-700" disabled={sendingOtp}>
+                    {sendingOtp ? (
+                      <>
+                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                        </svg>
+                        Sending...
+                      </>
+                    ) : (
+                      "Get OTP"
+                    )}
+                  </button>
+                )}
                 <input
                   type="text"
                   placeholder="Enter OTP"
@@ -150,39 +220,13 @@ export default function InstructorRegister() {
                   onChange={(e) => setEmailOTP(e.target.value)}
                   className="border px-2 py-1 rounded w-28 text-sm"
                 />
-                <button type="button" onClick={() => handleVerifyOTP('email')} className="text-green-600 text-sm">
-                  Verify
-                </button>
+                {verifiedEmailIn && (
+                  <button type="button" onClick={() => handleVerifyOTP('email')} className="text-green-600 text-sm">
+                    Verify
+                  </button>
+                )}
               </div>
               {verifiedEmail && <p className="text-green-600 text-sm">Email verified</p>}
-            </div>
-
-            {/* Phone with OTP */}
-            <div>
-              <input
-                name="phone"
-                placeholder="Phone Number"
-                className={inputClass}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.phone}
-              />
-              <div className="flex gap-2 mt-2">
-                <button type="button" onClick={() => handleSendOTP('phone')} className="text-indigo-600 text-sm">
-                  Send OTP
-                </button>
-                <input
-                  type="text"
-                  placeholder="Enter OTP"
-                  value={phoneOTP}
-                  onChange={(e) => setPhoneOTP(e.target.value)}
-                  className="border px-2 py-1 rounded w-28 text-sm"
-                />
-                <button type="button" onClick={() => handleVerifyOTP('phone')} className="text-green-600 text-sm">
-                  Verify
-                </button>
-              </div>
-              {verifiedPhone && <p className="text-green-600 text-sm">Phone verified</p>}
             </div>
           </div>
 
@@ -208,6 +252,9 @@ export default function InstructorRegister() {
             onChange={(e) => handleFileChange(e, 'avatar')}
             file={avatar}
           />
+          {formik.touched.avatar && formik.errors.avatar && (
+            <p className="text-red-500 text-sm">{formik.errors.avatar}</p>
+          )}
           {avatarPreview && (
             <img
               src={avatarPreview}
@@ -227,6 +274,9 @@ export default function InstructorRegister() {
               onBlur={formik.handleBlur}
               value={formik.values.bio}
             />
+            {formik.touched.bio && formik.errors.bio && (
+              <p className="text-red-500 text-sm">{formik.errors.bio}</p>
+            )}
             <input
               name="skills"
               placeholder="Skills (comma separated)"
@@ -235,6 +285,9 @@ export default function InstructorRegister() {
               onBlur={formik.handleBlur}
               value={formik.values.skills}
             />
+            {formik.touched.skills && formik.errors.skills && (
+              <p className="text-red-500 text-sm">{formik.errors.skills}</p>
+            )}
           </div>
 
           {/* LinkedIn */}
@@ -246,6 +299,9 @@ export default function InstructorRegister() {
             onBlur={formik.handleBlur}
             value={formik.values.linkedInProfile}
           />
+          {formik.touched.linkedInProfile && formik.errors.linkedInProfile && (
+            <p className="text-red-500 text-sm">{formik.errors.linkedInProfile}</p>
+          )}
 
           {/* Demo Video */}
           <FileInputButton
@@ -255,6 +311,9 @@ export default function InstructorRegister() {
             onChange={(e) => handleFileChange(e, 'demoVideo')}
             file={demoVideo}
           />
+          {formik.touched.demoVideo && formik.errors.demoVideo && (
+            <p className="text-red-500 text-sm">{formik.errors.demoVideo}</p>
+          )}
 
           {/* Documents */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -264,28 +323,45 @@ export default function InstructorRegister() {
               ['certification', 'Teaching Certification'],
               ['idProof', 'Government ID'],
             ].map(([key, label]) => (
-              <FileInputButton
-                key={key}
-                id={key}
-                label={label}
-                onChange={(e) => handleFileChange(e, key)}
-                file={documents[key]}
-              />
+              <div key={key}>
+                <FileInputButton
+                  id={key}
+                  label={label}
+                  onChange={(e) => handleFileChange(e, key)}
+                  file={documents[key]}
+                />
+                {formik.touched[key] && formik.errors[key] && (
+                  <p className="text-red-500 text-sm">{formik.errors[key]}</p>
+                )}
+              </div>
             ))}
           </div>
 
           {/* Submit Button */}
           <button
+            disabled={submiting}
             type="submit"
             className="w-full bg-gradient-to-r from-indigo-600 to-indigo-600 text-white py-3 rounded-lg text-lg font-semibold hover:from-indigo-700 hover:to-indigo-700 transition duration-300"
           >
             <div className="flex items-center justify-center gap-2">
-              <FaCloudUploadAlt />
-              Submit for Review
+              {submiting ? (
+                <>
+                  <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                  </svg>
+                  <FaCloudUploadAlt />
+                  Submiting...
+                </>
+              ) : (
+                <FaCloudUploadAlt />,
+                "Submit for Review"
+              )}
             </div>
           </button>
         </form>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

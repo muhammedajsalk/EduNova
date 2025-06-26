@@ -10,7 +10,8 @@ import { Link, useNavigate } from 'react-router-dom';
 
 
 function Login() {
-    const [role, setRole] = useState("Student");
+    const [role, setRole] = useState("student");
+
 
     const navigate = useNavigate()
 
@@ -20,8 +21,11 @@ function Login() {
         password: ""
     }
 
+    console.log(role==="student")
+
     function loginAccount(values) {
-        axios.post("http://localhost:5000/api/users/auth/login", values, { withCredentials: true })
+        if(role==="student"){
+            axios.post("http://localhost:5000/api/users/auth/login", values, { withCredentials: true })
             .then((res) => {
                 toast.success(res.data.message)
                 setTimeout(() => {
@@ -29,6 +33,16 @@ function Login() {
                 }, 2000);
             })
             .catch((err) => toast.error(err.response?.data?.message || err.message))
+        }else{
+            axios.post("http://localhost:5000/api/instructor/auth/login", values, { withCredentials: true })
+            .then((res) => {
+                toast.success(res.data.message)
+                setTimeout(() => {
+                    navigate('/instructorDashBoard')
+                }, 2000);
+            })
+            .catch((err) => toast.error(err.response?.data?.message || err.message))
+        }
     }
 
     const { values, handleBlur, handleSubmit, handleChange, errors, touched } = useFormik({
@@ -40,12 +54,12 @@ function Login() {
     })
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
-            {role === "Student" ? (
+            {role === "student" ? (
                 <div className="w-full max-w-6xl bg-white rounded-xl shadow-md flex flex-col md:flex-row overflow-hidden">
                     <div className="w-full md:w-1/2 bg-gray-100 flex flex-col items-center justify-center p-8">
                         <img
                             src="https://media.istockphoto.com/id/2105091005/photo/young-student-taking-notes-while-e-learning-on-laptop-at-the-university.jpg?s=612x612&w=0&k=20&c=5AoTWNFmHm-HeQfx0FzB3LPm3MKQXgokYelEvmC_47E="
-                            alt="Instructor"
+                            alt="instructor"
                             className="rounded-lg w-full h-64 object-cover mb-6"
                         />
                         <h2 className="text-xl md:text-2xl font-bold mb-2 text-center">Start Your Student Journey</h2>
@@ -57,15 +71,15 @@ function Login() {
                         <h2 className="text-xl md:text-2xl font-bold mb-4">Login Account</h2>
                         <div className="flex mb-4 border border-gray-300 rounded-md overflow-hidden w-full max-w-xs">
                             <button
-                                onClick={() => setRole("Student")}
-                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "Student" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+                                onClick={() => setRole("student")}
+                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "student" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
                                     }`}
                             >
                                 Student
                             </button>
                             <button
-                                onClick={() => setRole("Instructor")}
-                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "Instructor" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+                                onClick={() => setRole("instructor")}
+                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "instructor" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
                                     }`}
                             >
                                 Instructor
@@ -121,7 +135,7 @@ function Login() {
                                 onChange={handleChange}
                             />
                             {errors.password && touched.password && (<p className="text-red-500">{errors.password}</p>)}
-                            <Link to={"/ForgotPassword"}><p className="text-indigo-600">Forget Password?</p></Link>
+                            <Link to={"/ForgotPassword/user"}><p className="text-indigo-600">Forget Password?</p></Link>
                             <button
                                 type="submit"
                                 className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700"
@@ -157,19 +171,40 @@ function Login() {
                         <h2 className="text-xl md:text-2xl font-bold mb-4">Login Account</h2>
                         <div className="flex mb-4 border border-gray-300 rounded-md overflow-hidden w-full max-w-xs">
                             <button
-                                onClick={() => setRole("Student")}
-                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "Student" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+                                onClick={() => setRole("student")}
+                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "student" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
                                     }`}
                             >
                                 Student
                             </button>
                             <button
-                                onClick={() => setRole("Instructor")}
-                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "Instructor" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+                                onClick={() => setRole("instructor")}
+                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "instructor" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
                                     }`}
                             >
                                 Instructor
                             </button>
+                        </div>
+                        <div className="space-y-3 mb-6">
+                            <GoogleLogin
+                                onSuccess={(credentialResponse) => {
+                                    axios.post('http://localhost:5000/api/instructor/auth/login', credentialResponse, { withCredentials: true })
+                                        .then((res) => {
+                                            toast.success(res.data.message)
+                                            setTimeout(() => {
+                                                navigate('/instructorDashBoard')
+                                            }, 2000);
+                                        })
+                                        .catch((err) => {
+                                            const msg = err.response?.data?.message || err.message;
+                                            toast.error(msg)
+                                        }
+                                        )
+                                }}
+                                onError={() => {
+                                    console.log("Login Failed");
+                                }}
+                            />
                         </div>
                         <form className="space-y-4" onSubmit={handleSubmit}>
                             <div className='flex'>
@@ -194,7 +229,7 @@ function Login() {
                                 onChange={handleChange}
                             />
                             {errors.password && touched.password && (<p className="text-red-500">{errors.password}</p>)}
-                            <Link to={"/ForgotPassword"}><p className="text-indigo-600">Forget Password?</p></Link>
+                            <Link to={"/ForgotPassword/instructor"}><p className="text-indigo-600">Forget Password?</p></Link>
                             <button
                                 type="submit"
                                 className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700"

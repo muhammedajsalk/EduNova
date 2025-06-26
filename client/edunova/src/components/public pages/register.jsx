@@ -17,14 +17,14 @@ export default function Register() {
     name: "",
     email: "",
     password: "",
-    otp: ""
+    otp: "",
   }
 
   function createAccount(values) {
     if (!otpInput) {
       alert("Please confirm your email by entering the 6-digit OTP.");
     }
-    axios.post("http://localhost:5000/api/users/auth/register", values, { withCredentials: true })
+    axios.post("http://localhost:5000/api/users/auth/register", {...values,role:"user"}, { withCredentials: true })
       .then((res) => {
         toast.success(res.data.message)
         setTimeout(() => {
@@ -51,7 +51,7 @@ export default function Register() {
     console.log(values.email)
     if (!values.email) return toast.warning("Enter your email first");
     setSendingOtp(true);
-    axios.post("http://localhost:5000/api/users/auth/otpSent", { email: values.email })
+    axios.post("http://localhost:5000/api/users/auth/otpSent", { email: values.email ,role:"user"})
       .then((res) => {
         setOtpInput(true)
         toast.success(res.data.message)
