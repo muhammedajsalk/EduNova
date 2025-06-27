@@ -6,12 +6,12 @@ const otpAuth = require('../middlewares/nodeMailerAuth')
 const login = require('../controllers/users controller/login')
 const forgetPassword = require('../controllers/users controller/forgetPassword')
 const resetPassword = require('../controllers/users controller/resetPassword')
+const {authLimiter,otpLimiter}=require('../middlewares/api limiter/separateApiLimiter')
 
-
-router.post("/auth/register",otpAuth,userRegister)
-router.post("/auth/otpSent",otpSent)
-router.post("/auth/login",login)
-router.post('/auth/forgetPassword',forgetPassword)
+router.post("/auth/register",[authLimiter,otpAuth],userRegister)
+router.post("/auth/otpSent",otpLimiter,otpSent)
+router.post("/auth/login",authLimiter,login)
+router.post('/auth/forgetPassword',otpLimiter,forgetPassword)
 router.post('/auth/resetPassword',resetPassword)
 
 

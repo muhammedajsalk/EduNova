@@ -16,7 +16,7 @@ async function login(req, res) {
             const payload = ticket.getPayload()
             const { email } = payload
             const isEmailIsAvailable = await instructorModel.findOne({ email })
-            if(!isEmailIsAvailable) return res.status(400).json({ success: false, message: "first of all you submite the instractor document and details" })
+            if(!isEmailIsAvailable) return res.status(400).json({ success: false, message: "please register" })
             if (isEmailIsAvailable.verificationStatus === "pending") return res.status(400).json({ success: false, message: "your details is reviewing come to after 24hr" })
             if (isEmailIsAvailable.verificationStatus === "approved") {
                 const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id, role: "instructor" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })

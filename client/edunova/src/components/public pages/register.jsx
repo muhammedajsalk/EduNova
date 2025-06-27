@@ -10,6 +10,7 @@ export default function Register() {
   const [role, setRole] = useState("Student");
   const [otpInput, setOtpInput] = useState(false)
   const [sendingOtp, setSendingOtp] = useState(false);
+  const [submiting,setSubmiting]=useState(false)
 
   const navigate = useNavigate()
 
@@ -24,7 +25,8 @@ export default function Register() {
     if (!otpInput) {
       alert("Please confirm your email by entering the 6-digit OTP.");
     }
-    axios.post("http://localhost:5000/api/users/auth/register", {...values,role:"user"}, { withCredentials: true })
+    setSubmiting(true)
+    axios.post("http://localhost:5000/api/users/auth/register", { ...values, role: "user" }, { withCredentials: true })
       .then((res) => {
         toast.success(res.data.message)
         setTimeout(() => {
@@ -36,6 +38,7 @@ export default function Register() {
         toast.error(err.response?.data?.message || err.message)
         console.log(err.response?.data?.message || err.message)
       })
+      .finally(()=>setSubmiting(false))
   }
 
   const { values, handleBlur, handleSubmit, handleChange, errors, touched } = useFormik({
@@ -51,7 +54,7 @@ export default function Register() {
     console.log(values.email)
     if (!values.email) return toast.warning("Enter your email first");
     setSendingOtp(true);
-    axios.post("http://localhost:5000/api/users/auth/otpSent", { email: values.email ,role:"user"})
+    axios.post("http://localhost:5000/api/users/auth/otpSent", { email: values.email, role: "user" })
       .then((res) => {
         setOtpInput(true)
         toast.success(res.data.message)
@@ -106,6 +109,7 @@ export default function Register() {
             <div className="space-y-3 mb-6">
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
+                  setSubmiting(true)
                   axios.post('http://localhost:5000/api/users/auth/register', credentialResponse, { withCredentials: true })
                     .then((res) => {
                       toast.success(res.data.message)
@@ -119,6 +123,7 @@ export default function Register() {
                       toast.error(msg)
                     }
                     )
+                    .finally(()=>setSubmiting(false))
                 }}
                 onError={() => {
                   console.log("Login Failed");
@@ -202,9 +207,19 @@ export default function Register() {
 
               <button
                 type="submit"
-                className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700"
+                className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700 flex items-center justify-center gap-2"
               >
-                Create Account
+                {submiting ? (
+                  <>
+                    <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                    </svg>
+                    creating...
+                  </>
+                ) : (
+                  "Create Account"
+                )}
               </button>
             </form>
             <p className="text-xs text-gray-500 mt-4 text-center">

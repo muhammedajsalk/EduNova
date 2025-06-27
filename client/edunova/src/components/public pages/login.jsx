@@ -11,6 +11,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 function Login() {
     const [role, setRole] = useState("student");
+    const [submiting, setSubmiting] = useState(false)
 
 
     const navigate = useNavigate()
@@ -21,27 +22,29 @@ function Login() {
         password: ""
     }
 
-    console.log(role==="student")
-
     function loginAccount(values) {
-        if(role==="student"){
+        if (role === "student") {
+            setSubmiting(true)
             axios.post("http://localhost:5000/api/users/auth/login", values, { withCredentials: true })
-            .then((res) => {
-                toast.success(res.data.message)
-                setTimeout(() => {
-                    navigate('/learningDashboard')
-                }, 2000);
-            })
-            .catch((err) => toast.error(err.response?.data?.message || err.message))
-        }else{
+                .then((res) => {
+                    toast.success(res.data.message)
+                    setTimeout(() => {
+                        navigate('/learningDashboard')
+                    }, 2000);
+                })
+                .catch((err) => toast.error(err.response?.data?.message || err.message))
+                .finally(()=>setSubmiting(false))
+        } else {
+            setSubmiting(true)
             axios.post("http://localhost:5000/api/instructor/auth/login", values, { withCredentials: true })
-            .then((res) => {
-                toast.success(res.data.message)
-                setTimeout(() => {
-                    navigate('/instructorDashBoard')
-                }, 2000);
-            })
-            .catch((err) => toast.error(err.response?.data?.message || err.message))
+                .then((res) => {
+                    toast.success(res.data.message)
+                    setTimeout(() => {
+                        navigate('/instructorDashBoard')
+                    }, 2000);
+                })
+                .catch((err) => toast.error(err.response?.data?.message || err.message))
+                .finally(()=>setSubmiting(false))
         }
     }
 
@@ -89,6 +92,7 @@ function Login() {
                         <div className="space-y-3 mb-6">
                             <GoogleLogin
                                 onSuccess={(credentialResponse) => {
+                                    setSubmiting(true)
                                     axios.post('http://localhost:5000/api/users/auth/login', credentialResponse, { withCredentials: true })
                                         .then((res) => {
                                             toast.success(res.data.message)
@@ -100,7 +104,9 @@ function Login() {
                                             const msg = err.response?.data?.message || err.message;
                                             toast.error(msg)
                                         }
-                                        )
+                                        ).finally(()=>{
+                                            setSubmiting(false)
+                                        })
                                 }}
                                 onError={() => {
                                     console.log("Login Failed");
@@ -138,9 +144,19 @@ function Login() {
                             <Link to={"/ForgotPassword/user"}><p className="text-indigo-600">Forget Password?</p></Link>
                             <button
                                 type="submit"
-                                className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700"
+                                className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700 flex items-center justify-center gap-2"
                             >
-                                Login Account
+                                {submiting ? (
+                                    <>
+                                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                                        </svg>
+                                        Loging...
+                                    </>
+                                ) : (
+                                    "Login Account"
+                                )}
                             </button>
                         </form>
                         <p className="text-xs text-gray-500 mt-4 text-center">
@@ -188,6 +204,7 @@ function Login() {
                         <div className="space-y-3 mb-6">
                             <GoogleLogin
                                 onSuccess={(credentialResponse) => {
+                                    setSubmiting(true)
                                     axios.post('http://localhost:5000/api/instructor/auth/login', credentialResponse, { withCredentials: true })
                                         .then((res) => {
                                             toast.success(res.data.message)
@@ -199,7 +216,9 @@ function Login() {
                                             const msg = err.response?.data?.message || err.message;
                                             toast.error(msg)
                                         }
-                                        )
+                                        ).finally(()=>{
+                                            setSubmiting(false)
+                                        })
                                 }}
                                 onError={() => {
                                     console.log("Login Failed");
@@ -232,9 +251,19 @@ function Login() {
                             <Link to={"/ForgotPassword/instructor"}><p className="text-indigo-600">Forget Password?</p></Link>
                             <button
                                 type="submit"
-                                className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700"
+                                className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700 flex items-center justify-center gap-2"
                             >
-                                Login Account
+                                {submiting ? (
+                                    <>
+                                        <svg className="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                                        </svg>
+                                        Loging...
+                                    </>
+                                ) : (
+                                    "Login Account"
+                                )}
                             </button>
                         </form>
                         <p className="text-xs text-gray-500 mt-4 text-center">

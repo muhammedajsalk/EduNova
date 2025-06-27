@@ -1,5 +1,7 @@
 import React from "react";
 
+import {Link} from 'react-router-dom'
+
 export default function HeroSection() {
   return (
     <section className="pt-24 flex flex-col-reverse lg:flex-row items-center justify-between px-6 py-16 max-w-7xl mx-auto gap-10">
@@ -13,10 +15,14 @@ export default function HeroSection() {
         </p>
         <div className="flex flex-wrap gap-4 mb-8">
           <button className="bg-indigo-600 text-white px-6 py-2 rounded-full font-semibold">
-            Explore Courses
+            <Link to={'/courses'}>
+               Explore Courses
+            </Link>
           </button>
           <button className="border border-indigo-600 text-indigo-600 px-6 py-2 rounded-full font-semibold">
-            Become an Instructor
+            <Link to={'/instructorRegistor'}>
+                Become an Instructor
+            </Link>
           </button>
         </div>
         <div className="flex space-x-8 text-center text-gray-700 font-semibold">
