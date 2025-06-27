@@ -97,7 +97,7 @@ const LearningDashboard = () => {
                     <h3 className="text-lg font-semibold mb-4">Your Courses</h3>
                     <div className="grid md:grid-cols-3 gap-6">
                         {allCourses.slice(0, visibleCourses).map((course, idx) => (
-                            <div key={idx} className="border rounded-lg overflow-hidden shadow-sm">
+                            <div key={idx} className=" rounded-lg overflow-hidden shadow-sm">
                                 <div className="w-full h-40">
                                     <img
                                         src={course.image}
@@ -158,7 +158,7 @@ const LearningDashboard = () => {
                                 avatar: "https://i.pravatar.cc/40",
                             },
                         ].map((session, idx) => (
-                            <div key={idx} className="flex items-center justify-between border rounded-lg p-4">
+                            <div key={idx} className="flex items-center justify-between rounded-lg p-4">
                                 <div className="flex items-center gap-3">
                                     <img src={session.avatar} alt={session.mentor} className="w-10 h-10 rounded-full" />
                                     <div>
@@ -187,7 +187,7 @@ const LearningDashboard = () => {
                             { label: "Certificates Earned", value: "8 certificates" },
                             { label: "Avg. Study Time", value: "2.5 hours/day" },
                         ].map((stat, idx) => (
-                            <div key={idx} className="border p-4 rounded-lg shadow-sm">
+                            <div key={idx} className="p-4 rounded-lg shadow-sm">
                                 <p className="text-xl font-bold">{stat.value}</p>
                                 <p className="text-sm text-gray-600 mt-1">{stat.label}</p>
                             </div>

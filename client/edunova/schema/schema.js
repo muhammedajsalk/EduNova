@@ -32,6 +32,7 @@ export const instructorSchema = yup.object().shape({
   email: yup.string().email("Invalid email").required("Email is required"),
   password: yup.string()
     .required("Password is required")
+    .matches(passwordRegex,"Password must contain at least 8 characters, one uppercase, one lowercase, one number, and one special character")
     .min(6, "Password must be at least 6 characters"),
   bio: yup.string()
     .required("Bio is required")

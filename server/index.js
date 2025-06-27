@@ -3,6 +3,7 @@ require('dotenv').config()
 const connectDb=require('./confiq/db')
 const usersRouter=require('./routers/userRouter')
 const instructorRouter=require('./routers/instructorRouter')
+const adminRouter=require('./routers/adminRouter')
 const cors=require("cors")
 const cookieParser=require('cookie-parser')
 const apiLimiterGlobally=require('./middlewares/api limiter/globallyApiLimiter')
@@ -18,6 +19,7 @@ app.use(cors({origin:"http://localhost:5173",credentials:true}))
 app.use(apiLimiterGlobally)
 app.use('/api/users',usersRouter)
 app.use('/api/instructor',instructorRouter)
+app.use('/api/admin',adminRouter)
 
 
 app.listen(server_port,()=>{

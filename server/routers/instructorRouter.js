@@ -1,6 +1,6 @@
 const express = require('express')
-const register = require('../controllers/instructor controller/register')
 const router = express.Router()
+const register = require('../controllers/instructor controller/register')
 const upload = require('../middlewares/instructor/cloudinaryUploader')
 const instructorExisting=require('../middlewares/instructor/instractorsExisting')
 const instructorEmailVerify=require('../controllers/instructor controller/instructorEmailVerify')

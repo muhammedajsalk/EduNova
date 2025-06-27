@@ -14,24 +14,28 @@ import FindMentorPage from './components/public pages/FindMentorPage'
 import LearningDashboard from './components/users/LearningDashboard'
 import InstructorRegister from './components/instructors/instructorRegister'
 import InstructorDashboard from './components/instructors/instractorDahboard'
+import AdminLogin from './components/admin/login'
+import AdminDashboard from './components/admin/adminDashboard'
 
 function Routers() {
   return (
     <Routes>
-        <Route path='/register' element={<Register/>}></Route>
-        <Route path='/login' element={<Login/>}></Route>
-        <Route path='/' element={<HomePage/>}></Route>
-        <Route path='/policy' element={<TermsPrivacy/>}></Route>
-        <Route path='/ForgotPassword/:role' element={<ForgotPassword/>}></Route>
-        <Route path='/ResetPassword/:token/:role' element={<ResetPassword/>}></Route>
-        <Route path='/courses' element={<CourseListing/>}></Route>
-        <Route path='/courseDetails' element={<CourseDetails/>}></Route>
-        <Route path='/about' element={<AboutPage/>}></Route>
-        <Route path='/subscription' element={<SubscriptionPage/>}></Route>
-        <Route path='/findMentor' element={<FindMentorPage/>}></Route>
-        <Route path='/learningDashboard' element={<LearningDashboard/>}></Route>
-        <Route path='/instructorRegistor' element={<InstructorRegister/>}></Route>
-        <Route path='/instructorDashBoard' element={<InstructorDashboard/>}></Route>
+      <Route path='/register' element={<Register />}></Route>
+      <Route path='/login' element={<Login />}></Route>
+      <Route path='/' element={<HomePage />}></Route>
+      <Route path='/policy' element={<TermsPrivacy />}></Route>
+      <Route path='/ForgotPassword/:role' element={<ForgotPassword />}></Route>
+      <Route path='/ResetPassword/:token/:role' element={<ResetPassword />}></Route>
+      <Route path='/courses' element={<CourseListing />}></Route>
+      <Route path='/courseDetails' element={<CourseDetails />}></Route>
+      <Route path='/about' element={<AboutPage />}></Route>
+      <Route path='/subscription' element={<SubscriptionPage />}></Route>
+      <Route path='/findMentor' element={<FindMentorPage />}></Route>
+      <Route path='/learningDashboard' element={<LearningDashboard />}></Route>
+      <Route path='/instructorRegistor' element={<InstructorRegister />}></Route>
+      <Route path='/instructorDashBoard' element={<InstructorDashboard />}></Route>
+      <Route path='/adminLogin' element={<AdminLogin />}></Route>
+      <Route path='/adminDashBoard' element={<AdminDashboard />}></Route>
     </Routes>
   )
 }
