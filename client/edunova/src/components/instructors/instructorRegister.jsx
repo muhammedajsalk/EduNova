@@ -306,7 +306,6 @@ function InstructorRegister() {
                 )}
               </div>
 
-         \
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Create Password *
@@ -396,7 +395,6 @@ function InstructorRegister() {
               {formik.touched.demoVideo && formik.errors.demoVideo && (
                 <p className="mt-1 text-sm text-red-600">{formik.errors.demoVideo}</p>
               )}
-
               <FileInput
                 id="experienceLetter"
                 label="Experience Letter"

@@ -110,6 +110,18 @@ const instructorSchema = new mongoose.Schema({
     role: {
         type: String,
         default: "instructor"
+    },
+    isActive:{
+        type:Boolean,
+        default:false
+    },
+    students:{
+        type:Number,
+        default:0
+    },
+    company_revenue:{
+        type:Number,
+        default:0
     }
 }, {
     timestamps: true,

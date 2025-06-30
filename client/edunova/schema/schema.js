@@ -54,7 +54,7 @@ export const instructorSchema = yup.object().shape({
 
   demoVideo: yup.mixed()
   .required('Demo video is required')
-  .test('fileSize', 'Video is too large (max 15MB)', value => !value || value.size <= 15 * 1024 * 1024)
+  .test('fileSize', 'Video is too large (max 5MB)', value => !value || value.size <= 5 * 1024 * 1024)
   .test('fileType', 'Unsupported Format', value => 
     !value || value.type.startsWith('video/')
   ),

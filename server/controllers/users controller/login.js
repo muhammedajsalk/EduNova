@@ -32,6 +32,7 @@ async function login(req, res) {
                 isEmailIsAvailable.otp = null
                 isEmailIsAvailable.otpExpiry = null
                 isEmailIsAvailable.avatar = picture
+                isEmailIsAvailable.isActive=true
 
                 await isEmailIsAvailable.save()
                 return res.status(200).json({
@@ -45,7 +46,8 @@ async function login(req, res) {
                 avatar: picture,
                 provider: "google",
                 googleId: sub,
-                isVerified: true
+                isVerified: true,
+                isActive:true
             })
             const saved = await newUser.save()
 

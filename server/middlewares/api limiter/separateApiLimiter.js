@@ -104,7 +104,7 @@ const adminLimiter = rateLimit({
 
 const uploadLimiter = rateLimit({
   windowMs: 30 * 60 * 1000,
-  max: 10,
+  max: 20,
   message: 'Too many uploads. Please slow down.',
   handler: (req, res) => {
     res.status(429).json({

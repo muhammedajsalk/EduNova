@@ -20,6 +20,13 @@ import axios from 'axios'
 import { RoleProtectedRoute } from './protectedRouter'
 import UserContext from './userContext'
 import NotFound404 from './components/public pages/404'
+import InstructorAllShow from './components/admin/instructorAllShow'
+import InstructorPendingSection from './components/admin/instructorPendingSection'
+import InstructorVerificationSection from './components/admin/instructorVerificationSection'
+import InstructorDetailsPage from './components/admin/instructorDetailsPage'
+import InstructorDetailsAndDocumentsView from './components/admin/instructorDetailsAndDocumentsView'
+import StudentAllShow from './components/admin/studentAllShow'
+import UserDetailsPage from './components/admin/userDetailsPage'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -31,12 +38,12 @@ function Routers() {
         setUser(null)
         console.log(err.response?.data?.message || err.message)
       }
-      ).finally(()=>{
+      ).finally(() => {
         setLoading(false)
       })
   }, [])
   return (
-    <UserContext.Provider value={{user,setUser}}>
+    <UserContext.Provider value={{ user, setUser }}>
       <Routes>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/login' element={<Login />}></Route>
@@ -60,7 +67,28 @@ function Routers() {
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
           <Route path='/adminDashBoard' element={<AdminDashboard />}></Route>
         </Route>
-        <Route path='/notFound' element={<NotFound404/>}></Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/instructorManagement' element={<InstructorAllShow />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/instructor_Pending_Section' element={<InstructorPendingSection />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/instructor_verification_section/:id' element={<InstructorVerificationSection />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/instructor_details/:id' element={<InstructorDetailsPage />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/instructor_details_and_documents/:id' element={<InstructorDetailsAndDocumentsView />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/studentsManagement' element={<StudentAllShow />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/user_details/:id' element={<UserDetailsPage />}></Route>
+        </Route>
+        <Route path='/notFound' element={<NotFound404 />}></Route>
       </Routes>
     </UserContext.Provider>
 
