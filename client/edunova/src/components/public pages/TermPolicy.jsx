@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./homePage Components/navbar";
 import Footer from "./homePage Components/Footer";
 
-export default function TermsPrivacy() {
+function TermsPrivacy() {
   return (
     <>
       <Navbar />
@@ -19,7 +19,6 @@ export default function TermsPrivacy() {
           use, and protect your information.
         </p>
 
-        {/* Table of Contents */}
         <div className="grid md:grid-cols-2 gap-6 mb-10">
           <div>
             <h3 className="font-semibold mb-2">Terms of Service</h3>
@@ -49,7 +48,6 @@ export default function TermsPrivacy() {
           </div>
         </div>
 
-        {/* Terms of Service */}
         <section className="space-y-6 mb-12">
           <h2 className="text-xl font-semibold">Terms of Service</h2>
           <div>
@@ -82,7 +80,6 @@ export default function TermsPrivacy() {
           </div>
         </section>
 
-        {/* Privacy Policy */}
         <section className="space-y-6">
           <h2 className="text-xl font-semibold">Privacy Policy</h2>
           <div>
@@ -115,7 +112,6 @@ export default function TermsPrivacy() {
           </div>
         </section>
 
-        {/* Contact Section */}
         <div className="mt-10 p-6 bg-gray-50 rounded-md">
           <h4 className="font-semibold mb-2">Questions or Concerns?</h4>
           <p className="text-sm text-gray-700">
@@ -134,3 +130,5 @@ export default function TermsPrivacy() {
     </>
   );
 }
+
+export default React.memo(TermsPrivacy);

@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { GoogleLogin } from "@react-oauth/google";
 import axios from 'axios';
 import { useFormik } from 'formik'
 import { LoginSceama } from '../../../schema/schema';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
+import UserContext from '../../userContext';
 
 
 
@@ -12,6 +13,7 @@ import { Link, useNavigate } from 'react-router-dom';
 function Login() {
     const [role, setRole] = useState("student");
     const [submiting, setSubmiting] = useState(false)
+    const {user, setUser }=useContext(UserContext)
 
 
     const navigate = useNavigate()
@@ -27,6 +29,7 @@ function Login() {
             setSubmiting(true)
             axios.post("http://localhost:5000/api/users/auth/login", values, { withCredentials: true })
                 .then((res) => {
+                    setUser({role:"user"})
                     toast.success(res.data.message)
                     setTimeout(() => {
                         navigate('/learningDashboard')
@@ -38,6 +41,7 @@ function Login() {
             setSubmiting(true)
             axios.post("http://localhost:5000/api/instructor/auth/login", values, { withCredentials: true })
                 .then((res) => {
+                    setUser({role:"instructor"})
                     toast.success(res.data.message)
                     setTimeout(() => {
                         navigate('/instructorDashBoard')
@@ -95,6 +99,7 @@ function Login() {
                                     setSubmiting(true)
                                     axios.post('http://localhost:5000/api/users/auth/login', credentialResponse, { withCredentials: true })
                                         .then((res) => {
+                                            setUser({role:"user"})
                                             toast.success(res.data.message)
                                             setTimeout(() => {
                                                 navigate('/learningDashboard')
@@ -207,6 +212,7 @@ function Login() {
                                     setSubmiting(true)
                                     axios.post('http://localhost:5000/api/instructor/auth/login', credentialResponse, { withCredentials: true })
                                         .then((res) => {
+                                            setUser({role:"instructor"})
                                             toast.success(res.data.message)
                                             setTimeout(() => {
                                                 navigate('/instructorDashBoard')
@@ -283,4 +289,4 @@ function Login() {
     )
 }
 
-export default Login
+export default React.memo(Login)

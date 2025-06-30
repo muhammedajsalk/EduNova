@@ -49,13 +49,12 @@ const activities = [
   },
 ];
 
-export default function InstructorDashboard() {
+function InstructorDashboard() {
   return (
     <div className="p-4 md:p-8 bg-gray-100 min-h-screen">
       <h1 className="text-2xl md:text-3xl font-semibold mb-2">Welcome back, John</h1>
       <p className="text-gray-600 mb-6">Here’s what’s happening with your courses</p>
 
-      {/* Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         {stats.map((stat, index) => (
           <div key={index} className="bg-white p-4 rounded-xl shadow-sm flex items-center gap-4">
@@ -69,7 +68,6 @@ export default function InstructorDashboard() {
         ))}
       </div>
 
-      {/* Revenue Graph Placeholder */}
       <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Revenue Overview</h2>
@@ -80,12 +78,10 @@ export default function InstructorDashboard() {
           </div>
         </div>
         <div className="h-48 bg-gray-100 flex items-center justify-center text-gray-400">
-          {/* Replace with Chart.js or Recharts later */}
           Revenue Graph Placeholder
         </div>
       </div>
 
-      {/* Pending Actions */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         {actions.map((action, index) => (
           <div key={index} className="bg-white p-4 rounded-xl shadow-sm">
@@ -96,7 +92,6 @@ export default function InstructorDashboard() {
         ))}
       </div>
 
-      {/* Recent Activity */}
       <div className="bg-white p-4 rounded-xl shadow-sm">
         <h2 className="text-lg font-semibold mb-4">Recent Activity</h2>
         <ul className="space-y-3">
@@ -111,3 +106,5 @@ export default function InstructorDashboard() {
     </div>
   );
 }
+
+export default React.memo(InstructorDashboard)

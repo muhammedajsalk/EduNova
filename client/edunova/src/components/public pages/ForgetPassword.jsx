@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 
-export default function ForgotPassword() {
+function ForgotPassword() {
     const [email, setEmail] = useState("");
     const [forgetLink, setForgetLink] = useState(false)
     const {role}=useParams()
@@ -15,7 +15,6 @@ export default function ForgotPassword() {
             .then((res) => toast.success("sent a reset link in your email"))
             .catch((err) => {
                 toast.error(err.response?.data?.message || err.message)
-                console.log(err.response?.data?.message || err.message)
             }
             ).finally(() => {
                 setForgetLink(false)
@@ -77,3 +76,5 @@ export default function ForgotPassword() {
         </div>
     );
 }
+
+export default React.memo(ForgotPassword)

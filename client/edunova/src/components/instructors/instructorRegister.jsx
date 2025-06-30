@@ -49,7 +49,7 @@ const FileInput = ({ id, label, accept, onChange, file, type = 'document' }) => 
   </div>
 );
 
-export default function InstructorRegister() {
+function InstructorRegister() {
   const navigate = useNavigate();
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [otp, setOtp] = useState('');
@@ -86,7 +86,7 @@ export default function InstructorRegister() {
 
       const formData = new FormData();
       
-      // Append all fields
+      
       Object.entries(values).forEach(([key, value]) => {
         if (value) formData.append(key, value);
       });
@@ -118,7 +118,7 @@ export default function InstructorRegister() {
     
     formik.setFieldValue(field, file);
     
-    // Generate preview for avatar
+
     if (field === 'avatar') {
       if (avatarPreview) URL.revokeObjectURL(avatarPreview);
       const preview = URL.createObjectURL(file);
@@ -184,7 +184,6 @@ export default function InstructorRegister() {
     }
   };
 
-  // Clean up avatar preview on unmount
   useEffect(() => {
     return () => {
       if (avatarPreview) {
@@ -207,9 +206,9 @@ export default function InstructorRegister() {
 
         <form onSubmit={formik.handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Left Column - Personal Info */}
+          
             <div className="space-y-5">
-              {/* Avatar */}
+        
               <div className="flex justify-center">
                 <FileInput
                   id="avatar"
@@ -221,7 +220,7 @@ export default function InstructorRegister() {
                 />
               </div>
               
-              {/* Name */}
+             
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name *
@@ -240,7 +239,7 @@ export default function InstructorRegister() {
                 )}
               </div>
 
-              {/* Email */}
+             
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Email Address *
@@ -307,7 +306,7 @@ export default function InstructorRegister() {
                 )}
               </div>
 
-              {/* Password */}
+         \
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Create Password *
@@ -326,7 +325,7 @@ export default function InstructorRegister() {
                 )}
               </div>
 
-              {/* Bio */}
+         
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Short Bio *
@@ -345,7 +344,7 @@ export default function InstructorRegister() {
                 )}
               </div>
 
-              {/* Skills */}
+      
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Skills *
@@ -366,7 +365,7 @@ export default function InstructorRegister() {
                 )}
               </div>
 
-              {/* LinkedIn */}
+           
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   LinkedIn Profile URL
@@ -385,7 +384,7 @@ export default function InstructorRegister() {
               </div>
             </div>
 
-            {/* Right Column - Documents */}
+            
             <div className="space-y-5">
               <FileInput
                 id="demoVideo"
@@ -444,7 +443,7 @@ export default function InstructorRegister() {
             </div>
           </div>
 
-          {/* Terms Agreement */}
+ 
           <div className="flex items-start mt-2">
             <div className="flex items-center h-5">
               <input
@@ -465,7 +464,7 @@ export default function InstructorRegister() {
             </div>
           </div>
 
-          {/* Submit Button */}
+      
           <div className="pt-4">
             <button
               type="submit"
@@ -494,3 +493,5 @@ export default function InstructorRegister() {
     </div>
   );
 }
+
+export default React.memo(InstructorRegister)

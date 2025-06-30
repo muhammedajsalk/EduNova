@@ -1,7 +1,6 @@
 const multer = require('multer')
 const { CloudinaryStorage } = require('multer-storage-cloudinary')
 const cloudinary = require('../../confiq/cloudinary')
-const instructorModel = require('../../models/instructorModel')
 
 
 const storage = new CloudinaryStorage({
@@ -13,7 +12,7 @@ const storage = new CloudinaryStorage({
         return {
             folder,
             resource_type,
-            public_id: `${Date.now()}-${file.originalname}`, // Unique file name
+            public_id: `${Date.now()}-${file.originalname}`,
         };
     }
 })

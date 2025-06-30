@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken")
 
 async function userRegister(req, res) {
     try {
-        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)//google login and registration
+        const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
         const body = req.body
 
         if (!body) {

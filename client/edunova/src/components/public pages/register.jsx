@@ -6,7 +6,7 @@ import { registerSceama } from '../../../schema/schema';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Register() {
+function Register() {
   const [role, setRole] = useState("Student");
   const [otpInput, setOtpInput] = useState(false)
   const [sendingOtp, setSendingOtp] = useState(false);
@@ -36,7 +36,6 @@ export default function Register() {
       )
       .catch((err) => {
         toast.error(err.response?.data?.message || err.message)
-        console.log(err.response?.data?.message || err.message)
       })
       .finally(()=>setSubmiting(false))
   }
@@ -51,7 +50,6 @@ export default function Register() {
 
   function sentOtp(e) {
     e.preventDefault()
-    console.log(values.email)
     if (!values.email) return toast.warning("Enter your email first");
     setSendingOtp(true);
     axios.post("http://localhost:5000/api/users/auth/otpSent", { email: values.email, role: "user" })
@@ -296,3 +294,5 @@ export default function Register() {
     </div>
   );
 }
+
+export default React.memo(Register)

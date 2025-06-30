@@ -9,7 +9,6 @@ const SubscriptionPage = () => {
         <>
             <Navbar />
             <div className="font-sans text-gray-800 px-4 md:px-20 py-10 mt-10">
-                {/* Header */}
                 <section className="text-center mb-10">
                     <h1 className="text-3xl md:text-4xl font-bold mb-2">
                         Choose Your Learning Journey
@@ -18,7 +17,6 @@ const SubscriptionPage = () => {
                         Unlock your potential with our flexible learning plans
                     </p>
 
-                    {/* Billing Toggle */}
                     <div className="flex justify-center gap-4 mb-6">
                         <label className="cursor-pointer">
                             <input
@@ -43,9 +41,8 @@ const SubscriptionPage = () => {
                     </div>
                 </section>
 
-                {/* Plans */}
                 <section className="grid md:grid-cols-3 gap-8 mb-16">
-                    {/* Free Plan */}
+                    
                     <div className="border rounded-lg p-6 text-center shadow-sm">
                         <h3 className="text-xl font-semibold mb-2">Free</h3>
                         <p className="text-3xl font-bold mb-1">$0</p>
@@ -60,7 +57,6 @@ const SubscriptionPage = () => {
                         </button>
                     </div>
 
-                    {/* Pro Plan */}
                     <div className="border-2 border-indigo-600 rounded-lg p-6 text-center shadow-lg relative">
                         <span className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-3 py-1 text-xs rounded">
                             Most Popular
@@ -84,7 +80,6 @@ const SubscriptionPage = () => {
                         </button>
                     </div>
 
-                    {/* Enterprise Plan */}
                     <div className="border rounded-lg p-6 text-center shadow-sm">
                         <h3 className="text-xl font-semibold mb-2">Enterprise</h3>
                         <p className="text-3xl font-bold mb-1">$299</p>
@@ -101,7 +96,6 @@ const SubscriptionPage = () => {
                     </div>
                 </section>
 
-                {/* Comparison Table */}
                 <section className="mb-16">
                     <h2 className="text-xl font-semibold text-center mb-6">Compare Plans</h2>
                     <div className="overflow-x-auto">
@@ -142,7 +136,6 @@ const SubscriptionPage = () => {
                     </div>
                 </section>
 
-                {/* Payment Methods */}
                 <section className="text-center text-sm text-gray-500">
                     <p className="mb-3">Trusted Payment Methods</p>
                     <div className="flex justify-center gap-4">
@@ -160,4 +153,4 @@ const SubscriptionPage = () => {
     );
 };
 
-export default SubscriptionPage;
+export default React.memo(SubscriptionPage);

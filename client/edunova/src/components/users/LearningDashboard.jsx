@@ -80,7 +80,6 @@ const LearningDashboard = () => {
         <>
             <UserNavbar/>
             <div className="p-6 md:p-12 space-y-8 font-sans mt-10">
-                {/* Header */}
                 <div className="flex justify-between items-center">
                     <div>
                         <h2 className="text-xl font-semibold">Welcome back, Sarah</h2>
@@ -92,7 +91,6 @@ const LearningDashboard = () => {
                     </div>
                 </div>
 
-                {/* Active Courses */}
                 <section>
                     <h3 className="text-lg font-semibold mb-4">Your Courses</h3>
                     <div className="grid md:grid-cols-3 gap-6">
@@ -121,7 +119,6 @@ const LearningDashboard = () => {
                         ))}
                     </div>
 
-                    {/* Show More / Show Less Buttons */}
                     <div className="mt-4 text-center">
                         {visibleCourses < allCourses.length ? (
                             <button
@@ -140,7 +137,7 @@ const LearningDashboard = () => {
                         )}
                     </div>
                 </section>
-                {/* Scheduled Mentor Sessions */}
+
                 <section>
                     <h3 className="text-lg font-semibold mb-4">Scheduled Mentor Sessions</h3>
                     <div className="space-y-4">
@@ -177,7 +174,6 @@ const LearningDashboard = () => {
                     </div>
                 </section>
 
-                {/* Learning Statistics */}
                 <section>
                     <h3 className="text-lg font-semibold mb-4">Your Learning Statistics</h3>
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
@@ -200,4 +196,4 @@ const LearningDashboard = () => {
     );
 };
 
-export default LearningDashboard;
+export default React.memo(LearningDashboard)

@@ -2,10 +2,10 @@ import React from "react";
 
 import {Link} from 'react-router-dom'
 
-export default function HeroSection() {
+function HeroSection() {
   return (
     <section className="pt-24 flex flex-col-reverse lg:flex-row items-center justify-between px-6 py-16 max-w-7xl mx-auto gap-10">
-      {/* Left Side */}
+      
       <div className="max-w-xl">
         <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
           Transform Your Skills with <br /> Expert-Led Learning
@@ -41,7 +41,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Right Side - Image */}
+     
       <div className="w-full lg:w-[45%]">
         <img
           src="https://media.istockphoto.com/id/639359406/photo/students-studying-in-college-library.jpg?s=612x612&w=0&k=20&c=8ItJkQbEDQPMRkjqxCCpCKIBThJ6dZ2HLWfwQ4Zj470=" // Replace with actual image path
@@ -52,3 +52,5 @@ export default function HeroSection() {
     </section>
   );
 }
+
+export default React.memo(HeroSection)

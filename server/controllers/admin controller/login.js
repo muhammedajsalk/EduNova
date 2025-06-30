@@ -9,7 +9,7 @@ async function login(req, res) {
     try {
         const body = req.body
         if (body.credential) {
-            const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)//google login 
+            const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
             const ticket = await client.verifyIdToken({
                 idToken: body.credential,
                 audience: process.env.GOOGLE_CLIENT_ID,

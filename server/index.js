@@ -7,6 +7,7 @@ const adminRouter=require('./routers/adminRouter')
 const cors=require("cors")
 const cookieParser=require('cookie-parser')
 const apiLimiterGlobally=require('./middlewares/api limiter/globallyApiLimiter')
+const pabulicRouter=require('./routers/pablicRouter')
 
 const app=express()
 const server_port=process.env.SERVER_PORT
@@ -20,6 +21,7 @@ app.use(apiLimiterGlobally)
 app.use('/api/users',usersRouter)
 app.use('/api/instructor',instructorRouter)
 app.use('/api/admin',adminRouter)
+app.use('/api/public',pabulicRouter)
 
 
 app.listen(server_port,()=>{

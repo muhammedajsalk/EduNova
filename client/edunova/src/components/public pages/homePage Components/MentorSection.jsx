@@ -32,7 +32,7 @@ const experts = [
   },
 ];
 
-export default function MentorSection() {
+function MentorSection() {
   return (
     <section className="bg-white py-16 px-6 max-w-7xl mx-auto">
       <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
@@ -74,3 +74,5 @@ export default function MentorSection() {
     </section>
   );
 }
+
+export default React.memo(MentorSection)

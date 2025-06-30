@@ -18,7 +18,7 @@ const communities = [
   },
 ];
 
-export default function CommunitySection() {
+function CommunitySection() {
   return (
     <section className="bg-white py-16 px-6 max-w-7xl mx-auto">
       <h2 className="text-3xl font-bold text-gray-900 mb-10">
@@ -47,3 +47,6 @@ export default function CommunitySection() {
     </section>
   );
 }
+
+
+export default React.memo(CommunitySection)

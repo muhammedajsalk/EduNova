@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FiMenu, FiX, FiBell } from "react-icons/fi";
 import { Link } from "react-router-dom";
 
-export default function UserNavbar() {
+function UserNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const profileRef = useRef();
@@ -10,7 +10,6 @@ export default function UserNavbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleProfile = () => setProfileOpen((prev) => !prev);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -24,10 +23,9 @@ export default function UserNavbar() {
   return (
     <nav className="bg-white shadow-sm px-6 py-4 w-full fixed top-0 left-0 z-50">
       <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
-        {/* Logo */}
+
         <div className="text-2xl font-bold text-indigo-600">EduNova</div>
 
-        {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
           <li className="hover:underline decoration-indigo-600"><Link to="/">Home</Link></li>
           <li className="hover:underline decoration-indigo-600"><Link to="/about">About</Link></li>
@@ -37,7 +35,6 @@ export default function UserNavbar() {
           <li className="hover:underline decoration-indigo-600"><Link to="/community">Community Chat</Link></li>
         </ul>
 
-        {/* Actions */}
         <div className="hidden md:flex items-center space-x-4 relative" ref={profileRef}>
           <button className="text-gray-600 hover:text-indigo-600">
             <FiBell size={20} />
@@ -51,7 +48,6 @@ export default function UserNavbar() {
             />
           </button>
 
-          {/* Desktop Profile Dropdown */}
           {profileOpen && (
             <div className="absolute right-0 top-12 w-48 bg-white border rounded-lg shadow-lg py-2 z-50">
               <Link to="/dashboard" className="block px-4 py-2 hover:bg-gray-100">Dashboard</Link>
@@ -61,7 +57,6 @@ export default function UserNavbar() {
           )}
         </div>
 
-        {/* Mobile Toggle Button */}
         <div className="md:hidden">
           <button onClick={toggleMenu}>
             {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -69,7 +64,6 @@ export default function UserNavbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden mt-4 space-y-4 px-4">
           <ul className="flex flex-col space-y-2 text-gray-700 font-medium">
@@ -80,7 +74,6 @@ export default function UserNavbar() {
             <li><Link to="/subscription">Subscriptions</Link></li>
           </ul>
 
-          {/* Mobile Actions */}
           <div ref={profileRef} className="flex items-center justify-between mt-4">
             <button className="text-gray-600 hover:text-indigo-600">
               <FiBell size={20} />
@@ -95,7 +88,6 @@ export default function UserNavbar() {
             </button>
           </div>
 
-          {/* Mobile Profile Dropdown */}
           {profileOpen && (
             <div className="mt-2 w-full bg-white border rounded-lg shadow-lg py-2 z-50">
               <Link to="/dashboard" className="block px-4 py-2 hover:bg-gray-100">Dashboard</Link>
@@ -108,3 +100,5 @@ export default function UserNavbar() {
     </nav>
   );
 }
+
+export default React.memo(UserNavbar)

@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./homePage Components/navbar";
 import Footer from "./homePage Components/Footer";
 
-export default function CourseListing() {
+function CourseListing() {
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Example dummy course data
+
   const courses = Array.from({ length: 21 }).map((_, i) => ({
     id: i + 1,
     title: `Course ${i + 1}`,
@@ -16,14 +16,13 @@ export default function CourseListing() {
     image: "https://media.istockphoto.com/id/1338344348/photo/diverse-school-children-students-build-robotic-cars-using-computers-and-coding.jpg?s=612x612&w=0&k=20&c=g1Qt2LDF792cAI4slyrft7WtgEUjqIaKPCvA1KQVZ5E=",
   }));
 
-  // Pagination logic
   const coursesPerPage = 6;
   const indexOfLast = currentPage * coursesPerPage;
   const indexOfFirst = indexOfLast - coursesPerPage;
   const currentCourses = courses.slice(indexOfFirst, indexOfLast);
   const totalPages = Math.ceil(courses.length / coursesPerPage);
 
-  // Responsive toggle reset on resize
+
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768) setShowFilters(false);
@@ -39,7 +38,7 @@ export default function CourseListing() {
       <div className="max-w-7xl mx-auto">
         <h2 className="text-2xl font-bold text-gray-800 mb-6">All Courses</h2>
 
-        {/* Toggle Filter for Mobile */}
+
         <div className="md:hidden mb-4">
           <button
             onClick={() => setShowFilters(!showFilters)}
@@ -49,9 +48,9 @@ export default function CourseListing() {
           </button>
         </div>
 
-        {/* Grid Layout */}
+
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          {/* Sidebar Filters */}
+
           {(showFilters || window.innerWidth >= 768) && (
             <aside className="bg-white p-6 rounded-lg shadow-md col-span-1">
               <h3 className="text-lg font-semibold mb-4">Filter by</h3>
@@ -63,7 +62,7 @@ export default function CourseListing() {
             </aside>
           )}
 
-          {/* Course Cards */}
+
           <section className="col-span-1 md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {currentCourses.map((course) => (
               <div key={course.id} className="bg-white rounded-lg shadow-md p-4">
@@ -88,7 +87,7 @@ export default function CourseListing() {
           </section>
         </div>
 
-        {/* Pagination */}
+
         <div className="flex justify-center mt-10 space-x-2">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -126,5 +125,7 @@ export default function CourseListing() {
     </>
   );
 }
+
+export default React.memo(CourseListing)
 
 

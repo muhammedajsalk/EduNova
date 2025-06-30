@@ -3,7 +3,7 @@ import { FaStar, FaPlay } from "react-icons/fa";
 import Navbar from "./homePage Components/navbar";
 import Footer from "./homePage Components/Footer";
 
-export default function CourseDetails() {
+function CourseDetails() {
     const [openSection, setOpenSection] = useState(null);
 
     const toggleSection = (index) => {
@@ -30,7 +30,7 @@ export default function CourseDetails() {
             <Navbar />
             <div className="bg-gray-50 min-h-screen py-10 px-4 mt-10">
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* Main Content */}
+                
                     <div className="lg:col-span-2 space-y-8">
                         <div>
                             <p className="text-sm text-gray-500">Development &gt; Web Development</p>
@@ -41,7 +41,7 @@ export default function CourseDetails() {
                             </div>
                         </div>
 
-                        {/* Video Preview */}
+                      
                         <div className="relative w-full overflow-hidden rounded-xl shadow-md">
                             <img
                                 src="https://media.istockphoto.com/id/1432156040/vector/vector-flat-illustration-of-web-ui-ux-design-web-development-concept-team-designers-creating.jpg?s=612x612&w=0&k=20&c=XEMYf3ZGy5QncMGeuMMcgKcOUIE1bxl2xWPrw6owLpc="
@@ -55,7 +55,6 @@ export default function CourseDetails() {
                         </div>
 
 
-                        {/* Curriculum */}
                         <div>
                             <h2 className="text-xl font-semibold mb-4">Course Curriculum</h2>
                             <div className="space-y-4">
@@ -83,7 +82,6 @@ export default function CourseDetails() {
                             </div>
                         </div>
 
-                        {/* Instructor */}
                         <div className="bg-white p-6 rounded-lg shadow">
                             <h2 className="text-xl font-semibold mb-2">Instructor</h2>
                             <div className="flex items-center gap-4">
@@ -99,7 +97,6 @@ export default function CourseDetails() {
                             <button className="mt-4 text-indigo-600 underline text-sm">Message Instructor</button>
                         </div>
 
-                        {/* Mentoring CTA */}
                         <div className="bg-indigo-50 p-6 rounded-lg">
                             <h3 className="text-lg font-semibold text-indigo-800 mb-2">Get Personal Mentoring</h3>
                             <ul className="list-disc pl-6 text-sm text-indigo-800 mb-4">
@@ -111,7 +108,6 @@ export default function CourseDetails() {
                         </div>
                     </div>
 
-                    {/* Sidebar */}
                     <aside className="bg-white p-6 rounded-lg shadow-md h-fit">
                         <ul className="text-sm text-gray-700 space-y-1 mb-4">
                             <li>✔ 15 hours of video</li>
@@ -129,3 +125,6 @@ export default function CourseDetails() {
         </>
     );
 }
+
+
+export default React.memo(CourseDetails)

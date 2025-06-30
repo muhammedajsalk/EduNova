@@ -5,7 +5,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useFormik } from "formik";
 import { ResetPasswordSceama } from "../../../schema/schema";
 
-export default function ResetPassword() {
+function ResetPassword() {
     const { token ,role} = useParams();
     const navigate = useNavigate();
 
@@ -68,3 +68,5 @@ export default function ResetPassword() {
         </div>
     );
 }
+
+export default React.memo(ResetPassword)

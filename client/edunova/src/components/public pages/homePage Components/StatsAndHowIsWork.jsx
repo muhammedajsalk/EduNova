@@ -1,7 +1,7 @@
 import React from "react";
 import { FaGraduationCap, FaBook, FaUsers, FaTrophy, FaPlayCircle, FaUserTie, FaCheckCircle } from "react-icons/fa";
 
-export default function StatsAndHowItWorks() {
+function StatsAndHowItWorks() {
   return (
     <section className="bg-white">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center px-6 py-16 max-w-7xl mx-auto">
@@ -55,3 +55,5 @@ export default function StatsAndHowItWorks() {
     </section>
   );
 }
+
+export default React.memo(StatsAndHowItWorks)

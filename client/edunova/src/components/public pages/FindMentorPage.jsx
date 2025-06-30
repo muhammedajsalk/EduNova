@@ -91,7 +91,7 @@ const FindMentorPage = () => {
     <>
     <Navbar/>
     <div className="px-4 md:px-20 py-10 font-sans mt-10">
-      {/* Header */}
+
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold mb-2">Find Your Perfect Mentor</h1>
         <p className="text-gray-600 mb-6">
@@ -107,7 +107,6 @@ const FindMentorPage = () => {
         </div>
       </div>
 
-      {/* Topics */}
       <div className="flex flex-wrap gap-3 justify-center mb-10">
         {topics.map((topic) => (
           <button
@@ -124,7 +123,6 @@ const FindMentorPage = () => {
         ))}
       </div>
 
-      {/* Mentors */}
       <div className="grid md:grid-cols-3 gap-6 mb-10">
         {mentorsData
           .filter((mentor) => mentor.tags.includes(selectedTopic))
@@ -166,7 +164,6 @@ const FindMentorPage = () => {
           ))}
       </div>
 
-      {/* Pagination */}
       <div className="flex justify-between text-sm items-center px-2">
         <p className="text-gray-500">Showing 1-6 of 24 mentors</p>
         <div className="flex space-x-2">
@@ -190,4 +187,4 @@ const FindMentorPage = () => {
   );
 };
 
-export default FindMentorPage;
+export default React.memo(FindMentorPage)

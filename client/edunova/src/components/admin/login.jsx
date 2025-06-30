@@ -1,19 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { GoogleLogin } from "@react-oauth/google";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast, ToastContainer } from 'react-toastify';
+import UserContext from '../../userContext';
 
 function AdminLogin() {
   const [submiting, setSubmiting] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const {user, setUser }=useContext(UserContext)
   const navigate = useNavigate()
   function loginAccount() {
     setSubmiting(true)
     axios.post("http://localhost:5000/api/admin/auth/login", { email, password }, { withCredentials: true })
       .then((res) => {
+        setUser({role:"admin"})
         toast.success(res.data.message)
         setTimeout(() => {
           navigate('/adminDashboard')
@@ -47,6 +50,7 @@ function AdminLogin() {
                 setSubmiting(true)
                 axios.post('http://localhost:5000/api/admin/auth/login', credentialResponse, { withCredentials: true })
                   .then((res) => {
+                    setUser({role:"admin"})
                     toast.success(res.data.message)
                     setTimeout(() => {
                       navigate('/adminDashboard')
@@ -120,4 +124,4 @@ function AdminLogin() {
   );
 }
 
-export default AdminLogin;
+export default React.memo(AdminLogin)
