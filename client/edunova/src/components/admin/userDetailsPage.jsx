@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
 
 const allCourses = [
   { name: "Advanced Web Development", date: "Nov 1, 2023", progress: 45, status: "Active" },
@@ -16,16 +17,39 @@ const ITEMS_PER_PAGE = 3;
 
 function UserProfile() {
   const [currentPage, setCurrentPage] = useState(1);
-  const [data,setData]=useState([])
+  const [data, setData] = useState([])
 
-  const {id}=useParams()
+  const { id } = useParams()
 
-  useEffect(()=>{
-     axios.get(`http://localhost:5000/api/admin/userById/${id}`)
-     .then((res)=>setData(res.data.data))
-     .catch((err)=>console.log(err))
-  },[])
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/admin/userById/${id}`)
+      .then((res) => setData(res.data.data))
+      .catch((err) => console.log(err))
+  }, [])
 
+
+  function BlockAndUnblock() {
+    if (data.isActive) {
+      axios.post(`http://localhost:5000/api/admin/userBlockAndUnblock/${id}`, { isActive: false })
+        .then((res) => {
+          axios.get(`http://localhost:5000/api/admin/userById/${id}`)
+            .then((res) => setData(res.data.data))
+            .catch((err) => console.log(err))
+          toast.success(res.data.message)
+        }
+        )
+        .catch((err) => toast.error(err.response?.data?.message || err.message))
+    } else {
+      axios.post(`http://localhost:5000/api/admin/userBlockAndUnblock/${id}`, { isActive: true })
+        .then((res) => {
+          axios.get(`http://localhost:5000/api/admin/userById/${id}`)
+            .then((res) => setData(res.data.data))
+            .catch((err) => console.log(err))
+          toast.success(res.data.message)
+        })
+        .catch((err) => toast.error(err.response?.data?.message || err.message))
+    }
+  }
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedCourses = allCourses.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
@@ -45,12 +69,12 @@ function UserProfile() {
             <h2 className="text-xl font-bold">{data.name}</h2>
             <p className="text-sm text-gray-500">{data.email}</p>
             <div className="flex gap-2 mt-1">
-              <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">{data.provider==="google"?"Google Account":"Manual Account"}</span>
-              <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full">{data.isActive?"Active":"Block"}</span>
+              <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">{data.provider === "google" ? "Google Account" : "Manual Account"}</span>
+              <span className={data.isActive ? "text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full" : "text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full"}>{data.isActive ? "Active" : "Block"}</span>
             </div>
           </div>
         </div>
-        <button className="bg-red-100 text-red-600 px-4 py-2 rounded">Block Account</button>
+        <button onClick={() => BlockAndUnblock()} className={data.isActive ? "bg-red-100 text-red-600 px-4 py-2 rounded" : "bg-green-100 text-green-600 px-4 py-2 rounded"}>{data.isActive ? "Block Account" : "Active Account"}</button>
       </div>
 
       {/* Subscription Details */}
@@ -93,11 +117,10 @@ function UserProfile() {
                   <td className="p-3">{course.date}</td>
                   <td className="p-3">
                     <span
-                      className={`text-xs px-2 py-1 rounded-full ${
-                        course.status === "Completed"
-                          ? "bg-gray-100 text-gray-600"
-                          : "bg-green-100 text-green-600"
-                      }`}
+                      className={`text-xs px-2 py-1 rounded-full ${course.status === "Completed"
+                        ? "bg-gray-100 text-gray-600"
+                        : "bg-green-100 text-green-600"
+                        }`}
                     >
                       {course.status}
                     </span>
@@ -119,9 +142,8 @@ function UserProfile() {
               <button
                 key={i}
                 onClick={() => setCurrentPage(i + 1)}
-                className={`w-8 h-8 flex items-center justify-center rounded ${
-                  currentPage === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200"
-                }`}
+                className={`w-8 h-8 flex items-center justify-center rounded ${currentPage === i + 1 ? "bg-blue-600 text-white" : "bg-gray-200"
+                  }`}
               >
                 {i + 1}
               </button>
@@ -129,6 +151,7 @@ function UserProfile() {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }
