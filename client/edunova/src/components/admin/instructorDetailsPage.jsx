@@ -3,6 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
 
 function InstructorDetailsPage() {
     const { id } = useParams()
@@ -12,7 +13,29 @@ function InstructorDetailsPage() {
             .then((res) => setData(res.data.data))
             .catch((err) => console.log(err))
     }, [])
-    
+
+    function blockAndUnblock() {
+        if (data.isActive) {
+            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: false })
+                .then((res) => {
+                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`)
+                        .then((res) => setData(res.data.data))
+                        .catch((err) => console.log(err))
+                    toast.success(res.data.message)
+                })
+                .catch((err)=>toast.error(err.response?.data?.message || err.message))
+        }else{
+            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: true })
+                .then((res) => {
+                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`)
+                        .then((res) => setData(res.data.data))
+                        .catch((err) => console.log(err))
+                    toast.success(res.data.message)
+                })
+                .catch((err)=>toast.error(err.response?.data?.message || err.message))
+        }
+    }
+
     return (
         <div className="p-6 md:p-10 bg-gray-50 min-h-screen text-gray-800">
             {/* Top Profile Header */}
@@ -25,7 +48,7 @@ function InstructorDetailsPage() {
                     />
                     <div>
                         <h2 className="text-xl font-bold">{data.name}</h2>
-                        <span className="text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full mt-1 inline-block">Active</span>
+                        <span className={data.isActive ? "text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full mt-1 inline-block" : "text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full mt-1 inline-block"}>{data.isActive ? "Active" : "Blocked"}</span>
                     </div>
                 </div>
                 <div className="flex gap-2">
@@ -34,7 +57,7 @@ function InstructorDetailsPage() {
                             View details and Documents
                         </Link>
                     </button>
-                    <button className="border border-red-500 text-red-500 px-4 py-2 rounded text-sm">Block</button>
+                    <button onClick={()=>blockAndUnblock()} className={data.isActive ? "border border-red-500 text-red-500 px-4 py-2 rounded text-sm" : "border border-green-500 text-green-500 px-4 py-2 rounded text-sm"}>{data.isActive ? "Block" : "Active"}</button>
                 </div>
             </div>
 
@@ -77,7 +100,7 @@ function InstructorDetailsPage() {
                     <button className="text-blue-600 text-sm">View All</button>
                 </div>
 
-                {data?.myCourses?.length!=0? (
+                {data?.myCourses?.length != 0 ? (
                     <div className="flex items-center gap-4">
                         <img
                             src={data?.myCourses?.[0]?.image}
@@ -101,7 +124,7 @@ function InstructorDetailsPage() {
                     <div className="text-sm text-gray-500 text-center py-4">No latest courses available</div>
                 )}
             </div>
-
+            <ToastContainer position="top-right" autoClose={3000} />
         </div>
     );
 }

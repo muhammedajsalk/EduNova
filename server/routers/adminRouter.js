@@ -7,7 +7,8 @@ const approveOrReject = require('../controllers/admin controller/approveOrReject
 const allInstructorShow = require('../controllers/admin controller/allInstructorShow')
 const allUsersShow = require('../controllers/users controller/allUsersShow')
 const userById = require('../controllers/admin controller/userById')
-const blockAndUnblock = require('../controllers/users controller/blockAndUnbloack')
+const userblockAndUnblock = require('../controllers/users controller/blockAndUnbloack')
+const instructorblockAndUnbloack=require('../controllers/instructor controller/blockAndUnblock')
 const router = express.Router()
 
 
@@ -18,6 +19,7 @@ router.post('/approvedOrRejected',approveOrReject)
 router.get('/AllInstructor',allInstructorShow)
 router.get('/AllUsers',allUsersShow)
 router.get('/userById/:id',userById)
-router.post('/userBlockAndUnblock/:id',blockAndUnblock)
+router.post('/userBlockAndUnblock/:id',userblockAndUnblock)
+router.post('/instructorBlockAndUnBlock/:id',instructorblockAndUnbloack)
 
 module.exports=router
