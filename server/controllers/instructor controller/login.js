@@ -16,8 +16,9 @@ async function login(req, res) {
             const payload = ticket.getPayload()
             const { email } = payload
             const isEmailIsAvailable = await instructorModel.findOne({ email })
-            if(!isEmailIsAvailable) return res.status(400).json({ success: false, message: "please register" })
+            if (!isEmailIsAvailable) return res.status(400).json({ success: false, message: "please register" })
             if (isEmailIsAvailable.verificationStatus === "pending") return res.status(400).json({ success: false, message: "your details is reviewing come to after 24hr" })
+            if (isEmailIsAvailable.isActive === false) return res.status(400).json({ success: false, message: "your account is blocked" })
             if (isEmailIsAvailable.verificationStatus === "approved") {
                 const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id, role: "instructor" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
                 res.cookie("accesTokken", accesTokken, {
@@ -35,6 +36,7 @@ async function login(req, res) {
         const match = await bcrypt.compare(password, instructor.password)
         if (!match) return res.status(400).json({ success: false, message: "you entered password is incorrect" })
         if (instructor.verificationStatus === "pending") return res.status(400).json({ success: false, message: "your details is reviewing come to after 24hr" })
+        if (instructor.isActive === false) return res.status(400).json({ success: false, message: "your account is blocked" })
         const accesTokken = await jwt.sign({ id: instructor._id, role: "instructor" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,

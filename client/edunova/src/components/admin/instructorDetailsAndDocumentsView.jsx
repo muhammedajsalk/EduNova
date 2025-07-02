@@ -3,11 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import VideoPlayer from "../admin/videoPlayer";
 import { toast, ToastContainer } from 'react-toastify';
+import AdminNavbar from "./adminNavbar";
 
 function InstructorDetailsAndDocument() {
     const [data, setData] = useState(null);
     const { id } = useParams();
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchInstructor = async () => {
@@ -39,44 +40,47 @@ function InstructorDetailsAndDocument() {
 
 
     return (
-        <div className="p-6 md:p-10 bg-gray-50 min-h-screen text-gray-800">
-            <h1 className="text-2xl font-bold mb-6">Instructor Details</h1>
+        <>
+            <AdminNavbar />
+            <div className="p-6 md:p-10 bg-gray-50 min-h-screen text-gray-800 mt-12">
+                <h1 className="text-2xl font-bold mb-6">Instructor Details</h1>
 
-            {/* Profile Section */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-6 rounded-lg shadow">
-                <div className="space-y-3">
-                    <img src={avatar} alt={name} className="w-24 h-24 rounded-full object-cover" />
-                    <Info label="Full Name" value={name} />
-                    <Info label="Email Address" value={email} />
-                    <div>
-                        <p className="text-sm text-gray-500">LinkedIn Profile</p>
-                        <a href={linkedInProfile} className="text-indigo-600 underline break-all" target="_blank" rel="noopener noreferrer">
-                            {linkedInProfile}
-                        </a>
+                {/* Profile Section */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-6 rounded-lg shadow">
+                    <div className="space-y-3">
+                        <img src={avatar} alt={name} className="w-24 h-24 rounded-full object-cover" />
+                        <Info label="Full Name" value={name} />
+                        <Info label="Email Address" value={email} />
+                        <div>
+                            <p className="text-sm text-gray-500">LinkedIn Profile</p>
+                            <a href={linkedInProfile} className="text-indigo-600 underline break-all" target="_blank" rel="noopener noreferrer">
+                                {linkedInProfile}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className="md:col-span-2 space-y-4">
+                        <SkillSection skills={skills} />
+                        <Info label="Short Bio" value={bio || "No bio available."} />
                     </div>
                 </div>
 
-                <div className="md:col-span-2 space-y-4">
-                    <SkillSection skills={skills} />
-                    <Info label="Short Bio" value={bio || "No bio available."} />
+                {/* Documents Section */}
+                <div className="mt-8 space-y-6">
+                    <h2 className="text-lg font-semibold">Documents</h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <DocumentCard title="Demo Teaching Video" isVideo>
+                            {demoVideo ? <VideoPlayer videoUrl={demoVideo} /> : <FallbackMessage text="Demo video not available." />}
+                        </DocumentCard>
+                        <DocumentCard title="Experience Letter" image={experienceLetter} />
+                        <DocumentCard title="Degree Certificate" image={degreeCertificate} />
+                        <DocumentCard title="Teaching Certificate" image={certification} />
+                        <DocumentCard title="Government ID" image={idProof} />
+                    </div>
                 </div>
+                <ToastContainer position="top-right" autoClose={3000} />
             </div>
-
-            {/* Documents Section */}
-            <div className="mt-8 space-y-6">
-                <h2 className="text-lg font-semibold">Documents</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <DocumentCard title="Demo Teaching Video" isVideo>
-                        {demoVideo ? <VideoPlayer videoUrl={demoVideo} /> : <FallbackMessage text="Demo video not available." />}
-                    </DocumentCard>
-                    <DocumentCard title="Experience Letter" image={experienceLetter} />
-                    <DocumentCard title="Degree Certificate" image={degreeCertificate} />
-                    <DocumentCard title="Teaching Certificate" image={certification} />
-                    <DocumentCard title="Government ID" image={idProof} />
-                </div>
-            </div>
-            <ToastContainer position="top-right" autoClose={3000} />
-        </div>
+        </>
     );
 }
 

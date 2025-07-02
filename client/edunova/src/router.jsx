@@ -27,6 +27,10 @@ import InstructorDetailsPage from './components/admin/instructorDetailsPage'
 import InstructorDetailsAndDocumentsView from './components/admin/instructorDetailsAndDocumentsView'
 import StudentAllShow from './components/admin/studentAllShow'
 import UserDetailsPage from './components/admin/userDetailsPage'
+import CourseGrid from './components/instructors/instructorAllCourse'
+import CourseBasicsForm from './components/instructors/course upload/courseBasicDetails'
+import CourseCurriculum from './components/instructors/course upload/courseCaricullam'
+import CoursePreview from './components/instructors/course upload/coursePreview'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -87,6 +91,18 @@ function Routers() {
         </Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
           <Route path='/admin/user_details/:id' element={<UserDetailsPage />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
+          <Route path='/instructor/Allcourse' element={<CourseGrid />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
+          <Route path='/instructor/Course_Upload/Course_Basic_Form' element={<CourseBasicsForm/>}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
+          <Route path='/instructor/Course_Upload/course_cariculam' element={<CourseCurriculum/>}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
+          <Route path='/instructor/Course_Upload/course_preview' element={<CoursePreview/>}></Route>
         </Route>
         <Route path='/notFound' element={<NotFound404 />}></Route>
       </Routes>

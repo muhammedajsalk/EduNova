@@ -35,6 +35,7 @@ async function userRegister(req, res) {
             isEmailIsAvailable.name=name
             isEmailIsAvailable.googleId=sub
             isEmailIsAvailable.isVerified=true
+            isEmailIsAvailable.isActive=true
             isEmailIsAvailable.otp=null
             isEmailIsAvailable.otpExpiry=null
             isEmailIsAvailable.avatar=picture
@@ -52,7 +53,8 @@ async function userRegister(req, res) {
             avatar: picture,
             provider: "google",
             googleId: sub,
-            isVerified:true
+            isVerified:true,
+            isActive:true
         })
         const saved = await newUser.save()
 
