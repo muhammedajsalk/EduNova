@@ -13,7 +13,6 @@ import SubscriptionPage from './components/public pages/Subscription'
 import FindMentorPage from './components/public pages/FindMentorPage'
 import LearningDashboard from './components/users/LearningDashboard'
 import InstructorRegister from './components/instructors/instructorRegister'
-import InstructorDashboard from './components/instructors/instractorDahboard'
 import AdminLogin from './components/admin/login'
 import AdminDashboard from './components/admin/adminDashboard'
 import axios from 'axios'
@@ -27,10 +26,12 @@ import InstructorDetailsPage from './components/admin/instructorDetailsPage'
 import InstructorDetailsAndDocumentsView from './components/admin/instructorDetailsAndDocumentsView'
 import StudentAllShow from './components/admin/studentAllShow'
 import UserDetailsPage from './components/admin/userDetailsPage'
-import CourseGrid from './components/instructors/instructorAllCourse'
-import CourseBasicsForm from './components/instructors/course upload/courseBasicDetails'
-import CourseCurriculum from './components/instructors/course upload/courseCaricullam'
-import CoursePreview from './components/instructors/course upload/coursePreview'
+import CourseGrid from './components/instructors/instructor page/instructorAllCourse'
+import InstructorLayout from './components/instructors/instructor layout/instractorLayout'
+import InstructorHome from './components/instructors/instructor page/instructorHome'
+import DashboardLayout from './components/instructors/instructor layout/instractorLayout'
+import InstructorAllCourse from './components/instructors/instructor page/instructorAllCourse'
+import CreateCourse from './components/instructors/instructor page/instructorCourseCreation'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -64,9 +65,6 @@ function Routers() {
           <Route path='/learningDashboard' element={<LearningDashboard />}></Route>
         </Route>
         <Route path='/instructorRegistor' element={<InstructorRegister />}></Route>
-        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
-          <Route path='/instructorDashBoard' element={<InstructorDashboard />}></Route>
-        </Route>
         <Route path='/adminLogin' element={<AdminLogin />}></Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
           <Route path='/adminDashBoard' element={<AdminDashboard />}></Route>
@@ -93,16 +91,13 @@ function Routers() {
           <Route path='/admin/user_details/:id' element={<UserDetailsPage />}></Route>
         </Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
-          <Route path='/instructor/Allcourse' element={<CourseGrid />}></Route>
+          <Route path="/instructorDashboard" element={<DashboardLayout />}>
+            <Route index element={<InstructorHome/>} />
+            <Route path="courses" element={<InstructorAllCourse />} />
+          </Route>
         </Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
-          <Route path='/instructor/Course_Upload/Course_Basic_Form' element={<CourseBasicsForm/>}></Route>
-        </Route>
-        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
-          <Route path='/instructor/Course_Upload/course_cariculam' element={<CourseCurriculum/>}></Route>
-        </Route>
-        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
-          <Route path='/instructor/Course_Upload/course_preview' element={<CoursePreview/>}></Route>
+             <Route path='/instructor/createCourse' element={<CreateCourse />}></Route>
         </Route>
         <Route path='/notFound' element={<NotFound404 />}></Route>
       </Routes>

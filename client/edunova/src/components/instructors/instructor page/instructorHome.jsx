@@ -1,6 +1,6 @@
 import React from "react";
 import { FaStar, FaUserGraduate, FaEye, FaDollarSign, FaAddressCard, FaAddressBook, FaBook } from "react-icons/fa";
-import InstructorNavbar from "./instructorNavbar";
+import InstructorLayout from "../instructor layout/instractorLayout";
 
 const stats = [
   {
@@ -29,11 +29,6 @@ const stats = [
   },
 ];
 
-const actions = [
-  { label: "New Course Reviews", desc: "5 reviews to respond to" },
-  { label: "Student Messages", desc: "3 messages awaiting reply" },
-  { label: "New Mentor section Request", desc: "1 mentor section request pending" },
-];
 
 const activities = [
   {
@@ -53,8 +48,7 @@ const activities = [
 function InstructorDashboard() {
   return (
     <>
-      <InstructorNavbar />
-      <div className="p-4 md:p-8 bg-gray-100 min-h-screen mt-12">
+      <div className="p-4 md:p-8 bg-gray-100 min-h-screen">
         <h1 className="text-2xl md:text-3xl font-semibold mb-2">Welcome back, John</h1>
         <p className="text-gray-600 mb-6">Here’s what’s happening with your courses</p>
 
@@ -81,16 +75,6 @@ function InstructorDashboard() {
           <div className="h-48 bg-gray-100 flex items-center justify-center text-gray-400">
             Revenue Graph Placeholder
           </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          {actions.map((action, index) => (
-            <div key={index} className="bg-white p-4 rounded-xl shadow-sm">
-              <h3 className="font-semibold">{action.label}</h3>
-              <p className="text-sm text-gray-500 mb-2">{action.desc}</p>
-              <button className="text-blue-500 hover:underline text-sm">Take Action</button>
-            </div>
-          ))}
         </div>
 
         <div className="bg-white p-4 rounded-xl shadow-sm">
