@@ -2,14 +2,17 @@ const express = require('express')
 const router = express.Router()
 const register = require('../controllers/instructor controller/register')
 const upload = require('../middlewares/instructor/cloudinaryUploader')
+const tumbanailUploading=require('../middlewares/instructor/cloudineryTumbanailUploader')
 const courseVideoUploader=require('../middlewares/instructor/cloudineryVideoUploader')
 const instructorExisting=require('../middlewares/instructor/instractorsExisting')
 const instructorEmailVerify=require('../controllers/instructor controller/instructorEmailVerify')
 const otpAuth = require('../middlewares/nodeMailerAuth')
 const login=require('../controllers/instructor controller/login')
-const {instructorRegisterLimiter,authLimiter}=require('../middlewares/api limiter/separateApiLimiter')
+const {instructorRegisterLimiter,authLimiter, uploadLimiter}=require('../middlewares/api limiter/separateApiLimiter')
 const courseVideoUpload = require('../controllers/instructor controller/courseVideoUpload')
 const { jwtAuth, roleConform } = require('../middlewares/jwt Auth/jwtAuthMiddleware')
+const courseCreate = require('../controllers/instructor controller/courseCreate')
+const thumbnailUpload = require('../controllers/instructor controller/courseThumbanailUploading')
 
 
 router.post('/auth/register', [instructorRegisterLimiter,upload.fields([
@@ -26,4 +29,8 @@ router.post('/auth/login',authLimiter,login)
 router.post('/course/videoUploading',jwtAuth,courseVideoUploader.fields([
     {name:'video', maxCount:1}
 ]),courseVideoUpload)
+router.post('/course/courseCreate',jwtAuth,courseCreate)
+router.post('/course/thumbnailUploading',uploadLimiter,jwtAuth,tumbanailUploading.fields([
+    {name:'image',maxCount:1}
+]),thumbnailUpload)
 module.exports = router

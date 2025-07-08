@@ -5,7 +5,6 @@ const LectureSchema = new mongoose.Schema(
     title: { type: String, required: true },
     url: { type: String, required: true },
     duration: { type: Number, required: true },
-    order: { type: Number, required: true },
   },
   { _id: false }
 );

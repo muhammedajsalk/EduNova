@@ -2,48 +2,56 @@ import React, { useState } from "react";
 import { FaCloudUploadAlt, FaPlus } from "react-icons/fa";
 import { Formik, Form, Field, FieldArray, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 import Topbar from "../instructor layout/topbar";
-import axios from 'axios'
+import { toast ,ToastContainer} from "react-toastify";
 
-const validationSchema = Yup.object().shape({
+// ✅ Get duration from video file
+const getVideoDuration = (file) => {
+    return new Promise((resolve, reject) => {
+        const video = document.createElement("video");
+        video.preload = "metadata";
+        video.onloadedmetadata = () => {
+            URL.revokeObjectURL(video.src);
+            resolve(video.duration); // duration in seconds
+        };
+        video.onerror = () => reject("Failed to read duration");
+        video.src = URL.createObjectURL(file);
+    });
+};
+
+// ✅ Yup validation schema
+const validationSchema = Yup.object({
     title: Yup.string().required("Title is required").max(100),
     category: Yup.string().required("Category is required"),
     description: Yup.string().required("Description is required").max(5000),
-
-    // Thumbnail max 5MB
-    thumbnail: Yup.mixed()
-        .required("Thumbnail is required")
-        .test("fileSize", "Thumbnail must be less than 5MB", (value) => {
-            return value && value.size <= 5 * 1024 * 1024; // 5MB
-        }),
-
-    curriculum: Yup.array().of(
-        Yup.object().shape({
-            section: Yup.string().required("Section name is required"),
-            lectures: Yup.array().of(
-                Yup.object().shape({
-                    title: Yup.string().required("Lecture title is required"),
-
-                    // Video max 100MB
-                    file: Yup.mixed()
-                        .required("Lecture file is required")
-                        .test("fileSize", "Lecture video must be less than 100MB", (value) => {
-                            return value && value.size <= 100 * 1024 * 1024; // 100MB
-                        }),
-                })
-            ),
-        })
+    thumbnail: Yup.mixed().required("Thumbnail required").test("fileSize", "Max 5MB", val =>
+        typeof val === "string" || (val && val.size <= 5 * 1024 * 1024)
     ),
+    curriculum: Yup.array().of(
+        Yup.object({
+            section: Yup.string().required("Section title required"),
+            lectures: Yup.array().of(
+                Yup.object({
+                    title: Yup.string().required("Lecture title required"),
+                    file: Yup.mixed().required("Video required").test("fileSize", "Max 100MB", val =>
+                        typeof val === "string" || (val && val.size <= 100 * 1024 * 1024)
+                    ),
+                    duration: Yup.number().nullable(),
+                })
+            )
+        })
+    )
 });
 
-
 const CreateCourse = () => {
-
     const [uploadProgress, setUploadProgress] = useState({});
     const [uploadStatus, setUploadStatus] = useState({});
+    const [thumbnailUploadProgress, setThumbnailUploadProgress] = useState(0);
+    const [dataInformation,setDataInformation]=useState()
+
 
     const savedDraft = JSON.parse(localStorage.getItem("courseDraft"));
-
     const initialValues = savedDraft || {
         title: "",
         category: "",
@@ -52,25 +60,88 @@ const CreateCourse = () => {
         curriculum: [
             {
                 section: "Introduction",
-                lectures: [
-                    {
-                        title: "Course Overview",
-                        file: null,
-                    },
-                ],
+                lectures: [{ title: "Course Overview", file: null, duration: null }],
             },
         ],
     };
 
-    const handleSubmit = (values) => {
-        console.log("Course submitted:", values);
+    // ✅ Upload thumbnail
+    const uploadThumbnail = async (file) => {
+        const formData = new FormData();
+        formData.append("image", file);
+
+        const res = await axios.post(
+            "http://localhost:5000/api/instructor/course/thumbnailUploading",
+            formData,
+            {
+                withCredentials: true,
+                headers: { "Content-Type": "multipart/form-data" },
+                onUploadProgress: (e) => {
+                    const percent = Math.round((e.loaded * 100) / e.total);
+                    setThumbnailUploadProgress(percent);
+                },
+            }
+        );
+
+        setThumbnailUploadProgress(0); // reset after upload
+        return res.data.imageUrl;
+    };
+
+
+    // ✅ Upload video & get duration
+    const handleVideoUpload = async (file, key, setFieldValue, path) => {
+        const formData = new FormData();
+        formData.append("video", file);
+        setUploadStatus(prev => ({ ...prev, [key]: "uploading" }));
+
+        try {
+            const res = await axios.post("http://localhost:5000/api/instructor/course/videoUploading", formData, {
+                withCredentials: true,
+                headers: { "Content-Type": "multipart/form-data" },
+                onUploadProgress: (e) => {
+                    const percent = Math.round((e.loaded * 100) / e.total);
+                    setUploadProgress(prev => ({ ...prev, [key]: percent }));
+                }
+            });
+
+            const url = res.data.videoUrl;
+            const duration = await getVideoDuration(file);
+
+            setFieldValue(path, url);
+            setFieldValue(path.replace("file", "duration"), duration);
+            setUploadStatus(prev => ({ ...prev, [key]: "success" }));
+        } catch {
+            setUploadStatus(prev => ({ ...prev, [key]: "error" }));
+        }
+    };
+
+    const handleSubmit = async (values) => {
+        try {
+            const payload = { ...values };
+
+            console.log("payload"+payload)
+
+            // Upload thumbnail if new
+            if (typeof payload.thumbnail !== "string") {
+                payload.thumbnail = await uploadThumbnail(payload.thumbnail);
+            }
+
+            await axios.post("http://localhost:5000/api/instructor/course/courseCreate", {payload}, {
+                withCredentials: true,
+            });
+
+            localStorage.removeItem("courseDraft");
+            toast.success("course uploaded succefully")
+        } catch (error) {
+            console.error(error);
+            toast.error("course uploading unsuccefully")
+        }
     };
 
     const handleSaveDraft = (values) => {
         localStorage.setItem("courseDraft", JSON.stringify(values));
-        alert("Draft saved!");
+        toast.success("saved draft")
     };
-
 
     return (
         <>
@@ -86,273 +157,204 @@ const CreateCourse = () => {
                     >
                         {({ values, setFieldValue }) => (
                             <Form>
-                                {/* Thumbnail Upload */}
-                                <div className="border border-dashed border-gray-300 rounded-lg p-6 flex flex-col items-center justify-center text-gray-500 mb-6">
-                                    <label
-                                        htmlFor="thumbnail"
-                                        className="cursor-pointer flex flex-col items-center"
-                                    >
+                                {/* Thumbnail */}
+                                <div className="border-dashed border rounded p-6 flex flex-col items-center mb-6 text-gray-500">
+                                    <label htmlFor="thumbnail" className="cursor-pointer text-center">
                                         <FaCloudUploadAlt className="text-3xl mb-2" />
                                         <span>
-                                            {values.thumbnail
-                                                ? values.thumbnail.name
+                                            {typeof values.thumbnail === "string"
+                                                ? "✅ Thumbnail Uploaded"
                                                 : "Upload course thumbnail"}
                                         </span>
-                                        <span className="text-xs">(Recommended size: 1280×720px)</span>
+                                        <p className="text-xs">(Recommended: 1280×720px)</p>
                                     </label>
+
                                     <input
-                                        type="file"
                                         id="thumbnail"
+                                        type="file"
                                         className="hidden"
-                                        onChange={(e) =>
-                                            setFieldValue("thumbnail", e.currentTarget.files[0])
-                                        }
+                                        onChange={async (e) => {
+                                            const file = e.target.files[0];
+                                            if (!file || file.size > 5 * 1024 * 1024) {
+                                                alert("Max thumbnail size is 5MB");
+                                                return;
+                                            }
+
+                                            setThumbnailUploadProgress(0);
+                                            const imageUrl = await uploadThumbnail(file);
+                                            setFieldValue("thumbnail", imageUrl);
+
+                                            // Optional: Save immediately to draft
+                                            const draft = { ...values, thumbnail: imageUrl };
+                                            localStorage.setItem("courseDraft", JSON.stringify(draft));
+                                        }}
                                     />
-                                    <ErrorMessage
-                                        name="thumbnail"
-                                        component="div"
-                                        className="text-red-500 text-sm mt-1"
-                                    />
+
+                                    {/* Uploaded preview */}
+                                    {typeof values.thumbnail === "string" && (
+                                        <img
+                                            src={values.thumbnail}
+                                            alt="Thumbnail preview"
+                                            className="mt-3 w-60 rounded border"
+                                        />
+                                    )}
+
+                                    {/* Progress */}
+                                    {thumbnailUploadProgress > 0 && thumbnailUploadProgress < 100 && (
+                                        <div className="text-sm text-indigo-600 mt-2">
+                                            Uploading... {thumbnailUploadProgress}%
+                                        </div>
+                                    )}
+
+                                    <ErrorMessage name="thumbnail" component="div" className="text-red-500 text-sm mt-1" />
                                 </div>
 
                                 {/* Title */}
                                 <div className="mb-4">
-                                    <Field
-                                        name="title"
-                                        placeholder="Enter a compelling course title"
-                                        maxLength={100}
-                                        className="w-full border border-gray-300 rounded p-2"
-                                    />
-                                    <ErrorMessage
-                                        name="title"
-                                        component="div"
-                                        className="text-red-500 text-sm"
-                                    />
-                                    <p className="text-sm text-gray-500">
-                                        {values.title.length}/100 characters
-                                    </p>
+                                    <Field name="title" placeholder="Course Title" className="w-full border rounded p-2" />
+                                    <ErrorMessage name="title" component="div" className="text-red-500 text-sm" />
+                                    <p className="text-sm text-gray-500">{values.title.length}/100 characters</p>
                                 </div>
 
                                 {/* Category */}
                                 <div className="mb-4">
-                                    <Field
-                                        as="select"
-                                        name="category"
-                                        className="w-full border border-gray-300 rounded p-2"
-                                    >
-                                        <option value="">Select a category</option>
+                                    <Field as="select" name="category" className="w-full border p-2 rounded">
+                                        <option value="">Select Category</option>
                                         <option value="development">Development</option>
                                         <option value="design">Design</option>
                                         <option value="marketing">Marketing</option>
                                     </Field>
-                                    <ErrorMessage
-                                        name="category"
-                                        component="div"
-                                        className="text-red-500 text-sm"
-                                    />
+                                    <ErrorMessage name="category" component="div" className="text-red-500 text-sm" />
                                 </div>
 
                                 {/* Description */}
                                 <div className="mb-6">
-                                    <Field
-                                        as="textarea"
-                                        name="description"
-                                        placeholder="Describe what students will learn"
-                                        maxLength={5000}
-                                        rows={5}
-                                        className="w-full border border-gray-300 rounded p-2"
-                                    />
-                                    <ErrorMessage
-                                        name="description"
-                                        component="div"
-                                        className="text-red-500 text-sm"
-                                    />
-                                    <p className="text-sm text-gray-500">
-                                        {values.description.length}/5000 characters
-                                    </p>
+                                    <Field as="textarea" name="description" rows={5}
+                                        placeholder="What will students learn?"
+                                        className="w-full border p-2 rounded" />
+                                    <ErrorMessage name="description" component="div" className="text-red-500 text-sm" />
+                                    <p className="text-sm text-gray-500">{values.description.length}/5000 characters</p>
                                 </div>
 
-                                {console.log(values)}
-
                                 {/* Curriculum */}
-                                <div>
-                                    <h3 className="font-semibold text-lg mb-2">Course Curriculum</h3>
-                                    <FieldArray name="curriculum">
-                                        {({ push, remove }) => (
-                                            <>
-                                                {values.curriculum.map((section, sectionIndex) => (
-                                                    <div
-                                                        key={sectionIndex}
-                                                        className="border border-gray-200 rounded mb-4 bg-gray-50 p-4"
-                                                    >
-                                                        <div className="flex justify-between items-center mb-2">
-                                                            <Field
-                                                                name={`curriculum.${sectionIndex}.section`}
-                                                                placeholder="Section Title"
-                                                                className="w-full font-semibold text-lg border-b border-gray-300 outline-none bg-transparent"
-                                                            />
-                                                            <button
-                                                                type="button"
-                                                                onClick={() => remove(sectionIndex)}
-                                                                className="ml-4 text-red-600 text-sm hover:underline px-2 py-1 rounded bg-red-200 hover:bg-red-400 transition"
-                                                            >
-                                                                Delete Section
-                                                            </button>
-                                                        </div>
-                                                        <ErrorMessage
-                                                            name={`curriculum.${sectionIndex}.section`}
-                                                            component="div"
-                                                            className="text-red-500 text-sm"
+                                <FieldArray name="curriculum">
+                                    {({ push, remove }) => (
+                                        <>
+                                            {values.curriculum.map((section, sectionIndex) => (
+                                                <div key={sectionIndex} className="border rounded p-4 mb-4 bg-gray-50">
+                                                    <div className="flex justify-between mb-2">
+                                                        <Field name={`curriculum.${sectionIndex}.section`}
+                                                            placeholder="Section Title"
+                                                            className="w-full font-semibold text-lg border-b bg-transparent"
                                                         />
+                                                        <button type="button" onClick={() => remove(sectionIndex)}
+                                                            className="ml-2 text-red-600 text-sm hover:underline">Delete</button>
+                                                    </div>
+                                                    <ErrorMessage name={`curriculum.${sectionIndex}.section`}
+                                                        component="div" className="text-red-500 text-sm" />
 
-                                                        <FieldArray name={`curriculum.${sectionIndex}.lectures`}>
-                                                            {({ push: pushLecture, remove: removeLecture }) => (
-                                                                <>
-                                                                    {section.lectures.map((lecture, lectureIndex) => (
-                                                                        <div
-                                                                            key={lectureIndex}
-                                                                            className="mb-4 border rounded p-3 bg-white relative"
-                                                                        >
+                                                    <FieldArray name={`curriculum.${sectionIndex}.lectures`}>
+                                                        {({ push: pushLecture, remove: removeLecture }) => (
+                                                            <>
+                                                                {section.lectures.map((lecture, lectureIndex) => {
+                                                                    const key = `${sectionIndex}-${lectureIndex}`;
+                                                                    const path = `curriculum.${sectionIndex}.lectures.${lectureIndex}.file`;
+                                                                    const durationPath = `curriculum.${sectionIndex}.lectures.${lectureIndex}.duration`;
+
+                                                                    return (
+                                                                        <div key={lectureIndex} className="mb-4 border p-3 bg-white relative">
                                                                             <Field
                                                                                 name={`curriculum.${sectionIndex}.lectures.${lectureIndex}.title`}
                                                                                 placeholder="Lecture Title"
                                                                                 className="w-full mb-2 border p-2 rounded"
                                                                             />
-                                                                            <ErrorMessage
-                                                                                name={`curriculum.${sectionIndex}.lectures.${lectureIndex}.title`}
-                                                                                component="div"
-                                                                                className="text-red-500 text-sm"
-                                                                            />
+                                                                            <ErrorMessage name={`curriculum.${sectionIndex}.lectures.${lectureIndex}.title`}
+                                                                                component="div" className="text-red-500 text-sm" />
 
-                                                                            <input  
-                                                                                type="file"
-                                                                                className="w-full mb-2 border rounded p-2 cursor-pointer text-sm"
-                                                                                onChange={async (e) => {
-                                                                                    const file = e.currentTarget.files[0];
-
-                                                                                    // Save upload progress per lecture using sectionIndex + lectureIndex as key
-                                                                                    const key = `${sectionIndex}-${lectureIndex}`;
-                                                                                    setUploadStatus((prev) => ({ ...prev, [key]: "uploading" }));
-
-                                                                                    const formData = new FormData();
-                                                                                    formData.append("video", file);
-
-                                                                                    try {
-                                                                                        const res = await axios.post("http://localhost:5000/api/instructor/course/videoUploading", formData, {
-                                                                                            withCredentials:true,
-                                                                                            headers: { "Content-Type": "multipart/form-data"},
-                                                                                            onUploadProgress: (progressEvent) => {
-                                                                                                const percent = Math.round(
-                                                                                                    (progressEvent.loaded * 100) / progressEvent.total
-                                                                                                );
-                                                                                                setUploadProgress((prev) => ({ ...prev, [key]: percent }));
-                                                                                            },
-                                                                                        });
-
-                                                                                        // Set the video URL in Formik after successful upload
-                                                                                        setFieldValue(
-                                                                                            `curriculum.${sectionIndex}.lectures.${lectureIndex}.file`,
-                                                                                            res.data.videoUrl // assuming backend returns { videoUrl: '...' }
-                                                                                        );
-
-                                                                                        setUploadStatus((prev) => ({ ...prev, [key]: "success" }));
-                                                                                    } catch (error) {
-                                                                                        setUploadStatus((prev) => ({ ...prev, [key]: "error" }));
-                                                                                    }
-                                                                                }}
-                                                                            />
-                                                                            {uploadStatus[`${sectionIndex}-${lectureIndex}`] === "uploading" && (
-                                                                                <div className="text-blue-500 text-sm">
-                                                                                    Uploading... {uploadProgress[`${sectionIndex}-${lectureIndex}`] || 0}%
+                                                                            {typeof lecture.file === "string" ? (
+                                                                                <div className="text-green-600 text-sm flex gap-2 items-center">
+                                                                                    ✅ Uploaded –
+                                                                                    <a href={lecture.file} target="_blank" rel="noreferrer"
+                                                                                        className="underline text-indigo-600">View</a>
                                                                                 </div>
+                                                                            ) : (
+                                                                                <input type="file"
+                                                                                    className="w-full border p-2 rounded text-sm"
+                                                                                    onChange={(e) => {
+                                                                                        const file = e.target.files[0];
+                                                                                        if (!file || file.size > 100 * 1024 * 1024) {
+                                                                                            alert("Max video size is 100MB");
+                                                                                            return;
+                                                                                        }
+                                                                                        setUploadStatus(prev => ({ ...prev, [key]: null }));
+                                                                                        setUploadProgress(prev => ({ ...prev, [key]: 0 }));
+                                                                                        handleVideoUpload(file, key, setFieldValue, path);
+                                                                                    }}
+                                                                                />
                                                                             )}
 
-                                                                            {uploadStatus[`${sectionIndex}-${lectureIndex}`] === "success" && (
+                                                                            {/* Upload Progress */}
+                                                                            {uploadStatus[key] === "uploading" && (
+                                                                                <div className="text-indigo-500 text-sm">Uploading... {uploadProgress[key] || 0}%</div>
+                                                                            )}
+                                                                            {uploadStatus[key] === "success" && (
                                                                                 <div className="text-green-600 text-sm">✅ Uploaded</div>
                                                                             )}
-                                                                            
-            
+                                                                            {uploadStatus[key] === "error" && (
+                                                                                <div className="text-red-600 text-sm">❌ Upload failed</div>
+                                                                            )}
+                                                                            <ErrorMessage name={path} component="div" className="text-red-500 text-sm" />
 
-                                                                            {uploadStatus[`${sectionIndex}-${lectureIndex}`] === "error" && (
-                                                                                <div className="text-red-600 text-sm">❌ Upload failed. Please try again.</div>
+                                                                            {/* Show Duration */}
+                                                                            {lecture.duration && (
+                                                                                <p className="text-sm text-gray-600">
+                                                                                    ⏱ Duration: {Math.floor(lecture.duration / 60)}m {Math.round(lecture.duration % 60)}s
+                                                                                </p>
                                                                             )}
 
-
-
-                                                                            <ErrorMessage
-                                                                                name={`curriculum.${sectionIndex}.lectures.${lectureIndex}.file`}
-                                                                                component="div"
-                                                                                className="text-red-500 text-sm"
-                                                                            />
-
-                                                                            <button
-                                                                                type="button"
-                                                                                onClick={() => removeLecture(lectureIndex)}
-                                                                                className="absolute top-2 right-2 bg-red-100 text-red-600 text-xs px-2 py-1 rounded hover:bg-red-200 transition"
-                                                                            >
-                                                                                Delete
-                                                                            </button>
-
+                                                                            <button type="button" onClick={() => removeLecture(lectureIndex)}
+                                                                                className="absolute top-2 right-2 text-red-600 text-xs bg-red-100 px-2 py-1 rounded">Delete</button>
                                                                         </div>
-                                                                    ))}
-                                                                    <button
-                                                                        type="button"
-                                                                        onClick={() =>
-                                                                            pushLecture({
-                                                                                title: "",
-                                                                                file: null,
-                                                                            })
-                                                                        }
-                                                                        className="text-indigo-600 text-sm mt-2 flex items-center gap-1 hover:underline"
-                                                                    >
-                                                                        <FaPlus /> Add Lecture
-                                                                    </button>
-                                                                </>
-                                                            )}
-                                                        </FieldArray>
-                                                    </div>
-                                                ))}
+                                                                    );
+                                                                })}
+                                                                <button type="button"
+                                                                    onClick={() => pushLecture({ title: "", file: null, duration: null })}
+                                                                    className="text-indigo-600 text-sm flex items-center gap-1 hover:underline">
+                                                                    <FaPlus /> Add Lecture
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </FieldArray>
+                                                </div>
+                                            ))}
+                                            <button type="button" onClick={() =>
+                                                push({ section: `New Section ${values.curriculum.length + 1}`, lectures: [] })}
+                                                className="text-indigo-600 text-sm flex items-center gap-1 hover:underline mt-2">
+                                                <FaPlus /> Add Section
+                                            </button>
+                                        </>
+                                    )}
+                                </FieldArray>
 
-
-                                                <button
-                                                    type="button"
-                                                    onClick={() =>
-                                                        push({
-                                                            section: `New Section ${values.curriculum.length + 1}`,
-                                                            lectures: [],
-                                                        })
-                                                    }
-                                                    className="text-indigo-600 text-sm mt-4 flex items-center hover:underline"
-                                                >
-                                                    <FaPlus /> Add Section
-                                                </button>
-                                            </>
-                                        )}
-                                    </FieldArray>
+                                {/* Action Buttons */}
+                                <div className="mt-6">
+                                    <button type="button" onClick={() => handleSaveDraft(values)}
+                                        className="bg-indigo-600 text-white py-2 px-4 mr-2 rounded hover:bg-indigo-700">
+                                        Save Draft
+                                    </button>
+                                    <button type="submit"
+                                        className="bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700">
+                                        Submit Course
+                                    </button>
                                 </div>
-
-
-                                <button
-                                    type="button"
-                                    onClick={() => handleSaveDraft(values)}
-                                    className="mt-6 bg-indigo-600 text-white py-2 mr-2 px-4 rounded hover:bg-indigo-700"
-                                >
-                                    Save Draft
-                                </button>
-                                <button
-                                    type="submit"
-                                    className="mt-6 bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700"
-                                >
-                                    Submit Course
-                                </button>
+                                <p className="text-sm text-gray-500 mt-2">
+                                    Note: Uploaded videos are saved as URLs and durations in seconds. No need to re-upload if draft is saved.
+                                </p>
                             </Form>
                         )}
                     </Formik>
-                    <p className="text-red-500 text-sm mt-2">
-                        Note: Uploaded files will not be saved in drafts. Please re-upload them when resuming.
-                    </p>
-
                 </div>
+                           <ToastContainer position="top-right" autoClose={3000} />
             </div>
         </>
     );
