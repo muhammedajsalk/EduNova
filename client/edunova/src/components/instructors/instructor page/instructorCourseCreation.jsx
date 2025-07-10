@@ -186,7 +186,6 @@ const CreateCourse = () => {
 
                                             // Optional: Save immediately to draft
                                             const draft = { ...values, thumbnail: imageUrl };
-                                            localStorage.setItem("courseDraft", JSON.stringify(draft));
                                         }}
                                     />
 

@@ -32,6 +32,9 @@ import InstructorHome from './components/instructors/instructor page/instructorH
 import DashboardLayout from './components/instructors/instructor layout/instractorLayout'
 import InstructorAllCourse from './components/instructors/instructor page/instructorAllCourse'
 import CreateCourse from './components/instructors/instructor page/instructorCourseCreation'
+import CoursesAllShow from './components/admin/coursesAllShow'
+import CoursePendingSection from './components/admin/coursePendingSection'
+import CourseApproval from './components/admin/coursesVerificationSection'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -70,10 +73,19 @@ function Routers() {
           <Route path='/adminDashBoard' element={<AdminDashboard />}></Route>
         </Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/courseManagement' element={<CoursesAllShow />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
           <Route path='/admin/instructorManagement' element={<InstructorAllShow />}></Route>
         </Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
           <Route path='/admin/instructor_Pending_Section' element={<InstructorPendingSection />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/course_Pending_Section' element={<CoursePendingSection />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/course_verification_section/:id' element={<CourseApproval />}></Route>
         </Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
           <Route path='/admin/instructor_verification_section/:id' element={<InstructorVerificationSection />}></Route>

@@ -9,6 +9,8 @@ const allUsersShow = require('../controllers/users controller/allUsersShow')
 const userById = require('../controllers/admin controller/userById')
 const userblockAndUnblock = require('../controllers/users controller/blockAndUnbloack')
 const instructorblockAndUnbloack=require('../controllers/instructor controller/blockAndUnblock')
+const coursePending = require('../controllers/admin controller/coursePending')
+const courseById = require('../controllers/admin controller/courseById')
 const router = express.Router()
 
 
@@ -21,5 +23,6 @@ router.get('/AllUsers',allUsersShow)
 router.get('/userById/:id',userById)
 router.post('/userBlockAndUnblock/:id',userblockAndUnblock)
 router.post('/instructorBlockAndUnBlock/:id',instructorblockAndUnbloack)
-
+router.get('/coursePending',coursePending)
+router.get("/courseById/:id",courseById)
 module.exports=router
