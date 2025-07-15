@@ -15,7 +15,7 @@ const StatusBadge = ({ status }) => {
 function StudnetsManagement() {
     const [Users, setUsers] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:5000/api/admin/AllUsers')
+        axios.get('http://localhost:5000/api/admin/AllUsers',{withCredentials: true})
             .then((res) => setUsers(res.data.data))
             .catch((err) => console.log(err))
     }, [])

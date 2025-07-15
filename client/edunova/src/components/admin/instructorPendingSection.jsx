@@ -12,7 +12,7 @@ const StatusBadge = ({ status }) => (
 function PendingSections() {
     const [data, setData] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:5000/api/admin/instructorPending')
+        axios.get('http://localhost:5000/api/admin/instructorPending',{withCredentials: true})
             .then((res) => setData(res.data.data))
             .catch((err) => console.log(err))
     }, [])

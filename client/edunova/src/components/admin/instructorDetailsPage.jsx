@@ -17,18 +17,18 @@ function InstructorDetailsPage() {
 
     function blockAndUnblock() {
         if (data.isActive) {
-            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: false })
+            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: false },{withCredentials: true})
                 .then((res) => {
-                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`)
+                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`,{withCredentials: true})
                         .then((res) => setData(res.data.data))
                         .catch((err) => console.log(err))
                     toast.success(res.data.message)
                 })
                 .catch((err) => toast.error(err.response?.data?.message || err.message))
         } else {
-            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: true })
+            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: true },{withCredentials: true})
                 .then((res) => {
-                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`)
+                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`,{withCredentials: true})
                         .then((res) => setData(res.data.data))
                         .catch((err) => console.log(err))
                     toast.success(res.data.message)

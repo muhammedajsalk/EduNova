@@ -15,7 +15,7 @@ const StatusBadge = ({ status }) => {
 function CoursesManagement() {
     const [Courses, setCourses] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:5000/api/admin/AllCourse')
+        axios.get('http://localhost:5000/api/admin/AllCourse',{withCredentials: true})
             .then((res) => setCourses(res.data.data))
             .catch((err) => console.log(err))
     }, [])

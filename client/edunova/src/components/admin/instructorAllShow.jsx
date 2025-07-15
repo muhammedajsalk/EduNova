@@ -15,7 +15,7 @@ const StatusBadge = ({ status }) => {
 function InstructorsManagement() {
     const [instructors, setInstructors] = useState([])
     useEffect(() => {
-        axios.get('http://localhost:5000/api/admin/AllInstructor')
+        axios.get('http://localhost:5000/api/admin/AllInstructor',{withCredentials: true})
             .then((res) => setInstructors(res.data.data))
             .catch((err) => console.log(err))
     }, [])

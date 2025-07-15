@@ -36,6 +36,10 @@ const CourseSchema = new mongoose.Schema(
       ref: "instructor",
       required: true,
     },
+    rejectionReason:{
+      type:String,
+      default:""
+    },
     students: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
   },
   { timestamps: true }

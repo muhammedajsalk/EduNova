@@ -23,7 +23,7 @@ function UserProfile() {
   const { id } = useParams()
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/admin/userById/${id}`)
+    axios.get(`http://localhost:5000/api/admin/userById/${id}`,{withCredentials: true})
       .then((res) => setData(res.data.data))
       .catch((err) => console.log(err))
   }, [])
@@ -31,9 +31,9 @@ function UserProfile() {
 
   function BlockAndUnblock() {
     if (data.isActive) {
-      axios.post(`http://localhost:5000/api/admin/userBlockAndUnblock/${id}`, { isActive: false })
+      axios.post(`http://localhost:5000/api/admin/userBlockAndUnblock/${id}`, { isActive: false },{withCredentials: true})
         .then((res) => {
-          axios.get(`http://localhost:5000/api/admin/userById/${id}`)
+          axios.get(`http://localhost:5000/api/admin/userById/${id}`,{withCredentials: true})
             .then((res) => setData(res.data.data))
             .catch((err) => console.log(err))
           toast.success(res.data.message)
@@ -41,9 +41,9 @@ function UserProfile() {
         )
         .catch((err) => toast.error(err.response?.data?.message || err.message))
     } else {
-      axios.post(`http://localhost:5000/api/admin/userBlockAndUnblock/${id}`, { isActive: true })
+      axios.post(`http://localhost:5000/api/admin/userBlockAndUnblock/${id}`, { isActive: true },{withCredentials: true})
         .then((res) => {
-          axios.get(`http://localhost:5000/api/admin/userById/${id}`)
+          axios.get(`http://localhost:5000/api/admin/userById/${id}`,{withCredentials: true})
             .then((res) => setData(res.data.data))
             .catch((err) => console.log(err))
           toast.success(res.data.message)

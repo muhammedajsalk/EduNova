@@ -15,7 +15,7 @@ function InstructorVerification() {
     useEffect(() => {
         const fetchInstructor = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/admin/instructorById/${id}`);
+                const res = await axios.get(`http://localhost:5000/api/admin/instructorById/${id}`,{withCredentials: true});
                 setData(res.data?.data);
             } catch (error) {
                 console.error("Error fetching instructor:", error);
@@ -43,7 +43,7 @@ function InstructorVerification() {
 
     function Approved() {
         setApproveSubmiting(true)
-        axios.post("http://localhost:5000/api/admin/approvedOrRejected", { id: _id, verificationStatus: "approved", email: email })
+        axios.post("http://localhost:5000/api/admin/approvedOrRejected", { id: _id, verificationStatus: "approved", email: email },{withCredentials: true})
             .then((res) => {
                 toast.success(res.data.message)
                 setTimeout(() => {
@@ -60,7 +60,7 @@ function InstructorVerification() {
             return toast.warning("please write the reason")
         }
         setRejectSubmiting(true)
-        axios.post("http://localhost:5000/api/admin/approvedOrRejected", { id: _id, verificationStatus: "rejected", email: email, rejectionReason: rejectedReason })
+        axios.post("http://localhost:5000/api/admin/approvedOrRejected", { id: _id, verificationStatus: "rejected", email: email, rejectionReason: rejectedReason },{withCredentials: true})
             .then((res) => {
                 toast.success(res.data.message)
                 setTimeout(() => {
