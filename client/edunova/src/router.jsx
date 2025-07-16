@@ -35,6 +35,7 @@ import CreateCourse from './components/instructors/instructor page/instructorCou
 import CoursesAllShow from './components/admin/coursesAllShow'
 import CoursePendingSection from './components/admin/coursePendingSection'
 import CourseApproval from './components/admin/coursesVerificationSection'
+import CourseDetailsPage from './components/admin/courseDetailsSection'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -44,7 +45,6 @@ function Routers() {
       .then((res) => setUser(res.data.data))
       .catch((err) => {
         setUser(null)
-        console.log(err.response?.data?.message || err.message)
       }
       ).finally(() => {
         setLoading(false)
@@ -101,6 +101,9 @@ function Routers() {
         </Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
           <Route path='/admin/user_details/:id' element={<UserDetailsPage />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+          <Route path='/admin/courseDetails/:id' element={<CourseDetailsPage />}></Route>
         </Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
           <Route path="/instructorDashboard" element={<DashboardLayout />}>

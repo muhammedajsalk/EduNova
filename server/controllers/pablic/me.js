@@ -4,6 +4,9 @@ const userModel=require('../../models/usersModel')
 
 async function me(req, res) {
     try {
+        if (!req.user) {
+            return res.status(200).json({ success: true, data: null });
+        }
         const {role,id}=req.user
         const model =
             role === "admin"

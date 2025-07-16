@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
 import AdminNavbar from "./adminNavbar";
+import { FaBuilding, FaChalkboardTeacher, FaDollarSign, FaUserGraduate, FaUsers, FaWallet } from "react-icons/fa";
 
 function InstructorDetailsPage() {
     const { id } = useParams()
@@ -17,18 +18,18 @@ function InstructorDetailsPage() {
 
     function blockAndUnblock() {
         if (data.isActive) {
-            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: false },{withCredentials: true})
+            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: false }, { withCredentials: true })
                 .then((res) => {
-                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`,{withCredentials: true})
+                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`, { withCredentials: true })
                         .then((res) => setData(res.data.data))
                         .catch((err) => console.log(err))
                     toast.success(res.data.message)
                 })
                 .catch((err) => toast.error(err.response?.data?.message || err.message))
         } else {
-            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: true },{withCredentials: true})
+            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: true }, { withCredentials: true })
                 .then((res) => {
-                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`,{withCredentials: true})
+                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`, { withCredentials: true })
                         .then((res) => setData(res.data.data))
                         .catch((err) => console.log(err))
                     toast.success(res.data.message)
@@ -67,23 +68,55 @@ function InstructorDetailsPage() {
 
                 {/* Metrics Section */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
-                    <StatBox title="Total Students" value={data.students} />
-                    <StatBox title="Total Courses" value={data?.myCourses?.length} />
-                    <StatBox title="Total Revenue" value={data.earnings} />
-                    <StatBox title="Total Withdrawals" value={data?.withdrawals?.length} />
+                    <StatBox
+                        title="Total Students"
+                        value={data.students}
+                        icon={<FaUsers className="text-blue-500 text-2xl" />}
+                    />
+                    <StatBox
+                        title="Total Courses"
+                        value={data?.myCourses?.length}
+                        icon={<FaChalkboardTeacher className="text-green-500 text-2xl" />}
+                    />
+                    <StatBox
+                        title="Total Revenue"
+                        value={`₹${data.earnings || 0}`}
+                        icon={<FaDollarSign className="text-yellow-500 text-2xl" />}
+                    />
+                    <StatBox
+                        title="Total Withdrawals"
+                        value={data?.withdrawals?.length}
+                        icon={<FaWallet className="text-purple-500 text-2xl" />}
+                    />
                 </div>
 
                 {/* Revenue Details */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                     <div className="bg-white p-4 rounded-lg shadow">
-                        <h4 className="font-semibold mb-2">Revenue Details</h4>
-                        <div className="flex justify-between text-sm text-gray-700">
-                            <div>Company Revenue</div>
-                            <div className="font-semibold">{data.company_revenue}</div>
+                        <h4 className="font-semibold mb-4 text-gray-800 text-lg flex items-center gap-2">
+                            💰 Revenue Details
+                        </h4>
+
+                        {/* Company Revenue */}
+                        <div className="flex items-center justify-between border-b pb-3 mb-3">
+                            <div className="flex items-center gap-3 text-sm text-gray-700">
+                                <FaBuilding className="text-blue-500 text-xl" />
+                                <span>Company Revenue</span>
+                            </div>
+                            <div className="font-semibold text-sm text-gray-800">
+                                ₹{data.company_revenue || 0}
+                            </div>
                         </div>
-                        <div className="flex justify-between text-sm text-gray-700 mt-2">
-                            <div>Instructor Revenue</div>
-                            <div className="font-semibold">{data.earnings}</div>
+
+                        {/* Instructor Revenue */}
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3 text-sm text-gray-700">
+                                <FaUserGraduate className="text-green-500 text-xl" />
+                                <span>Instructor Revenue</span>
+                            </div>
+                            <div className="font-semibold text-sm text-gray-800">
+                                ₹{data.earnings || 0}
+                            </div>
                         </div>
                     </div>
 
@@ -134,11 +167,17 @@ function InstructorDetailsPage() {
     );
 }
 
-const StatBox = ({ title, value }) => (
-    <div className="bg-white p-4 rounded-lg shadow text-center">
-        <p className="text-sm text-gray-500 mb-1">{title}</p>
-        <h3 className="text-xl font-bold">{value}</h3>
+const StatBox = ({ title, value, icon }) => (
+    <div className="bg-white p-4 rounded-lg shadow flex items-center gap-4">
+        <div className="bg-gray-100 p-3 rounded-full">
+            {icon}
+        </div>
+        <div>
+            <p className="text-sm text-gray-500">{title}</p>
+            <h3 className="text-lg font-bold">{value}</h3>
+        </div>
     </div>
 );
+
 
 export default React.memo(InstructorDetailsPage)

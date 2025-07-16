@@ -1,51 +1,49 @@
-import React from "react";
 import { FaStar, FaUserGraduate, FaEye, FaDollarSign, FaAddressCard, FaAddressBook, FaBook } from "react-icons/fa";
-import InstructorLayout from "../instructor layout/instractorLayout";
 
-const stats = [
-  {
-    label: "Total Revenue",
-    value: "$12,458",
-    sub: "+15% from last month",
-    icon: <FaDollarSign className="text-green-500" />,
-  },
-  {
-    label: "Active Students",
-    value: "1,245",
-    sub: "Current enrollments",
-    icon: <FaUserGraduate className="text-blue-500" />,
-  },
-  {
-    label: "Courses Total Watch Time",
-    value: "45,678",
-    sub: "Last 30 days",
-    icon: <FaEye className="text-purple-500" />,
-  },
-  {
-    label: "Total Courses",
-    value: "1",
-    sub: "Current total course",
-    icon: <FaBook className="text-yellow-400" />,
-  },
-];
-
-
-const activities = [
-  {
-    message: 'New enrollment in "Advanced Web Development"',
-    time: "2 hours ago",
-  },
-  {
-    message: 'New comment on "Python Basics"',
-    time: "4 hours ago",
-  },
-  {
-    message: 'Student completed "UI/UX Design Fundamentals"',
-    time: "6 hours ago",
-  },
-];
 
 function InstructorDashboard() {
+  const stats = [
+    {
+      label: "Total Revenue",
+      value: "$12,458",
+      sub: "+15% from last month",
+      icon: <FaDollarSign className="text-green-500" />,
+    },
+    {
+      label: "Active Students",
+      value: "1,245",
+      sub: "Current enrollments",
+      icon: <FaUserGraduate className="text-blue-500" />,
+    },
+    {
+      label: "Courses Total Watch Time",
+      value: "45,678",
+      sub: "Last 30 days",
+      icon: <FaEye className="text-purple-500" />,
+    },
+    {
+      label: "Total Courses",
+      value: "1",
+      sub: "Current total course",
+      icon: <FaBook className="text-yellow-400" />,
+    },
+  ];
+
+
+  const activities = [
+    {
+      message: 'New enrollment in "Advanced Web Development"',
+      time: "2 hours ago",
+    },
+    {
+      message: 'New comment on "Python Basics"',
+      time: "4 hours ago",
+    },
+    {
+      message: 'Student completed "UI/UX Design Fundamentals"',
+      time: "6 hours ago",
+    },
+  ];
   return (
     <>
       <div className="p-4 md:p-8 bg-gray-100 min-h-screen">

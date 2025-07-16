@@ -40,7 +40,11 @@ const CourseSchema = new mongoose.Schema(
       type:String,
       default:""
     },
-    students: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }],
+    isActive:{
+      type:Boolean,
+      default:true
+    },
+    students: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }]
   },
   { timestamps: true }
 );
