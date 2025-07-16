@@ -1,18 +1,21 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 function CourseGrid() {
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [courseData, setCourseData] = useState([])
+
+  useEffect(() => {
+    axios.get("http://localhost:5000/api/instructor/course/courseByInstructorId", { withCredentials: true })
+      .then((res) => setCourseData(res.data.data))
+      .catch((err) => console.log(err))
+  }, [])
 
 
-  const courses = Array.from({ length: 21 }).map((_, i) => ({
-    id: i + 1,
-    title: `Course ${i + 1}`,
-    instructor: `Instructor ${i + 1}`,
-    rating: (4 + Math.random()).toFixed(1),
-    price: (Math.random() * 100).toFixed(2),
-    image: "https://media.istockphoto.com/id/1338344348/photo/diverse-school-children-students-build-robotic-cars-using-computers-and-coding.jpg?s=612x612&w=0&k=20&c=g1Qt2LDF792cAI4slyrft7WtgEUjqIaKPCvA1KQVZ5E=",
-  }));
+  console.log(courseData)
+
+  const courses = courseData ? courseData : []
 
   const coursesPerPage = 6;
   const indexOfLast = currentPage * coursesPerPage;
@@ -38,8 +41,8 @@ function CourseGrid() {
             onClick={() => console.log("Create Course clicked")}
             className="bg-indigo-600 text-white px-4 py-2 text-sm rounded hover:bg-indigo-700"
           >
-            <Link to={'/instructor/createCourse'}>
-               + Create Course
+            <Link to={'/instructorDashBoard/createCourse'}>
+              + Create Course
             </Link>
           </button>
         </h2>
@@ -71,17 +74,13 @@ function CourseGrid() {
 
           <section className="col-span-1 md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {currentCourses.map((course) => (
-              <div key={course.id} className="bg-white rounded-lg shadow-md p-4">
+              <div key={course.id} className="bg-white rounded-lg shadow-md p-4 ">
                 <img
-                  src={course.image}
+                  src={course.thumbnail}
                   alt={course.title}
-                  className="w-full h-40 object-cover rounded-md mb-4"
+                  className="w-full h-40 object-contain rounded-md mb-4 bg-gray-100"
                 />
                 <h4 className="text-lg font-semibold mb-1">{course.title}</h4>
-                <p className="text-gray-600 text-sm mb-2">topic description</p>
-                <div className="flex items-center text-yellow-500 text-sm mb-2">
-                  ⭐ {course.rating}
-                </div>
                 <div className="flex items-center justify-between">
                   <button className="bg-indigo-600 text-white px-3 py-1 rounded text-sm">
                     View
@@ -106,8 +105,8 @@ function CourseGrid() {
               key={i + 1}
               onClick={() => setCurrentPage(i + 1)}
               className={`px-3 py-1 rounded ${currentPage === i + 1
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-200 hover:bg-gray-300"
+                ? "bg-indigo-600 text-white"
+                : "bg-gray-200 hover:bg-gray-300"
                 }`}
             >
               {i + 1}

@@ -109,10 +109,8 @@ function Routers() {
           <Route path="/instructorDashboard" element={<DashboardLayout />}>
             <Route index element={<InstructorHome/>} />
             <Route path="courses" element={<InstructorAllCourse />} />
+            <Route path='createCourse' element={<CreateCourse />}></Route>
           </Route>
-        </Route>
-        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
-             <Route path='/instructor/createCourse' element={<CreateCourse />}></Route>
         </Route>
         <Route path='/notFound' element={<NotFound404 />}></Route>
       </Routes>

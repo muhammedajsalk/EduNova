@@ -13,6 +13,7 @@ const courseVideoUpload = require('../controllers/instructor controller/courseVi
 const { jwtAuth, roleConform } = require('../middlewares/jwt Auth/jwtAuthMiddleware')
 const courseCreate = require('../controllers/instructor controller/courseCreate')
 const thumbnailUpload = require('../controllers/instructor controller/courseThumbanailUploading')
+const courseByInstructorId = require('../controllers/instructor controller/courseByInstructorId')
 
 
 router.post('/auth/register', [instructorRegisterLimiter,upload.fields([
@@ -33,4 +34,5 @@ router.post('/course/courseCreate',jwtAuth,courseCreate)
 router.post('/course/thumbnailUploading',uploadLimiter,jwtAuth,tumbanailUploading.fields([
     {name:'image',maxCount:1}
 ]),thumbnailUpload)
+router.get("/course/courseByInstructorId",jwtAuth,courseByInstructorId)
 module.exports = router

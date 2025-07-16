@@ -145,7 +145,6 @@ const CreateCourse = () => {
 
     return (
         <>
-            <Topbar />
             <div className="min-h-screen bg-gray-50 p-4 md:p-10">
                 <div className="max-w-6xl mx-auto bg-white rounded-lg shadow p-6 md:p-10">
                     <h2 className="text-2xl font-semibold mb-6">Create New Course</h2>

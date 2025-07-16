@@ -1,3 +1,4 @@
+import React from "react";
 import { FaStar, FaUserGraduate, FaEye, FaDollarSign, FaAddressCard, FaAddressBook, FaBook } from "react-icons/fa";
 
 
