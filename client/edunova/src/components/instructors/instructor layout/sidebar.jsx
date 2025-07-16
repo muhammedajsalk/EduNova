@@ -11,7 +11,7 @@ import {
 
 const Sidebar = ({ isOpen, setIsOpen }) => {
   const navItems = [
-    { label: "Home", icon: <FaHome />, path: "/instructorDashBoard" },
+    { label: "DashBoard", icon: <FaHome />, path: "/instructorDashBoard" },
     { label: "My Courses", icon: <FaBook />, path: "/instructorDashBoard/courses" },
     { label: "Student Message", icon: <FaUsers />, path: "/instructor/student_message" },
     { label: "Mentor section", icon: <FaAdn />, path: "/instructor/mentor_section" },

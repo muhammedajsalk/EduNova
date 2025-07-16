@@ -36,6 +36,7 @@ import CoursesAllShow from './components/admin/coursesAllShow'
 import CoursePendingSection from './components/admin/coursePendingSection'
 import CourseApproval from './components/admin/coursesVerificationSection'
 import CourseDetailsPage from './components/admin/courseDetailsSection'
+import CourseViewPage from './components/instructors/instructor page/courseView'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -110,6 +111,7 @@ function Routers() {
             <Route index element={<InstructorHome/>} />
             <Route path="courses" element={<InstructorAllCourse />} />
             <Route path='createCourse' element={<CreateCourse />}></Route>
+            <Route path='CourseView/:id' element={<CourseViewPage />}></Route>
           </Route>
         </Route>
         <Route path='/notFound' element={<NotFound404 />}></Route>

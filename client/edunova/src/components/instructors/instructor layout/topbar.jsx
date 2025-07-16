@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { FaBars } from "react-icons/fa";
 import UserContext from "../../../userContext";
+import { Link } from "react-router-dom";
 
 const Topbar = ({ onMenuClick }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -53,6 +54,11 @@ const Topbar = ({ onMenuClick }) => {
             <div className="px-4 py-2 border-b text-sm text-gray-700 font-semibold">
               {users.name}
             </div>
+            <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+              <Link to={'/'}>
+                 Home
+              </Link>
+            </button>
             <button className="block w-full text-left px-4 py-2 hover:bg-gray-100">
               Profile
             </button>

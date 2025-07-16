@@ -83,7 +83,9 @@ function CourseGrid() {
                 <h4 className="text-lg font-semibold mb-1">{course.title}</h4>
                 <div className="flex items-center justify-between">
                   <button className="bg-indigo-600 text-white px-3 py-1 rounded text-sm">
-                    View
+                    <Link to={`/instructorDashBoard/CourseView/${course._id}`}>
+                         View
+                    </Link>
                   </button>
                 </div>
               </div>
