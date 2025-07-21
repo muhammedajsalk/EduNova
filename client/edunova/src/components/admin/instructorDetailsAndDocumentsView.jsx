@@ -33,7 +33,8 @@ function InstructorDetailsAndDocument() {
         bio,
         demoVideo,
         documents = {},
-        _id
+        _id,
+        profession
     } = data;
 
     const { experienceLetter, degreeCertificate, certification, idProof } = documents;
@@ -62,6 +63,7 @@ function InstructorDetailsAndDocument() {
                     <div className="md:col-span-2 space-y-4">
                         <SkillSection skills={skills} />
                         <Info label="Short Bio" value={bio || "No bio available."} />
+                        <Info label="Profestion" value={profession} />
                     </div>
                 </div>
 

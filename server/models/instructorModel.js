@@ -122,6 +122,9 @@ const instructorSchema = new mongoose.Schema({
     company_revenue:{
         type:Number,
         default:0
+    },
+    profession:{
+        type:String
     }
 }, {
     timestamps: true,

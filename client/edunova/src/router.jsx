@@ -37,6 +37,8 @@ import CoursePendingSection from './components/admin/coursePendingSection'
 import CourseApproval from './components/admin/coursesVerificationSection'
 import CourseDetailsPage from './components/admin/courseDetailsSection'
 import CourseViewPage from './components/instructors/instructor page/courseView'
+import CourseEntrollSection from './components/users/courseEntrollSection'
+import InstructorTerms from './components/instructors/instructorTermAndCondition'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -58,6 +60,7 @@ function Routers() {
         <Route path='/login' element={<Login />}></Route>
         <Route path='/' element={<HomePage />}></Route>
         <Route path='/policy' element={<TermsPrivacy />}></Route>
+        <Route path='/insrtuctor/terms' element={<InstructorTerms />}></Route>
         <Route path='/ForgotPassword/:role' element={<ForgotPassword />}></Route>
         <Route path='/ResetPassword/:token/:role' element={<ResetPassword />}></Route>
         <Route path='/courses' element={<CourseListing />}></Route>
@@ -67,6 +70,9 @@ function Routers() {
         <Route path='/findMentor' element={<FindMentorPage />}></Route>
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}>
           <Route path='/learningDashboard' element={<LearningDashboard />}></Route>
+        </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}>
+          <Route path='/courseEntrollSection/:id' element={<CourseEntrollSection />}></Route>
         </Route>
         <Route path='/instructorRegistor' element={<InstructorRegister />}></Route>
         <Route path='/adminLogin' element={<AdminLogin />}></Route>

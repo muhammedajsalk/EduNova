@@ -4,7 +4,7 @@ import axios from 'axios';
 import { instructorSchema } from '../../../schema/schema';
 import { FaCloudUploadAlt, FaUser } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 
 const FileInput = ({ id, label, accept, onChange, file, type = 'document' }) => (
   <div className="flex flex-col gap-2">
@@ -455,9 +455,11 @@ function InstructorRegister() {
             <div className="ml-3 text-sm">
               <label htmlFor="terms" className="text-gray-700">
                 I agree to the{' '}
-                <a href="/terms" className="text-indigo-600 hover:underline">
-                  Terms and Conditions
-                </a>
+                <span className="text-indigo-600 hover:underline">
+                  <Link to={"/insrtuctor/terms"}>
+                      Terms and Conditions
+                  </Link>
+                </span>
               </label>
             </div>
           </div>
