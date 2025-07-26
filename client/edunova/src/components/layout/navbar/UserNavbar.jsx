@@ -13,8 +13,6 @@ function UserNavbar() {
   const toggleMenu = () => setIsOpen(!isOpen);
   const toggleProfile = () => setProfileOpen((prev) => !prev);
 
-  console.log(user)
-
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
