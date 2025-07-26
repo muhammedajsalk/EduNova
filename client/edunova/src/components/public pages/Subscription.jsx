@@ -39,6 +39,68 @@ const SubscriptionPage = () => {
     }, [])
     const [billingCycle, setBillingCycle] = useState("monthly");
 
+    const handlePayment = async (plan) => {
+        const amountMap = {
+            standard: billingCycle === "monthly" ? 1000 : 10000, // ₹10 or ₹100
+            premium: billingCycle === "monthly" ? 2500 : 25000,  // ₹25 or ₹250
+        };
+
+        console.log("amountMap", amountMap[plan])
+        console.log("courseId", plan + "-" + billingCycle)
+
+        try {
+            const res = await axios.post(
+                "http://localhost:5000/api/users/payment/purchaseSubscription",
+                {
+                    amount: amountMap[plan],
+                    courseId: plan + "-" + billingCycle,
+                    planType:billingCycle
+                },
+                { withCredentials: true }
+            );
+
+            const { order } = res.data;
+
+            const options = {
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Or hardcode it
+                amount: order?.amount,
+                currency: order?.currency,
+                name: "E-Learning Platform",
+                description: `${plan.charAt(0).toUpperCase() + plan.slice(1)} Plan Subscription`,
+                order_id: order?.id,
+                handler: async function (response) {
+                    try {
+                        const verifyRes = await axios.post(
+                            "http://localhost:5000/api/users/payment/verifyPayment",
+                            {
+                                razorpay_payment_id: response?.razorpay_payment_id,
+                                razorpay_order_id: response?.razorpay_order_id,
+                                razorpay_signature: response?.razorpay_signature,
+                                planType: plan + "" + billingCycle
+                            },
+                            { withCredentials: true }
+                        );
+                        console.log(verifyRes)
+                        alert("✅ Payment successful! Access granted.");
+                    } catch (err) {
+                        const message = err?.response?.data?.message || err?.message || "Something went wrong during payment.";
+                        alert(message)
+                    }
+                },
+                theme: {
+                    color: "#4F46E5", // Indigo
+                },
+            };
+
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+        } catch (err) {
+            const message = err?.response?.data?.message || err?.message || "Something went wrong during payment.";
+            alert(message)
+        }
+    };
+
+
     return (
         <>
             <div className="font-sans text-gray-800 px-4 md:px-20 py-10 mt-10">
@@ -103,7 +165,7 @@ const SubscriptionPage = () => {
                         <p className="text-3xl font-bold mb-1">
                             {billingCycle === "monthly" ? "$10" : "$100"}
                             <span className="text-sm font-normal">
-                                {billingCycle === "monthly" ? "/month" : "/anual"}
+                                {billingCycle === "monthly" ? "/month" : "/annual"}
                             </span>
                         </p>
                         <p className="text-sm text-gray-500 mb-4">
@@ -115,11 +177,13 @@ const SubscriptionPage = () => {
                             <li>✔️ Direct Instructor Messaging</li>
                             <li>✔️ Ad-free experience</li>
                         </ul>
-                        <button className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
-                            <Link to={!data || data?.role === "insructor" ? "/login" : "/"}>
-                                Start Standard Plan
-                            </Link>
+                        <button
+                            onClick={() => handlePayment("standard")}
+                            className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+                        >
+                            Start Standard Plan
                         </button>
+
                     </div>
 
                     {/* Premium Plan */}
@@ -128,7 +192,7 @@ const SubscriptionPage = () => {
                         <p className="text-3xl font-bold mb-1">
                             {billingCycle === "monthly" ? "$25" : "$250"}
                             <span className="text-sm font-normal">
-                                {billingCycle === "/month" ? "/month" : "/anual"}
+                                {billingCycle === "monthly" ? "/month" : "/annual"}
                             </span>
                         </p>
                         <p className="text-sm text-gray-500 mb-4">Full premium experience</p>
@@ -138,15 +202,13 @@ const SubscriptionPage = () => {
                             <li>✔️ Custom Profile Badge</li>
                             <li>✔️ Dedicated Support</li>
                         </ul>
-                        <button className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
-                            <Link
-                                to={!data || data?.role === "instructor" ? "/login" : "/"}
-                                className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 block text-center"
-                            >
-                                Go Premium
-                            </Link>
-
+                        <button
+                            onClick={() => handlePayment("premium")}
+                            className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+                        >
+                            Go Premium
                         </button>
+
                     </div>
                 </section>
 
