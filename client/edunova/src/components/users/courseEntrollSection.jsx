@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { FaCheckCircle, FaPlayCircle } from "react-icons/fa";
-import Navbar from "../public pages/homePage Components/navbar";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import UserContext from "../../userContext";
+import { useContext } from "react";
 
 const CourseEntrollSection = () => {
     const { id } = useParams()
 
-    const [data,setData]=useState([])
+    const [data, setData] = useState([])
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         axios.get(`http://localhost:5000/api/admin/courseById/${id}`)
@@ -30,7 +32,6 @@ const CourseEntrollSection = () => {
     }
     return (
         <>
-            <Navbar />
             <div className="max-w-6xl mx-auto px-4 py-6 mt-20">
                 {/* Header Section */}
                 <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
@@ -61,12 +62,16 @@ const CourseEntrollSection = () => {
 
                     {/* Right Side - Enroll Box */}
                     <div className="bg-white shadow-lg rounded-lg p-5 w-full lg:w-1/3">
-                        <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                            Enroll Now
-                        </button>
-                        <button className="w-full border border-gray-300 py-3 mt-3 rounded-lg font-semibold hover:bg-gray-100 transition">
-                            Try for Free
-                        </button>
+                        {user.role === "user" && (
+                            <>
+                                <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                                    Enroll Now
+                                </button>
+                                <button className="w-full border border-gray-300 py-3 mt-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                                    Try for Free
+                                </button>
+                            </>
+                        )}
                         <ul className="mt-4 text-gray-600 text-sm space-y-2">
                             <li>✔ 45 hours of video</li>
                             <li>✔ 72 downloadable resources</li>

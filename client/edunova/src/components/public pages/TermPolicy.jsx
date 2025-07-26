@@ -1,11 +1,9 @@
 import React from "react";
-import Navbar from "./homePage Components/navbar";
 import Footer from "./homePage Components/Footer";
 
 function TermsPrivacy() {
   return (
     <>
-      <Navbar />
       <div className="px-4 md:px-20 py-10 text-gray-800 bg-white w-full max-w-5xl mx-auto">
         <h1 className="text-3xl font-bold text-center mb-2">
           Terms of Service & Privacy Policy

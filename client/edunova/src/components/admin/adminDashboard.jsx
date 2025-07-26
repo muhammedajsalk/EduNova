@@ -3,7 +3,6 @@ import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
 import { FaUsers, FaBell, FaCog, FaChartBar, FaUserShield, FaClipboardCheck, FaCreditCard } from 'react-icons/fa';
-import AdminNavbar from './adminNavbar';
 
 const userData = [
   { name: 'Jan', value: 2.2 },
@@ -22,7 +21,6 @@ const revenueData = [
 function AdminDashboard() {
   return (
     <>
-      <AdminNavbar />
       <div className="min-h-screen flex bg-gray-100 mt-15">
         <main className="flex-1 p-6">
           <h2 className="text-2xl font-bold mb-2">Dashboard Overview</h2>

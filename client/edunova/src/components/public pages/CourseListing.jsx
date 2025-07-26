@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./homePage Components/navbar";
 import Footer from "./homePage Components/Footer";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import UserContext from "../../userContext";
+import { useContext } from "react";
 
 function CourseListing() {
   const [showFilters, setShowFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [courseData, setCourseData] = useState([])
+  const { user } = useContext(UserContext);
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/admin/allCourses")
@@ -35,7 +37,6 @@ function CourseListing() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen bg-gray-50 px-4 py-8">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">All Courses</h2>
@@ -81,7 +82,7 @@ function CourseListing() {
                   <div className="flex items-center justify-between">
                     <button className="bg-indigo-600 text-white px-3 py-1 rounded text-sm">
                       <Link to={`/courseEntrollSection/${course._id}`}>
-                        Enroll
+                        {user?.role==="user"?"Enroll":"View"}
                       </Link>
                     </button>
                   </div>

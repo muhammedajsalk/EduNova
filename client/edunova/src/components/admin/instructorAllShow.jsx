@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom"
 import axios from "axios";
-import AdminNavbar from "./adminNavbar";
 
 
 
@@ -24,7 +23,6 @@ function InstructorsManagement() {
     const pendingCount = instructors.filter((item) => item.verificationStatus === "pending")
     return (
         <>
-            <AdminNavbar />
             <div className="p-4 md:p-10 bg-gray-100 min-h-screen text-gray-800 mt-12">
                 <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">
                     <h1 className="text-2xl font-bold">Instructors Management</h1>

@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
-import AdminNavbar from "./adminNavbar";
 
 const allCourses = [
   { name: "Advanced Web Development", date: "Nov 1, 2023", progress: 45, status: "Active" },
@@ -58,7 +57,6 @@ function UserProfile() {
 
   return (
     <>
-      <AdminNavbar/>
     <div className="p-6 md:p-10 bg-gray-50 min-h-screen text-gray-800 mt-10">
       {/* Header */}
       <div className="bg-white p-6 rounded-lg shadow flex flex-col md:flex-row justify-between items-center gap-4">

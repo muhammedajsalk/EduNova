@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import Sidebar from "./sidebar";
-import Topbar from "./topbar";
 import { Outlet } from "react-router-dom";
+import Sidebar from "./sideBar";
 
-const DashboardLayout = () => {
+const UserDashboardLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -28,6 +27,4 @@ const DashboardLayout = () => {
   );
 };
 
-export default DashboardLayout;
-
-
+export default UserDashboardLayout;

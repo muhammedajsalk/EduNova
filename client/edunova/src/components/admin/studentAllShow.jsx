@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom"
 import axios from "axios";
-import AdminNavbar from "./adminNavbar";
 
 
 
@@ -23,7 +22,6 @@ function StudnetsManagement() {
     const userBlocked = Users.filter((item) => item.isActive === false)
     return (
         <>
-            <AdminNavbar/>
             <div className="p-4 md:p-10 bg-gray-100 min-h-screen text-gray-800 mt-12">
                 {/* Header */}
                 <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between">

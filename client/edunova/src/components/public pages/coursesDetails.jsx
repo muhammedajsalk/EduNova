@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { FaStar, FaPlay } from "react-icons/fa";
-import Navbar from "./homePage Components/navbar";
 import Footer from "./homePage Components/Footer";
 
 function CourseDetails() {
@@ -27,7 +26,6 @@ function CourseDetails() {
 
     return (
         <>
-            <Navbar />
             <div className="bg-gray-50 min-h-screen py-10 px-4 mt-10">
                 <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
                 

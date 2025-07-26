@@ -4,17 +4,17 @@ const communities = [
   {
     title: "Web Development",
     members: "15,234 members",
-    image: "/community/web.jpg",
+    image: "https://media.istockphoto.com/id/1430393066/photo/creative-startup-and-team-webinar-on-laptop-for-professional-internet-communication-in-office.jpg?s=612x612&w=0&k=20&c=mCwrbA9A1u4ezzncWOFOBx0NV3sykfx84ZRM_HdkjGw=",
   },
   {
     title: "Data Science",
     members: "12,456 members",
-    image: "/community/data.jpg",
+    image: "https://media.istockphoto.com/id/1455300089/photo/data-science-specialists-working-at-office-together.jpg?s=612x612&w=0&k=20&c=jBUGB7l3IVtiFuhTmuviWkSuBxJbYQqXFrI9smSY_Ec=",
   },
   {
     title: "UX Design",
     members: "10,789 members",
-    image: "/community/ux.jpg",
+    image: "https://media.istockphoto.com/id/1218511457/photo/top-view-asian-ux-developer-and-ui-designer-brainstorming-about-mobile-app-interface.jpg?s=612x612&w=0&k=20&c=Py1-O62Y4vFzJ_BoMPdRmr8h-bqN1gcFZy6tWWSw0JI=",
   },
 ];
 

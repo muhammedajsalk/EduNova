@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "./homePage Components/navbar";
 import Footer from "./homePage Components/Footer";
 import { SiRazorpay } from "react-icons/si";
 import axios from "axios";
@@ -42,7 +41,6 @@ const SubscriptionPage = () => {
 
     return (
         <>
-            <Navbar />
             <div className="font-sans text-gray-800 px-4 md:px-20 py-10 mt-10">
                 {/* Header */}
                 <section className="text-center mb-10">

@@ -7,28 +7,28 @@ const experts = [
     title: "Senior Software Engineer",
     rating: 4.9,
     reviews: 128,
-    image: "/experts/david.jpg",
+    image: "https://i.pravatar.cc/300?img=5",
   },
   {
     name: "Lisa Zhang",
     title: "UX Design Lead",
     rating: 4.8,
     reviews: 96,
-    image: "/experts/lisa.jpg",
+    image: "https://i.pravatar.cc/300?img=6",
   },
   {
     name: "James Cooper",
     title: "Data Scientist",
     rating: 4.7,
     reviews: 84,
-    image: "/experts/james.jpg",
+    image: "https://i.pravatar.cc/300?img=7",
   },
   {
     name: "Maria Garcia",
     title: "Product Manager",
     rating: 4.9,
     reviews: 112,
-    image: "/experts/maria.jpg",
+    image: "https://i.pravatar.cc/300?img=8",
   },
 ];
 

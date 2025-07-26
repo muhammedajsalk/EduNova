@@ -1,7 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
-import AdminNavbar from "./adminNavbar";
 
 
 const StatusBadge = ({ status }) => (
@@ -19,7 +18,6 @@ function PendingSections() {
     }, [])
     return (
         <>
-            <AdminNavbar />
             <div className="p-4 md:p-8 bg-gray-50 min-h-screen text-gray-800">
                 {/* Topbar */}
                 <div className="flex justify-between items-center mb-6">

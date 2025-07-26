@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaVideo, FaStar, FaUsers, FaPlayCircle, FaListAlt, FaChalkboardTeacher, FaClock } from 'react-icons/fa';
 import { MdBlock, MdEdit, MdUpdate } from 'react-icons/md';
-import AdminNavbar from './adminNavbar';
 import axios from 'axios';
 import { Link, useParams } from 'react-router-dom';
 
@@ -82,7 +81,6 @@ const CourseDetailsPage = () => {
 
     return (
         <>
-            <AdminNavbar />
             {isLoading ? (
                 <div className="animate-pulse p-4 md:p-8 max-w-7xl mx-auto space-y-6 mt-22">
                     <div className="animate-pulse space-y-6">

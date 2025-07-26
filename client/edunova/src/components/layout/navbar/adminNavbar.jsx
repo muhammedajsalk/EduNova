@@ -16,7 +16,6 @@ function AdminNavbar() {
           <li className="hover:underline decoration-indigo-600"><Link to={'/admin/studentsManagement'}>Users</Link></li>
           <li className="hover:underline decoration-indigo-600"><Link to={'/courseManagement'}>Courses</Link></li>
           <li className="hover:underline decoration-indigo-600"><Link to={'/admin/instructorManagement'}>Instructors</Link></li>
-          <li className="hover:underline decoration-indigo-600"><Link to={'/subscription'}>Revenue Details</Link></li>
         </ul>
 
         <div className="hidden md:flex items-center space-x-4">

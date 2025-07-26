@@ -39,6 +39,8 @@ import CourseDetailsPage from './components/admin/courseDetailsSection'
 import CourseViewPage from './components/instructors/instructor page/courseView'
 import CourseEntrollSection from './components/users/courseEntrollSection'
 import InstructorTerms from './components/instructors/instructorTermAndCondition'
+import Layout from './components/layout/layout'
+import UserDashboardLayout from './components/users/userLayout/userLayout'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -55,7 +57,8 @@ function Routers() {
   }, [])
   return (
     <UserContext.Provider value={{ user, setUser }}>
-      <Routes>
+      <Layout>
+          <Routes>
         <Route path='/register' element={<Register />}></Route>
         <Route path='/login' element={<Login />}></Route>
         <Route path='/' element={<HomePage />}></Route>
@@ -71,7 +74,7 @@ function Routers() {
         <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}>
           <Route path='/learningDashboard' element={<LearningDashboard />}></Route>
         </Route>
-        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user',"instructor"]} />}>
           <Route path='/courseEntrollSection/:id' element={<CourseEntrollSection />}></Route>
         </Route>
         <Route path='/instructorRegistor' element={<InstructorRegister />}></Route>
@@ -120,8 +123,14 @@ function Routers() {
             <Route path='CourseView/:id' element={<CourseViewPage />}></Route>
           </Route>
         </Route>
+        <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}>
+          <Route path="/learningDashboard" element={<UserDashboardLayout />}>
+            <Route index element={<LearningDashboard/>} />
+          </Route>
+        </Route>
         <Route path='/notFound' element={<NotFound404 />}></Route>
       </Routes>
+      </Layout>
     </UserContext.Provider>
 
   )

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import VideoPlayer from "../admin/videoPlayer";
 import { toast, ToastContainer } from 'react-toastify';
-import AdminNavbar from "./adminNavbar";
 
 function InstructorDetailsAndDocument() {
     const [data, setData] = useState(null);
@@ -42,7 +41,6 @@ function InstructorDetailsAndDocument() {
 
     return (
         <>
-            <AdminNavbar />
             <div className="p-6 md:p-10 bg-gray-50 min-h-screen text-gray-800 mt-12">
                 <h1 className="text-2xl font-bold mb-6">Instructor Details</h1>
 

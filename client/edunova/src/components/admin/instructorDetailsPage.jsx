@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import { toast, ToastContainer } from 'react-toastify';
-import AdminNavbar from "./adminNavbar";
 import { FaBuilding, FaChalkboardTeacher, FaDollarSign, FaUserGraduate, FaUsers, FaWallet } from "react-icons/fa";
 
 function InstructorDetailsPage() {
@@ -40,8 +39,6 @@ function InstructorDetailsPage() {
 
     return (
         <>
-            <AdminNavbar />
-
             <div className="p-6 md:p-10 bg-gray-50 min-h-screen text-gray-800 mt-12">
                 {/* Top Profile Header */}
                 <div className="bg-white p-6 rounded-lg shadow flex flex-col md:flex-row md:items-center md:justify-between gap-4">

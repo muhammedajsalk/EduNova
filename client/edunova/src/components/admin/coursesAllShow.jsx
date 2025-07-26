@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import AdminNavbar from "./adminNavbar";
 
 // ✅ Status Badge
 const StatusBadge = ({ status }) => {
@@ -42,7 +41,6 @@ function CoursesManagement() {
 
   return (
     <>
-      <AdminNavbar />
       <div className="p-4 md:p-10 bg-gray-100 min-h-screen text-gray-800 mt-12">
 
         {/* 🔷 Header */}

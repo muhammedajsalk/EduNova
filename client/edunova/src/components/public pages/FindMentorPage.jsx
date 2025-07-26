@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import Navbar from "./homePage Components/navbar";
 import Footer from "./homePage Components/Footer";
+import UserContext from "../../userContext";
+import { useContext } from "react";
 
 const mentorsData = [
   {
@@ -86,103 +87,103 @@ const topics = [
 
 const FindMentorPage = () => {
   const [selectedTopic, setSelectedTopic] = useState("Software Development");
+  const { user } = useContext(UserContext);
 
   return (
     <>
-    <Navbar/>
-    <div className="px-4 md:px-20 py-10 font-sans mt-10">
+      <div className="px-4 md:px-20 py-10 font-sans mt-10">
 
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">Find Your Perfect Mentor</h1>
-        <p className="text-gray-600 mb-6">
-          Connect with industry experts who can guide your journey
-        </p>
-        <div className="max-w-md mx-auto flex items-center border px-3 py-2 rounded shadow-sm mb-6">
-          <input
-            type="text"
-            placeholder="Search mentors by name or expertise"
-            className="w-full outline-none"
-          />
-          <button className="ml-2 text-indigo-600 hover:underline">Filters</button>
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold mb-2">Find Your Perfect Mentor</h1>
+          <p className="text-gray-600 mb-6">
+            Connect with industry experts who can guide your journey
+          </p>
+          <div className="max-w-md mx-auto flex items-center border px-3 py-2 rounded shadow-sm mb-6">
+            <input
+              type="text"
+              placeholder="Search mentors by name or expertise"
+              className="w-full outline-none"
+            />
+            <button className="ml-2 text-indigo-600 hover:underline">Filters</button>
+          </div>
         </div>
-      </div>
 
-      <div className="flex flex-wrap gap-3 justify-center mb-10">
-        {topics.map((topic) => (
-          <button
-            key={topic}
-            className={`px-4 py-2 text-sm rounded-full ${
-              selectedTopic === topic
-                ? "bg-indigo-600 text-white"
-                : "bg-gray-200 text-gray-800"
-            }`}
-            onClick={() => setSelectedTopic(topic)}
-          >
-            {topic}
-          </button>
-        ))}
-      </div>
-
-      <div className="grid md:grid-cols-3 gap-6 mb-10">
-        {mentorsData
-          .filter((mentor) => mentor.tags.includes(selectedTopic))
-          .map((mentor, i) => (
-            <div key={i} className="border rounded-lg p-5 shadow-sm">
-              <div className="flex items-center mb-4">
-                <img
-                  src={mentor.avatar}
-                  alt={mentor.name}
-                  className="w-14 h-14 rounded-full mr-4"
-                />
-                <div>
-                  <h4 className="font-semibold">{mentor.name}</h4>
-                  <p className="text-sm text-gray-500">
-                    {mentor.role} <br />
-                    {mentor.company}
-                  </p>
-                </div>
-              </div>
-              <div className="flex flex-wrap gap-2 text-xs mb-3">
-                {mentor.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="bg-gray-200 text-gray-700 px-2 py-1 rounded"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <p className="text-sm text-gray-600 mb-3">{mentor.description}</p>
-              <p className="text-sm font-semibold mb-1">${mentor.price}/hour</p>
-              <p className="text-sm text-gray-500 mb-4">
-                Available: {mentor.available}
-              </p>
-              <button className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
-                Book Session
-              </button>
-            </div>
-          ))}
-      </div>
-
-      <div className="flex justify-between text-sm items-center px-2">
-        <p className="text-gray-500">Showing 1-6 of 24 mentors</p>
-        <div className="flex space-x-2">
-          {[1, 2, 3, 4].map((n) => (
+        <div className="flex flex-wrap gap-3 justify-center mb-10">
+          {topics.map((topic) => (
             <button
-              key={n}
-              className={`w-8 h-8 rounded-full ${
-                n === 1
+              key={topic}
+              className={`px-4 py-2 text-sm rounded-full ${selectedTopic === topic
                   ? "bg-indigo-600 text-white"
-                  : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-              }`}
+                  : "bg-gray-200 text-gray-800"
+                }`}
+              onClick={() => setSelectedTopic(topic)}
             >
-              {n}
+              {topic}
             </button>
           ))}
         </div>
+
+        <div className="grid md:grid-cols-3 gap-6 mb-10">
+          {mentorsData
+            .filter((mentor) => mentor.tags.includes(selectedTopic))
+            .map((mentor, i) => (
+              <div key={i} className="border rounded-lg p-5 shadow-sm">
+                <div className="flex items-center mb-4">
+                  <img
+                    src={mentor.avatar}
+                    alt={mentor.name}
+                    className="w-14 h-14 rounded-full mr-4"
+                  />
+                  <div>
+                    <h4 className="font-semibold">{mentor.name}</h4>
+                    <p className="text-sm text-gray-500">
+                      {mentor.role} <br />
+                      {mentor.company}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2 text-xs mb-3">
+                  {mentor.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="bg-gray-200 text-gray-700 px-2 py-1 rounded"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <p className="text-sm text-gray-600 mb-3">{mentor.description}</p>
+                <p className="text-sm font-semibold mb-1">${mentor.price}/hour</p>
+                <p className="text-sm text-gray-500 mb-4">
+                  Available: {mentor.available}
+                </p>
+                {user?.role === "user" && (
+                  <button className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
+                    Book Session
+                  </button>
+                )}
+              </div>
+            ))}
+        </div>
+
+        <div className="flex justify-between text-sm items-center px-2">
+          <p className="text-gray-500">Showing 1-6 of 24 mentors</p>
+          <div className="flex space-x-2">
+            {[1, 2, 3, 4].map((n) => (
+              <button
+                key={n}
+                className={`w-8 h-8 rounded-full ${n === 1
+                    ? "bg-indigo-600 text-white"
+                    : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+                  }`}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
-    <Footer/>
+      <Footer />
     </>
   );
 };

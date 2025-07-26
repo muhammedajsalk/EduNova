@@ -8,7 +8,6 @@ import {
     FaVideo,
     FaPlayCircle,
 } from "react-icons/fa";
-import AdminNavbar from "./adminNavbar";
 import { useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
@@ -151,7 +150,6 @@ const CourseApproval = () => {
 
     return (
         <>
-            <AdminNavbar />
             {loading ? (
                 <div className="animate-pulse max-w-6xl mx-auto mt-10 px-6 space-y-8">
                     {/* Header Section */}
