@@ -14,16 +14,15 @@ export default function Layout({ children }) {
     const location = useLocation();
 
     // Optional: Paths where Navbar should be hidden completely
-    const hideNavbarPaths = ["/adminLogin", "/notFound", "/login", "/register", "/instructorRegistor"];
+    const hideNavbarPaths = ["/adminLogin", "/notFound", "/login", "/register"];
     if (hideNavbarPaths.includes(location.pathname)) return <>{children}</>;
 
     // Role-based Navbar
     const renderNavbar = () => {
         if (!user) return <Navbar />;
         if (user.role === "admin") return <AdminNavbar />;
+        if (location.pathname.startsWith("/learningDashboard")) return null;
         if (user.role === "user") return <UserNavbar />;
-        // No navbar for instructors
-        if (user.role === "instructor") return <InstructorNavbar/>
         return null;
     };
 

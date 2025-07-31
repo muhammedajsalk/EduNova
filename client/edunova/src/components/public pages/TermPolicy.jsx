@@ -4,7 +4,7 @@ import Footer from "./homePage Components/Footer";
 function TermsPrivacy() {
   return (
     <>
-      <div className="px-4 md:px-20 py-10 text-gray-800 bg-white w-full max-w-5xl mx-auto">
+      <div className="px-4 md:px-20 py-10 text-gray-800 bg-white w-full max-w-5xl mx-auto mt-12">
         <h1 className="text-3xl font-bold text-center mb-2">
           Terms of Service & Privacy Policy
         </h1>
@@ -20,7 +20,7 @@ function TermsPrivacy() {
         <div className="grid md:grid-cols-2 gap-6 mb-10">
           <div>
             <h3 className="font-semibold mb-2">Terms of Service</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm text-indigo-600">
+            <ul className="list-disc list-inside space-y-1 text-sm text-emerald-600">
               <li>1. Acceptance of Terms</li>
               <li>2. User Registration</li>
               <li>3. User Obligations</li>
@@ -33,7 +33,7 @@ function TermsPrivacy() {
           </div>
           <div>
             <h3 className="font-semibold mb-2">Privacy Policy</h3>
-            <ul className="list-disc list-inside space-y-1 text-sm text-indigo-600">
+            <ul className="list-disc list-inside space-y-1 text-sm text-emerald-600">
               <li>1. Information We Collect</li>
               <li>2. How We Use Your Information</li>
               <li>3. Information Sharing</li>
@@ -118,7 +118,7 @@ function TermsPrivacy() {
           </p>
           <a
             href="mailto:support@example.com"
-            className="text-indigo-600 text-sm underline"
+            className="text-emerald-600 text-sm underline"
           >
             edunova@gmail.com
           </a>

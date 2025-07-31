@@ -125,6 +125,10 @@ const instructorSchema = new mongoose.Schema({
     },
     profession:{
         type:String
+    },
+    watchingHours:{
+        type:Number,
+        default:0
     }
 }, {
     timestamps: true,

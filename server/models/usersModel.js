@@ -26,14 +26,9 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null,
     },
-    subscription: {
-        type: Object,
-        default: {
-            plan: "none",
-            status: "none",
-            startDate: "none",
-            endDate: "none"
-        }
+    subscriptionId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Subscription'
     },
     enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
     isVerified: { type: Boolean, default: false },

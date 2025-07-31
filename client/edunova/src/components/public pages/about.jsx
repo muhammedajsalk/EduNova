@@ -6,14 +6,14 @@ const AboutPage = () => {
     <>
       <div className="font-sans text-gray-800 mt-10">
 
-        <section className="bg-gradient-to-r from-indigo-100 to-indigo-50 py-12 text-center">
+        <section className="bg-gradient-to-r from-emerald-100 to-emerald-50 py-12 text-center">
           <h1 className="text-3xl md:text-4xl font-bold mb-2">
             Empowering Learners, Enabling Educators
           </h1>
           <p className="text-gray-600 mb-6">
             Delivering accessible, high-quality education — anytime, anywhere
           </p>
-          <div className="flex flex-wrap justify-center gap-6 mt-6 text-indigo-700 font-semibold">
+          <div className="flex flex-wrap justify-center gap-6 mt-6 text-emerald-700 font-semibold">
             <div>100K+ Learners</div>
             <div>1,000+ Expert Instructors</div>
             <div>2,500+ Courses</div>
@@ -39,15 +39,15 @@ const AboutPage = () => {
           <h2 className="text-2xl font-semibold text-center mb-10">Our Mission & Values</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
             <div>
-              <h3 className="font-bold text-indigo-600 mb-2">Accessible Learning</h3>
+              <h3 className="font-bold text-emerald-600 mb-2">Accessible Learning</h3>
               <p className="text-gray-600">Making quality education available for everyone, everywhere.</p>
             </div>
             <div>
-              <h3 className="font-bold text-indigo-600 mb-2">Instructor Empowerment</h3>
+              <h3 className="font-bold text-emerald-600 mb-2">Instructor Empowerment</h3>
               <p className="text-gray-600">Helping educators succeed with tools, reach, and monetization.</p>
             </div>
             <div>
-              <h3 className="font-bold text-indigo-600 mb-2">Community Growth</h3>
+              <h3 className="font-bold text-emerald-600 mb-2">Community Growth</h3>
               <p className="text-gray-600">Building a supportive ecosystem for peer-to-peer learning and collaboration.</p>
             </div>
           </div>
@@ -95,11 +95,11 @@ const AboutPage = () => {
         </section>
 
 
-        <section className="bg-indigo-50 py-12 text-center">
+        <section className="bg-emerald-50 py-12 text-center">
           <h2 className="text-xl md:text-2xl font-semibold mb-4">Ready to Start Your Learning Journey?</h2>
           <div className="flex justify-center gap-6 mt-4">
-            <button className="bg-indigo-600 text-white px-6 py-2 rounded hover:bg-indigo-700 transition">Explore Courses</button>
-            <button className="border border-indigo-600 text-indigo-600 px-6 py-2 rounded hover:bg-indigo-100 transition">Become an Instructor</button>
+            <button className="bg-emerald-600 text-white px-6 py-2 rounded hover:bg-emerald-700 transition">Explore Courses</button>
+            <button className="border border-emerald-600 text-emerald-600 px-6 py-2 rounded hover:bg-emerald-100 transition">Become an Instructor</button>
           </div>
         </section>
       </div>

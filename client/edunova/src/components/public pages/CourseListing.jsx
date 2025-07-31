@@ -45,7 +45,7 @@ function CourseListing() {
           <div className="md:hidden mb-4">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md"
+              className="bg-emerald-600 text-white px-4 py-2 rounded-md"
             >
               {showFilters ? "Hide Filters" : "Show Filters"}
             </button>
@@ -80,7 +80,7 @@ function CourseListing() {
                     ⭐ 4.5
                   </div>
                   <div className="flex items-center justify-between">
-                    <button className="bg-indigo-600 text-white px-3 py-1 rounded text-sm">
+                    <button className="bg-emerald-600 text-white px-3 py-1 rounded text-sm">
                       <Link to={`/courseEntrollSection/${course._id}`}>
                         {user?.role==="user"?"Enroll":"View"}
                       </Link>
@@ -105,7 +105,7 @@ function CourseListing() {
                 key={i + 1}
                 onClick={() => setCurrentPage(i + 1)}
                 className={`px-3 py-1 rounded ${currentPage === i + 1
-                    ? "bg-indigo-600 text-white"
+                    ? "bg-emerald-600 text-white"
                     : "bg-gray-200 hover:bg-gray-300"
                   }`}
               >

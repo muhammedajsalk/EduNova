@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 // ✅ Reusable Status Badge
@@ -27,14 +27,43 @@ function CoursePendingSections() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Fetch data on mount
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 5;
+
+  // Optional: You can add filtering/searching states here, e.g.
+  // const [filter, setFilter] = useState("All");
+  // const [search, setSearch] = useState("");
+
+  // Fetch data on component mount
   useEffect(() => {
+    setLoading(true);
     axios
-      .get("http://localhost:5000/api/admin/coursePending",{withCredentials: true})
+      .get("http://localhost:5000/api/admin/coursePending", { withCredentials: true })
       .then((res) => setData(res.data.data))
-      .catch((err) => console.error(err))
+      .catch((err) => {
+        console.error(err);
+        setData([]);
+      })
       .finally(() => setLoading(false));
   }, []);
+
+  // Calculate paginated data
+  const totalPages = Math.ceil(data.length / perPage);
+
+  // Slice data for current page
+  const paginatedData = useMemo(() => {
+    const startIdx = (currentPage - 1) * perPage;
+    return data.slice(startIdx, startIdx + perPage);
+  }, [currentPage, data, perPage]);
+
+  // Handlers for pagination controls
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
+  };
+
+  const previousPage = () => goToPage(currentPage - 1);
+  const nextPage = () => goToPage(currentPage + 1);
 
   return (
     <div className="p-4 md:p-8 bg-gray-50 min-h-screen text-gray-800">
@@ -44,16 +73,19 @@ function CoursePendingSections() {
       </div>
 
       <p className="text-sm text-gray-600 mb-4">
-        {loading ? "Loading sections..." : `${data.length} sections pending approval`}
+        {loading
+          ? "Loading sections..."
+          : `${data.length} section${data.length !== 1 ? "s" : ""} pending approval`}
       </p>
 
-      {/* 🔹 Filters */}
+      {/* 🔹 Filters (placeholders for future functionality) */}
       <div className="flex flex-wrap gap-3 mb-4">
         {["Department", "Term", "Status"].map((filter) => (
           <select
             key={filter}
             disabled={loading}
             className="border border-gray-300 px-3 py-2 rounded text-sm bg-white disabled:opacity-50"
+            // onChange={} // Add appropriate handlers if adding filter feature
           >
             <option>{filter}</option>
           </select>
@@ -61,6 +93,7 @@ function CoursePendingSections() {
         <button
           disabled={loading}
           className="ml-auto border px-3 py-2 text-sm rounded bg-white disabled:opacity-50"
+          // onClick={} // Add sort handler if needed
         >
           Sort
         </button>
@@ -81,32 +114,33 @@ function CoursePendingSections() {
 
           <tbody>
             {loading ? (
-              [...Array(5)].map((_, i) => (
+              [...Array(perPage)].map((_, i) => (
                 <tr key={i} className="border-t">
                   <td colSpan={5}>
                     <SkeletonRow />
                   </td>
                 </tr>
               ))
-            ) : data.length === 0 ? (
+            ) : paginatedData.length === 0 ? (
               <tr className="border-t">
                 <td className="p-4" colSpan={5}>
                   No courses pending
                 </td>
               </tr>
             ) : (
-              data.map((item, index) => (
-                <tr key={index} className="border-t">
+              paginatedData.map((item, index) => (
+                <tr key={item._id || index} className="border-t">
                   <td className="p-4">{item.title}</td>
                   <td className="p-4 flex items-center gap-3">
                     <img
-                      src={item.instructorId.avatar}
-                      alt={item.instructorId.name}
+                      src={item.instructorId?.avatar || "/default-avatar.png"}
+                      alt={item.instructorId?.name || "Instructor"}
                       className="w-8 h-8 rounded-full"
+                      loading="lazy"
                     />
-                    {item.instructorId.name}
+                    {item.instructorId?.name || "Unknown"}
                   </td>
-                  <td className="p-4">{item.createdAt}</td>
+                  <td className="p-4">{new Date(item.createdAt).toLocaleString()}</td>
                   <td className="p-4">
                     <span className="bg-indigo-400 text-white px-3 py-1 rounded-md">
                       <Link to={`/admin/course_verification_section/${item._id}`}>
@@ -115,7 +149,7 @@ function CoursePendingSections() {
                     </span>
                   </td>
                   <td className="p-4">
-                    <StatusBadge status={item.status} />
+                    <StatusBadge status={item.status || "Pending"} />
                   </td>
                 </tr>
               ))
@@ -125,20 +159,45 @@ function CoursePendingSections() {
       </div>
 
       {/* 🔹 Pagination */}
-      {!loading && (
+      {!loading && totalPages > 1 && (
         <div className="mt-4 flex justify-between items-center text-sm">
-          <span>Showing 1 to 5 of {data.length} results</span>
+          <span>
+            Showing {(currentPage - 1) * perPage + 1} to{" "}
+            {Math.min(currentPage * perPage, data.length)} of {data.length} results
+          </span>
           <div className="flex gap-1">
-            {[1, 2, 3].map((pg) => (
-              <button
-                key={pg}
-                className={`w-8 h-8 flex items-center justify-center rounded ${
-                  pg === 1 ? "bg-indigo-600 text-white" : "bg-gray-200"
-                }`}
-              >
-                {pg}
-              </button>
-            ))}
+            <button
+              onClick={previousPage}
+              disabled={currentPage === 1}
+              className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-50"
+              aria-label="Previous page"
+            >
+              ‹
+            </button>
+            {[...Array(totalPages)].map((_, i) => {
+              const page = i + 1;
+              const isActive = page === currentPage;
+              return (
+                <button
+                  key={page}
+                  onClick={() => goToPage(page)}
+                  className={`w-8 h-8 flex items-center justify-center rounded ${
+                    isActive ? "bg-indigo-600 text-white" : "bg-gray-200 hover:bg-gray-300"
+                  }`}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  {page}
+                </button>
+              );
+            })}
+            <button
+              onClick={nextPage}
+              disabled={currentPage === totalPages}
+              className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-50"
+              aria-label="Next page"
+            >
+              ›
+            </button>
           </div>
         </div>
       )}

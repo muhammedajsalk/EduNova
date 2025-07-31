@@ -1,106 +1,180 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
+import React, { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 
-
-const StatusBadge = ({ status }) => (
-    <span className="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full">
-        {status}
-    </span>
-);
+// Reusable Status Badge
+const StatusBadge = React.memo(({ status }) => (
+  <span className="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full">
+    {status}
+  </span>
+));
 
 function PendingSections() {
-    const [data, setData] = useState([])
-    useEffect(() => {
-        axios.get('http://localhost:5000/api/admin/instructorPending', { withCredentials: true })
-            .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err))
-    }, [])
-    return (
-        <>
-            <div className="p-4 md:p-8 bg-gray-50 min-h-screen text-gray-800">
-                {/* Topbar */}
-                <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-xl font-bold">Pending Instructor Sections</h1>
-                </div>
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-                <p className="text-sm text-gray-600 mb-4">{data.length} sections pending approval</p>
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const perPage = 5;
 
-                {/* Filters */}
-                <div className="flex flex-wrap gap-3 mb-4">
-                    {["Department", "Term", "Status"].map((filter) => (
-                        <select
-                            key={filter}
-                            className="border border-gray-300 px-3 py-2 rounded text-sm"
-                        >
-                            <option>{filter}</option>
-                        </select>
-                    ))}
-                    <button className="ml-auto border px-3 py-2 text-sm rounded">Sort</button>
-                </div>
+  // Fetch data on mount
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("http://localhost:5000/api/admin/instructorPending", {
+        withCredentials: true,
+      })
+      .then((res) => setData(res.data.data))
+      .catch((err) => {
+        console.error(err);
+        setData([]);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
-                {/* Table */}
-                <div className="overflow-auto bg-white shadow rounded-lg">
-                    <table className="min-w-full text-sm text-left">
-                        <thead className="bg-gray-100 text-gray-700">
-                            <tr>
-                                <th className="p-4">Instructor Name</th>
-                                <th className="p-4">email</th>
-                                <th className="p-4">Time</th>
-                                <th className="p-4">View</th>
-                                <th className="p-4">Status</th>
-                            </tr>
-                        </thead>
-                        {data.length === 0 ? (
-                            <tbody>
-                                <tr className="border-t">
-                                    <td className="p-4">No instructor Pending</td>
-                                </tr>
-                            </tbody>
-                        ) : (
-                            <tbody>
-                                {data.map((item, index) => (
-                                    <tr key={index} className="border-t">
-                                        <td className="p-4">{item.name}</td>
-                                        <td className="p-4">{item.email}</td>
-                                        <td className="p-4">{item.createdAt}</td>
-                                        <td className="p-4">
-                                            <span className="bg-indigo-400 p-2 rounded-md">
-                                                <Link to={`/admin/instructor_verification_section/${item._id}`}>
-                                                    view
-                                                </Link>
-                                            </span>
-                                        </td>
-                                        <td className="p-4">
-                                            <StatusBadge status={item.verificationStatus} />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        )}
+  // Total pages computed from data length
+  const totalPages = Math.ceil(data.length / perPage);
 
-                    </table>
-                </div>
+  // Paginated data slice for current page
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * perPage;
+    return data.slice(startIndex, startIndex + perPage);
+  }, [currentPage, data, perPage]);
 
-                {/* Pagination */}
-                <div className="mt-4 flex justify-between items-center text-sm">
-                    <span>Showing 1 to 5 of 12 results</span>
-                    <div className="flex gap-1">
-                        {[1, 2, 3].map((pg) => (
-                            <button
-                                key={pg}
-                                className={`w-8 h-8 flex items-center justify-center rounded ${pg === 1 ? "bg-indigo-600 text-white" : "bg-gray-200"
-                                    }`}
-                            >
-                                {pg}
-                            </button>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        </>
+  // Pagination handlers
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) setCurrentPage(page);
+  };
 
-    );
+  const nextPage = () => goToPage(currentPage + 1);
+  const prevPage = () => goToPage(currentPage - 1);
+
+  return (
+    <div className="p-4 md:p-8 bg-gray-50 min-h-screen text-gray-800">
+      {/* Topbar */}
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-xl font-bold">Pending Instructor Sections</h1>
+      </div>
+
+      <p className="text-sm text-gray-600 mb-4">
+        {loading
+          ? "Loading sections..."
+          : `${data.length} section${data.length !== 1 ? "s" : ""} pending approval`}
+      </p>
+
+      {/* Filters */}
+      <div className="flex flex-wrap gap-3 mb-4">
+        {["Department", "Term", "Status"].map((filter) => (
+          <select
+            key={filter}
+            className="border border-gray-300 px-3 py-2 rounded text-sm"
+            disabled={loading}
+          >
+            <option>{filter}</option>
+          </select>
+        ))}
+        <button className="ml-auto border px-3 py-2 text-sm rounded" disabled={loading}>
+          Sort
+        </button>
+      </div>
+
+      {/* Table */}
+      <div className="overflow-auto bg-white shadow rounded-lg">
+        <table className="min-w-full text-sm text-left">
+          <thead className="bg-gray-100 text-gray-700">
+            <tr>
+              <th className="p-4">Instructor Name</th>
+              <th className="p-4">Email</th>
+              <th className="p-4">Time</th>
+              <th className="p-4">View</th>
+              <th className="p-4">Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {loading ? (
+              Array.from({ length: perPage }).map((_, idx) => (
+                <tr key={idx} className="border-t">
+                  <td colSpan={5} className="p-4 text-center text-gray-400">
+                    Loading...
+                  </td>
+                </tr>
+              ))
+            ) : paginatedData.length === 0 ? (
+              <tr className="border-t">
+                <td className="p-4" colSpan={5}>
+                  No instructors pending
+                </td>
+              </tr>
+            ) : (
+              paginatedData.map((item) => (
+                <tr key={item._id} className="border-t">
+                  <td className="p-4">{item.name}</td>
+                  <td className="p-4">{item.email}</td>
+                  <td className="p-4">{new Date(item.createdAt).toLocaleString()}</td>
+                  <td className="p-4">
+                    <span className="bg-indigo-400 p-2 rounded-md">
+                      <Link to={`/admin/instructor_verification_section/${item._id}`}>
+                        view
+                      </Link>
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <StatusBadge status={item.verificationStatus} />
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {/* Pagination Controls */}
+      {!loading && totalPages > 1 && (
+        <div className="mt-4 flex justify-between items-center text-sm">
+          <span>
+            Showing {(currentPage - 1) * perPage + 1} to{" "}
+            {Math.min(currentPage * perPage, data.length)} of {data.length} results
+          </span>
+          <div className="flex gap-1">
+            <button
+              onClick={prevPage}
+              disabled={currentPage === 1}
+              className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-50"
+              aria-label="Previous page"
+            >
+              ‹
+            </button>
+            {[...Array(totalPages)].map((_, idx) => {
+              const page = idx + 1;
+              return (
+                <button
+                  key={page}
+                  onClick={() => goToPage(page)}
+                  className={`w-8 h-8 flex items-center justify-center rounded ${
+                    page === currentPage
+                      ? "bg-indigo-600 text-white"
+                      : "bg-gray-200 hover:bg-gray-300"
+                  }`}
+                  aria-current={page === currentPage ? "page" : undefined}
+                >
+                  {page}
+                </button>
+              );
+            })}
+            <button
+              onClick={nextPage}
+              disabled={currentPage === totalPages}
+              className="w-8 h-8 flex items-center justify-center rounded border border-gray-300 hover:bg-gray-100 disabled:opacity-50"
+              aria-label="Next page"
+            >
+              ›
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default React.memo(PendingSections)
+export default React.memo(PendingSections);

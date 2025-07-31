@@ -47,7 +47,7 @@ function CourseDetails() {
                                 className="w-full h-auto object-cover max-h-[400px]" // ADDED
                             />
                             <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg">
-                                <FaPlay className="text-indigo-600" />
+                                <FaPlay className="text-emerald-600" />
                             </button>
                             <p className="mt-2 text-sm text-center text-gray-500">Preview this course</p>
                         </div>
@@ -60,7 +60,7 @@ function CourseDetails() {
                                     <div key={idx} className="bg-white border rounded-lg">
                                         <button
                                             onClick={() => toggleSection(idx)}
-                                            className="w-full text-left px-4 py-3 font-medium text-indigo-700 flex justify-between items-center"
+                                            className="w-full text-left px-4 py-3 font-medium text-emerald-700 flex justify-between items-center"
                                         >
                                             <span>{section.title}</span>
                                             <span>{openSection === idx ? "-" : "+"}</span>
@@ -92,17 +92,17 @@ function CourseDetails() {
                             <p className="text-sm text-gray-600 mt-4">
                                 David has over 10 years of experience in web development and has helped thousands of students achieve their career goals.
                             </p>
-                            <button className="mt-4 text-indigo-600 underline text-sm">Message Instructor</button>
+                            <button className="mt-4 text-emerald-600 underline text-sm">Message Instructor</button>
                         </div>
 
-                        <div className="bg-indigo-50 p-6 rounded-lg">
-                            <h3 className="text-lg font-semibold text-indigo-800 mb-2">Get Personal Mentoring</h3>
-                            <ul className="list-disc pl-6 text-sm text-indigo-800 mb-4">
+                        <div className="bg-emerald-50 p-6 rounded-lg">
+                            <h3 className="text-lg font-semibold text-emerald-800 mb-2">Get Personal Mentoring</h3>
+                            <ul className="list-disc pl-6 text-sm text-emerald-800 mb-4">
                                 <li>1-on-1 coding sessions</li>
                                 <li>Career advice</li>
                                 <li>Project reviews</li>
                             </ul>
-                            <button className="bg-indigo-600 text-white px-4 py-2 rounded">Learn More</button>
+                            <button className="bg-emerald-600 text-white px-4 py-2 rounded">Learn More</button>
                         </div>
                     </div>
 
@@ -114,7 +114,7 @@ function CourseDetails() {
                             <li>✔ Lifetime access</li>
                         </ul>
                         <div className="space-y-2 mb-4">
-                            <button className="w-full bg-indigo-600 text-white py-2 rounded">Enroll Now</button>
+                            <button className="w-full bg-emerald-600 text-white py-2 rounded">Enroll Now</button>
                         </div>
                     </aside>
                 </div>

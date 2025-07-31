@@ -3,6 +3,7 @@ import Footer from "./homePage Components/Footer";
 import { SiRazorpay } from "react-icons/si";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 const features = [
     { name: "Courses Access", free: "Limited", standard: "All Courses", premium: "All Courses" },
@@ -41,8 +42,8 @@ const SubscriptionPage = () => {
 
     const handlePayment = async (plan) => {
         const amountMap = {
-            standard: billingCycle === "monthly" ? 1000 : 10000, // ₹10 or ₹100
-            premium: billingCycle === "monthly" ? 2500 : 25000,  // ₹25 or ₹250
+            standard: billingCycle === "monthly" ? 1000 : 10000, 
+            premium: billingCycle === "monthly" ? 2500 : 25000, 
         };
 
         console.log("amountMap", amountMap[plan])
@@ -81,14 +82,14 @@ const SubscriptionPage = () => {
                             { withCredentials: true }
                         );
                         console.log(verifyRes)
-                        alert("✅ Payment successful! Access granted.");
+                        toast.success("Payment successful! Access granted.");
                     } catch (err) {
                         const message = err?.response?.data?.message || err?.message || "Something went wrong during payment.";
-                        alert(message)
+                       toast.error(message)
                     }
                 },
                 theme: {
-                    color: "#4F46E5", // Indigo
+                    color: "#4F46E5", // emerald
                 },
             };
 
@@ -96,7 +97,7 @@ const SubscriptionPage = () => {
             rzp.open();
         } catch (err) {
             const message = err?.response?.data?.message || err?.message || "Something went wrong during payment.";
-            alert(message)
+            toast.warning(message)
         }
     };
 
@@ -142,7 +143,7 @@ const SubscriptionPage = () => {
                     {/* Free Plan */}
                     <div className="border rounded-lg p-6 text-center shadow-sm">
                         <h3 className="text-xl font-semibold mb-2">Free</h3>
-                        <p className="text-3xl font-bold mb-1">$0</p>
+                        <p className="text-3xl font-bold mb-1">₹0</p>
                         <p className="text-sm text-gray-500 mb-4">Perfect for getting started</p>
                         <ul className="text-sm text-left space-y-2 mb-6">
                             <li>✔️ Limited courses</li>
@@ -157,13 +158,13 @@ const SubscriptionPage = () => {
                     </div>
 
                     {/* Standard Plan */}
-                    <div className="border-2 border-indigo-600 rounded-lg p-6 text-center shadow-lg relative">
-                        <span className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-indigo-600 text-white px-3 py-1 text-xs rounded">
+                    <div className="border-2 border-emerald-600 rounded-lg p-6 text-center shadow-lg relative">
+                        <span className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-emerald-600 text-white px-3 py-1 text-xs rounded">
                             Most Popular
                         </span>
                         <h3 className="text-xl font-semibold mb-2">Standard</h3>
                         <p className="text-3xl font-bold mb-1">
-                            {billingCycle === "monthly" ? "$10" : "$100"}
+                            {billingCycle === "monthly" ? "₹1000" : "₹10000"}
                             <span className="text-sm font-normal">
                                 {billingCycle === "monthly" ? "/month" : "/annual"}
                             </span>
@@ -179,7 +180,7 @@ const SubscriptionPage = () => {
                         </ul>
                         <button
                             onClick={() => handlePayment("standard")}
-                            className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+                            className="w-full bg-emerald-600 text-white py-2 rounded hover:bg-emerald-700"
                         >
                             Start Standard Plan
                         </button>
@@ -190,7 +191,7 @@ const SubscriptionPage = () => {
                     <div className="border rounded-lg p-6 text-center shadow-sm">
                         <h3 className="text-xl font-semibold mb-2">Premium</h3>
                         <p className="text-3xl font-bold mb-1">
-                            {billingCycle === "monthly" ? "$25" : "$250"}
+                            {billingCycle === "monthly" ? "₹2500" : "₹25000"}
                             <span className="text-sm font-normal">
                                 {billingCycle === "monthly" ? "/month" : "/annual"}
                             </span>
@@ -204,7 +205,7 @@ const SubscriptionPage = () => {
                         </ul>
                         <button
                             onClick={() => handlePayment("premium")}
-                            className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+                            className="w-full bg-emerald-600 text-white py-2 rounded hover:bg-emerald-700"
                         >
                             Go Premium
                         </button>
@@ -244,10 +245,11 @@ const SubscriptionPage = () => {
                     <p className="mb-3">Trusted Payment Methods</p>
                     <div className="flex justify-center gap-6">
                         <a href="https://razorpay.com/" target="blank">
-                            <SiRazorpay size={40} className="text-indigo-600" />
+                            <SiRazorpay size={40} className="text-emerald-600" />
                         </a>
                     </div>
                 </section>
+                <ToastContainer position="top-right" autoClose={3000} />
 
             </div>
             <Footer />

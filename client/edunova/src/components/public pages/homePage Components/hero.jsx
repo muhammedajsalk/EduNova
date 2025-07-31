@@ -17,12 +17,12 @@ function HeroSection() {
           Access courses, 1-on-1 mentorship, and a thriving learning community
         </p>
         <div className="flex flex-wrap gap-4 mb-8">
-          <button className="bg-indigo-600 text-white px-6 py-2 rounded-full font-semibold">
+          <button className="bg-emerald-600 text-white px-6 py-2 rounded-full font-semibold">
             <Link to={'/courses'}>
                Explore Courses
             </Link>
           </button>
-          <button className="border border-indigo-600 text-indigo-600 px-6 py-2 rounded-full font-semibold">
+          <button className="border border-emerald-600 text-emerald-600 px-6 py-2 rounded-full font-semibold">
             <Link to={'/instructorRegistor'}>
                 {user?.role==="instructor"?"Become an Student":"Become an Instructor"}
             </Link>

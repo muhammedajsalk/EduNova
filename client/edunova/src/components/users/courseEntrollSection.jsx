@@ -54,7 +54,7 @@ const CourseEntrollSection = () => {
                             <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
                                 New
                             </span>
-                            <span className="bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-sm font-semibold">
+                            <span className="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-sm font-semibold">
                                 Top Rated
                             </span>
                         </div>
@@ -64,7 +64,7 @@ const CourseEntrollSection = () => {
                     <div className="bg-white shadow-lg rounded-lg p-5 w-full lg:w-1/3">
                         {user.role === "user" && (
                             <>
-                                <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
+                                <button className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition">
                                     Enroll Now
                                 </button>
                                 <button className="w-full border border-gray-300 py-3 mt-3 rounded-lg font-semibold hover:bg-gray-100 transition">
@@ -106,7 +106,7 @@ const CourseEntrollSection = () => {
                                         >
                                             <span className="flex items-center gap-2 text-sm text-gray-700">
                                                 <FaPlayCircle
-                                                    className="text-blue-500 cursor-pointer"
+                                                    className="text-emerald-500 cursor-pointer"
                                                     onClick={() => openModal(lecture.title, lecture.url)}
                                                 />
                                                 {lecture.title}
@@ -138,14 +138,14 @@ const CourseEntrollSection = () => {
                 </div>
 
                 {/* Mentoring Section */}
-                <div className="mt-10 bg-blue-50 p-6 rounded-lg">
+                <div className="mt-10 bg-emerald-50 p-6 rounded-lg">
                     <h3 className="text-xl font-bold mb-3">Get Personal Mentoring</h3>
                     <ul className="text-gray-700 space-y-2">
                         <li>✔ 1-on-1 coding sessions</li>
                         <li>✔ Career guidance</li>
                         <li>✔ Project review</li>
                     </ul>
-                    <button className="mt-4 bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 transition">
+                    <button className="mt-4 bg-emerald-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-emerald-700 transition">
                         Learn More
                     </button>
                 </div>

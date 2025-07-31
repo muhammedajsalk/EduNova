@@ -29,6 +29,10 @@ const subscriptionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "Payment",
     },
+    notes: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    }
   },
   { timestamps: true }
 );

@@ -79,14 +79,14 @@ function Login() {
                         <div className="flex mb-4 border border-gray-300 rounded-md overflow-hidden w-full max-w-xs">
                             <button
                                 onClick={() => setRole("student")}
-                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "student" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "student" ? "bg-emerald-600 text-white" : "bg-white text-gray-700"
                                     }`}
                             >
                                 Student
                             </button>
                             <button
                                 onClick={() => setRole("instructor")}
-                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "instructor" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "instructor" ? "bg-emerald-600 text-white" : "bg-white text-gray-700"
                                     }`}
                             >
                                 Instructor
@@ -146,10 +146,10 @@ function Login() {
                                 onChange={handleChange}
                             />
                             {errors.password && touched.password && (<p className="text-red-500">{errors.password}</p>)}
-                            <Link to={"/ForgotPassword/user"}><p className="text-indigo-600">Forget Password?</p></Link>
+                            <Link to={"/ForgotPassword/user"}><p className="text-emerald-600">Forget Password?</p></Link>
                             <button
                                 type="submit"
-                                className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700 flex items-center justify-center gap-2"
+                                className="w-full bg-emerald-600 text-white font-medium py-2 rounded-md hover:bg-emerald-700 flex items-center justify-center gap-2"
                             >
                                 {submiting ? (
                                     <>
@@ -166,12 +166,12 @@ function Login() {
                         </form>
                         <p className="text-xs text-gray-500 mt-4 text-center">
                             <Link to={'/policy'}>
-                                By signing up, you agree to our <span className="text-indigo-600 underline">Terms of Service</span> and <span className="text-indigo-600 underline">Privacy Policy</span>.
+                                By signing up, you agree to our <span className="text-emerald-600 underline">Terms of Service</span> and <span className="text-emerald-600 underline">Privacy Policy</span>.
                             </Link>
                         </p>
 
                         <p className="text-sm text-center mt-4">
-                            create an account? <Link to={'/register'}><span className="text-indigo-600 font-medium">Sign up</span></Link>
+                            create an account? <Link to={'/register'}><span className="text-emerald-600 font-medium">Sign up</span></Link>
                         </p>
                     </div>
                 </div>
@@ -193,14 +193,14 @@ function Login() {
                         <div className="flex mb-4 border border-gray-300 rounded-md overflow-hidden w-full max-w-xs">
                             <button
                                 onClick={() => setRole("student")}
-                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "student" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "student" ? "bg-emerald-600 text-white" : "bg-white text-gray-700"
                                     }`}
                             >
                                 Student
                             </button>
                             <button
                                 onClick={() => setRole("instructor")}
-                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "instructor" ? "bg-indigo-600 text-white" : "bg-white text-gray-700"
+                                className={`w-1/2 px-4 py-2 text-sm font-medium ${role === "instructor" ? "bg-emerald-600 text-white" : "bg-white text-gray-700"
                                     }`}
                             >
                                 Instructor
@@ -254,10 +254,10 @@ function Login() {
                                 onChange={handleChange}
                             />
                             {errors.password && touched.password && (<p className="text-red-500">{errors.password}</p>)}
-                            <Link to={"/ForgotPassword/instructor"}><p className="text-indigo-600">Forget Password?</p></Link>
+                            <Link to={"/ForgotPassword/instructor"}><p className="text-emerald-600">Forget Password?</p></Link>
                             <button
                                 type="submit"
-                                className="w-full bg-indigo-600 text-white font-medium py-2 rounded-md hover:bg-indigo-700 flex items-center justify-center gap-2"
+                                className="w-full bg-emerald-600 text-white font-medium py-2 rounded-md hover:bg-emerald-700 flex items-center justify-center gap-2"
                             >
                                 {submiting ? (
                                     <>
@@ -274,12 +274,12 @@ function Login() {
                         </form>
                         <p className="text-xs text-gray-500 mt-4 text-center">
                             <Link to={'/policy'}>
-                                By signing up, you agree to our <span className="text-indigo-600 underline">Terms of Service</span> and <span className="text-indigo-600 underline">Privacy Policy</span>.
+                                By signing up, you agree to our <span className="text-emerald-600 underline">Terms of Service</span> and <span className="text-emerald-600 underline">Privacy Policy</span>.
                             </Link>
                         </p>
 
                         <p className="text-sm text-center mt-4">
-                            create an account? <Link to={'/register'}><span className="text-indigo-600 font-medium">Sign up</span></Link>
+                            create an account? <Link to={'/register'}><span className="text-emerald-600 font-medium">Sign up</span></Link>
                         </p>
                     </div>
                 </div>

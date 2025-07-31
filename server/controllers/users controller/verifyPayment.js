@@ -2,6 +2,7 @@ const crypto = require('crypto')
 const dotenv = require('dotenv')
 const paymentModel = require('../../models/paymentModel')
 const subscriptionModel = require('../../models/subscriptionModel')
+const userModel = require('../../models/usersModel')
 
 dotenv.config()
 
@@ -31,13 +32,12 @@ const verifyPayment = async (req, res) => {
             { new: true }
         );
 
-        // Create/Update Subscription
         const planType = payment.notes.planType || "monthly";
         const durationInDays = planType === "monthly" ? 30 : planType === "annual" ? 365 : 30;
         const startDate = new Date();
         const endDate = new Date(startDate.getTime() + durationInDays * 24 * 60 * 60 * 1000);
 
-        await subscriptionModel.findOneAndUpdate(
+        const subscription=await subscriptionModel.findOneAndUpdate(
             { userId },
             {
                 planType,
@@ -45,9 +45,12 @@ const verifyPayment = async (req, res) => {
                 endDate,
                 isActive: true,
                 paymentRef: payment._id,
+                notes:payment.notes
             },
             { upsert: true, new: true }
         );
+
+        await userModel.findOneAndUpdate({_id:userId},{subscriptionId:subscription._id},{ upsert: true, new: true })
 
         res.status(200).json({
             success: true,

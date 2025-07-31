@@ -5,7 +5,7 @@ const InstructorTerms = () => {
     <div className="bg-gray-50 text-gray-800 min-h-screen px-6 py-10 md:px-20 lg:px-32">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-2xl p-8">
         {/* Header */}
-        <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center text-indigo-600">
+        <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center text-emerald-600">
           Instructor Terms & Conditions
         </h1>
         <p className="text-sm md:text-base text-gray-600 mb-6 text-center">

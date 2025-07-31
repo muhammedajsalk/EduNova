@@ -60,7 +60,7 @@ function ResetPassword() {
                     onBlur={handleBlur}
                 />
                 {errors.cpassword && touched.cpassword && (<p className="text-red-500">{errors.cpassword}</p>)}
-                <button type="submit" className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
+                <button type="submit" className="w-full bg-emerald-600 text-white py-2 rounded hover:bg-emerald-700">
                     Reset Password
                 </button>
             </form>

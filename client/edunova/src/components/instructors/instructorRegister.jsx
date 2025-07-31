@@ -4,7 +4,7 @@ import axios from 'axios';
 import { instructorSchema } from '../../../schema/schema';
 import { FaCloudUploadAlt, FaUser } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
-import { useNavigate,Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const FileInput = ({ id, label, accept, onChange, file, type = 'document' }) => (
   <div className="flex flex-col gap-2">
@@ -13,15 +13,14 @@ const FileInput = ({ id, label, accept, onChange, file, type = 'document' }) => 
     </label>
     <label
       htmlFor={id}
-      className={`w-full border-2 border-dashed ${
-        type === 'avatar' ? 'rounded-full aspect-square w-40 h-40 mx-auto' : 'rounded-md p-4'
-      } border-gray-300 text-center cursor-pointer text-gray-600 hover:border-indigo-400 transition-colors flex flex-col items-center justify-center`}
+      className={`w-full border-2 border-dashed ${type === 'avatar' ? 'rounded-full aspect-square w-40 h-40 mx-auto' : 'rounded-md p-4'
+        } border-gray-300 text-center cursor-pointer text-gray-600 hover:border-emerald-400 transition-colors flex flex-col items-center justify-center`}
     >
       {type === 'avatar' ? (
         file ? (
-          <img 
-            src={typeof file === 'string' ? file : URL.createObjectURL(file)} 
-            alt="Avatar preview" 
+          <img
+            src={typeof file === 'string' ? file : URL.createObjectURL(file)}
+            alt="Avatar preview"
             className="w-full h-full rounded-full object-cover"
           />
         ) : (
@@ -85,8 +84,8 @@ function InstructorRegister() {
       setLoading({ ...loading, submit: true });
 
       const formData = new FormData();
-      
-      
+
+
       Object.entries(values).forEach(([key, value]) => {
         if (value) formData.append(key, value);
       });
@@ -101,7 +100,7 @@ function InstructorRegister() {
             }
           }
         );
-        
+
         toast.success(response.data.message);
         setTimeout(() => navigate('/login'), 2000);
       } catch (error) {
@@ -115,9 +114,9 @@ function InstructorRegister() {
   const handleFileChange = (e, field) => {
     const file = e.target.files[0];
     if (!file) return;
-    
+
     formik.setFieldValue(field, file);
-    
+
 
     if (field === 'avatar') {
       if (avatarPreview) URL.revokeObjectURL(avatarPreview);
@@ -131,23 +130,23 @@ function InstructorRegister() {
       toast.warning("Please enter your email first");
       return;
     }
-    
+
     if (formik.errors.email) {
       toast.warning("Please enter a valid email address");
       return;
     }
 
     setLoading({ ...loading, otp: true });
-    
+
     try {
       const response = await axios.post(
         'http://localhost:5000/api/users/auth/otpSent',
-        { 
-          email: formik.values.email, 
-          role: "instructor" 
+        {
+          email: formik.values.email,
+          role: "instructor"
         }
       );
-      
+
       toast.success(response.data.message);
       setOtpSent(true);
     } catch (error) {
@@ -162,9 +161,9 @@ function InstructorRegister() {
       toast.warning("Please enter the OTP first");
       return;
     }
-    
+
     setLoading({ ...loading, otp: true });
-    
+
     try {
       const response = await axios.post(
         'http://localhost:5000/api/instructor/auth/emailVerify',
@@ -174,7 +173,7 @@ function InstructorRegister() {
           otp: otp
         }
       );
-      
+
       toast.success(response.data.message);
       setOtpVerified(true);
     } catch (error) {
@@ -193,10 +192,10 @@ function InstructorRegister() {
   }, [avatarPreview]);
 
   return (
-    <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-8">
+    <div className=" mx-auto p-4 sm:p-6 md:p-8 mt-14">
       <div className="bg-white shadow-xl rounded-2xl p-6 md:p-8">
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-bold text-indigo-700">
+          <h2 className="text-2xl md:text-3xl font-bold text-emerald-700">
             Become an Instructor
           </h2>
           <p className="text-gray-600 mt-2">
@@ -206,9 +205,9 @@ function InstructorRegister() {
 
         <form onSubmit={formik.handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          
+
             <div className="space-y-5">
-        
+
               <div className="flex justify-center">
                 <FileInput
                   id="avatar"
@@ -217,10 +216,12 @@ function InstructorRegister() {
                   onChange={(e) => handleFileChange(e, 'avatar')}
                   file={formik.values.avatar}
                   type="avatar"
+                  className="w-32 h-32" // Adjust size of container
                 />
               </div>
-              
-             
+
+
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Full Name *
@@ -231,7 +232,7 @@ function InstructorRegister() {
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="John Doe"
                 />
                 {formik.touched.name && formik.errors.name && (
@@ -239,7 +240,7 @@ function InstructorRegister() {
                 )}
               </div>
 
-             
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Email Address *
@@ -250,7 +251,7 @@ function InstructorRegister() {
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="john@example.com"
                 />
                 {formik.touched.email && formik.errors.email && (
@@ -262,7 +263,7 @@ function InstructorRegister() {
                     type="button"
                     onClick={handleSendOtp}
                     disabled={otpSent || loading.otp}
-                    className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition flex-1 disabled:opacity-70 disabled:cursor-not-allowed"
+                    className="px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition flex-1 disabled:opacity-70 disabled:cursor-not-allowed"
                   >
                     {loading.otp ? (
                       <span className="flex items-center justify-center">
@@ -284,7 +285,7 @@ function InstructorRegister() {
                         value={otp}
                         onChange={(e) => setOtp(e.target.value)}
                         placeholder="Enter OTP"
-                        className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         disabled={otpVerified}
                       />
                       <button
@@ -316,7 +317,7 @@ function InstructorRegister() {
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="••••••••"
                 />
                 {formik.touched.password && formik.errors.password && (
@@ -324,7 +325,7 @@ function InstructorRegister() {
                 )}
               </div>
 
-         
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Short Bio *
@@ -335,7 +336,7 @@ function InstructorRegister() {
                   value={formik.values.bio}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="Tell us about your teaching experience..."
                 />
                 {formik.touched.bio && formik.errors.bio && (
@@ -343,7 +344,7 @@ function InstructorRegister() {
                 )}
               </div>
 
-      
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   Skills *
@@ -353,7 +354,7 @@ function InstructorRegister() {
                   value={formik.values.skills}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="Mathematics, Physics, Programming"
                 />
                 <p className="mt-1 text-xs text-gray-500">
@@ -364,7 +365,7 @@ function InstructorRegister() {
                 )}
               </div>
 
-           
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">
                   LinkedIn Profile URL
@@ -374,7 +375,7 @@ function InstructorRegister() {
                   value={formik.values.linkedInProfile}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="https://linkedin.com/in/yourprofile"
                 />
                 {formik.touched.linkedInProfile && formik.errors.linkedInProfile && (
@@ -383,7 +384,7 @@ function InstructorRegister() {
               </div>
             </div>
 
-            
+
             <div className="space-y-5">
               <FileInput
                 id="demoVideo"
@@ -441,7 +442,7 @@ function InstructorRegister() {
             </div>
           </div>
 
- 
+
           <div className="flex items-start mt-2">
             <div className="flex items-center h-5">
               <input
@@ -449,27 +450,27 @@ function InstructorRegister() {
                 name="terms"
                 type="checkbox"
                 required
-                className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                className="focus:ring-emerald-500 h-4 w-4 text-emerald-600 border-gray-300 rounded"
               />
             </div>
             <div className="ml-3 text-sm">
               <label htmlFor="terms" className="text-gray-700">
                 I agree to the{' '}
-                <span className="text-indigo-600 hover:underline">
+                <span className="text-emerald-600 hover:underline">
                   <Link to={"/insrtuctor/terms"}>
-                      Terms and Conditions
+                    Terms and Conditions
                   </Link>
                 </span>
               </label>
             </div>
           </div>
 
-      
+
           <div className="pt-4">
             <button
               type="submit"
               disabled={loading.submit || !otpVerified}
-              className="w-full bg-gradient-to-r from-indigo-600 to-indigo-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-indigo-700 hover:to-indigo-800 transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-emerald-600 to-emerald-700 text-white py-3 px-4 rounded-lg font-semibold hover:from-emerald-700 hover:to-emerald-800 transition-all duration-300 shadow-md hover:shadow-lg disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {loading.submit ? (
                 <div className="flex items-center justify-center">

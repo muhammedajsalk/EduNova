@@ -3,6 +3,10 @@ const subscriptionModel = require("../models/subscriptionModel")
 const existingSubscription = async (req, res, next) => {
     const { id } = req.user
 
+    if(!id){
+        return res.status(400).json({ success: false, message: "please login" })
+    }
+
     try {
         const subscription = await subscriptionModel.findOne({ userId: id })
         if (subscription && subscription.isActive) {

@@ -62,8 +62,8 @@ function HomeCourses() {
               </div>
 
               <div className="flex items-center justify-between">
-                <span className="text-indigo-600 font-bold text-lg">{course.price}</span>
-                <button className="bg-indigo-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-indigo-700 transition">
+                <span className="text-emerald-600 font-bold text-lg">{course.price}</span>
+                <button className="bg-emerald-600 text-white px-4 py-1.5 rounded-full text-sm font-semibold hover:bg-emerald-700 transition">
                   Enroll Now
                 </button>
               </div>

@@ -150,26 +150,26 @@ const CourseDetailsPage = () => {
                                 </div>
 
                                 <div className="bg-white shadow rounded-xl p-5">
-                                    <h3 className="font-bold text-lg mb-4 text-gray-800">📊 Course Statistics</h3>
+                                    <h3 className="font-bold text-lg mb-4 text-gray-800">Course Statistics</h3>
                                     <ul className="space-y-3 text-gray-700 text-sm">
                                         <li className="flex items-center gap-3">
-                                            <FaUsers className="text-blue-500" />
+                                            <FaUsers className="text-gray-500" />
                                             <span className="font-medium">Total Students:</span> {data.students?.length}
                                         </li>
                                         <li className="flex items-center gap-3">
-                                            <FaStar className="text-yellow-500" />
+                                            <FaStar className="text-gray-500" />
                                             <span className="font-medium">Average Rating:</span> 4.8 / 5.0
                                         </li>
                                         <li className="flex items-center gap-3">
-                                            <FaListAlt className="text-green-500" />
+                                            <FaListAlt className="text-gray-500" />
                                             <span className="font-medium">Total Sections:</span> {totalSection}
                                         </li>
                                         <li className="flex items-center gap-3">
-                                            <FaChalkboardTeacher className="text-purple-500" />
+                                            <FaChalkboardTeacher className="text-gray-500" />
                                             <span className="font-medium">Total Lectures:</span> {totalLectures}
                                         </li>
                                         <li className="flex items-center gap-3">
-                                            <FaClock className="text-pink-500" />
+                                            <FaClock className="text-gray-500" />
                                             <span className="font-medium">Total Duration:</span> {formatDurationCustom(totalDuration)}
                                         </li>
                                         <li className="flex items-center gap-3">

@@ -68,7 +68,7 @@ function InstructorDetailsAndDocument() {
                 {/* Documents Section */}
                 <div className="mt-8 space-y-6">
                     <h2 className="text-lg font-semibold">Documents</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                         <DocumentCard title="Demo Teaching Video" isVideo>
                             {demoVideo ? <VideoPlayer videoUrl={demoVideo} /> : <FallbackMessage text="Demo video not available." />}
                         </DocumentCard>

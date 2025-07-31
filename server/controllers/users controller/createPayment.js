@@ -6,15 +6,14 @@ const subscriptionModel = require("../../models/subscriptionModel");
 const createpayment = async (req, res) => {
    try {
     const {amount,courseId,planType} = req.body;
-    console.log("amount",amount)
-    const userId = req.user.id;
+    const userId = req?.user?.id;
 
     const receiptId = `receipt_${Math.random().toString(36).substring(2, 10)}`;
 
     const currency = "INR";
 
     const options = {
-      amount: amount * 100, // in paise
+      amount: amount * 100,
       currency,
       receipt: receiptId,
       notes: {

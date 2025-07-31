@@ -17,6 +17,7 @@ async function login(req, res) {
             const payload = ticket.getPayload()
             const { email, name, picture, sub } = payload
             const isEmailIsAvailable = await userModel.findOne({ email: email })
+            if(!isEmailIsAvailable) return res.status(400).json({ success: false, message: "please register and come to login page" })
             if (isEmailIsAvailable.isActive === false) return res.status(400).json({ success: false, message: "your account is blocked" })
             if (isEmailIsAvailable) {
                 const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id, role: isEmailIsAvailable.role }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
@@ -69,11 +70,15 @@ async function login(req, res) {
         }
         const { email, password } = body
         const user = await userModel.findOne({ email })
-        if (!user) return res.status(400).json({ success: false, message: "you entered incorrect details" })
-        if (user.isActive === false) return res.status(400).json({ success: false, message: "your account is blocked" })
-        if (user.password === null) return res.status(400).json({ success: false, message: "you registered with google and google to login otherwise forget password click" })
+        if (!user)
+             return res.status(400).json({ success: false, message: "you entered incorrect details" })
+        if (user.isActive === false) 
+            return res.status(400).json({ success: false, message: "your account is blocked" })
+        if (user.password === null) 
+            return res.status(400).json({ success: false, message: "you registered with google and google to login otherwise forget password click" })
         const match = await bcrypt.compare(password, user.password)
-        if (!match) return res.status(400).json({ success: false, message: "you entered password is incorrect" })
+        if (!match) 
+            return res.status(400).json({ success: false, message: "you entered password is incorrect" })
         const accesTokken = await jwt.sign({ id: user._id }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,

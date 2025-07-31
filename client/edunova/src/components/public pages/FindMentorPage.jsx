@@ -14,7 +14,7 @@ const mentorsData = [
     price: 120,
     rating: 4.8,
     available: "Mon 2-4 PM, Wed 1-3 PM",
-    avatar: "https://via.placeholder.com/80x80?text=SJ",
+    avatar: "https://i.pravatar.cc/300?img=1",
   },
   {
     name: "Michael Chen",
@@ -25,7 +25,7 @@ const mentorsData = [
     price: 150,
     rating: 4.9,
     available: "Tue 3-5 PM, Thu 2-4 PM",
-    avatar: "https://via.placeholder.com/80x80?text=MC",
+    avatar: "https://i.pravatar.cc/300?img=2",
   },
   {
     name: "Emily Rodriguez",
@@ -37,7 +37,7 @@ const mentorsData = [
     price: 135,
     rating: 4.7,
     available: "Wed 1-3 PM, Fri 2-4 PM",
-    avatar: "https://via.placeholder.com/80x80?text=ER",
+    avatar: "https://i.pravatar.cc/300?img=3",
   },
   {
     name: "David Kim",
@@ -48,7 +48,7 @@ const mentorsData = [
     price: 110,
     rating: 4.6,
     available: "Mon 3-4 PM, Thu 1-3 PM",
-    avatar: "https://via.placeholder.com/80x80?text=DK",
+    avatar: "https://i.pravatar.cc/300?img=4",
   },
   {
     name: "Lisa Thompson",
@@ -59,7 +59,7 @@ const mentorsData = [
     price: 140,
     rating: 4.8,
     available: "Tue 2-4 PM, Fri 3-5 PM",
-    avatar: "https://via.placeholder.com/80x80?text=LT",
+    avatar: "https://i.pravatar.cc/300?img=5",
   },
   {
     name: "James Wilson",
@@ -70,7 +70,7 @@ const mentorsData = [
     price: 160,
     rating: 4.8,
     available: "Wed 3-5 PM, Thu 4-6 PM",
-    avatar: "https://via.placeholder.com/80x80?text=JW",
+    avatar: "https://i.pravatar.cc/300?img=6",
   },
 ];
 
@@ -104,7 +104,7 @@ const FindMentorPage = () => {
               placeholder="Search mentors by name or expertise"
               className="w-full outline-none"
             />
-            <button className="ml-2 text-indigo-600 hover:underline">Filters</button>
+            <button className="ml-2 text-emerald-600 hover:underline">Filters</button>
           </div>
         </div>
 
@@ -113,7 +113,7 @@ const FindMentorPage = () => {
             <button
               key={topic}
               className={`px-4 py-2 text-sm rounded-full ${selectedTopic === topic
-                  ? "bg-indigo-600 text-white"
+                  ? "bg-emerald-600 text-white"
                   : "bg-gray-200 text-gray-800"
                 }`}
               onClick={() => setSelectedTopic(topic)}
@@ -158,7 +158,7 @@ const FindMentorPage = () => {
                   Available: {mentor.available}
                 </p>
                 {user?.role === "user" && (
-                  <button className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700">
+                  <button className="w-full bg-emerald-600 text-white py-2 rounded hover:bg-emerald-700">
                     Book Session
                   </button>
                 )}
@@ -173,7 +173,7 @@ const FindMentorPage = () => {
               <button
                 key={n}
                 className={`w-8 h-8 rounded-full ${n === 1
-                    ? "bg-indigo-600 text-white"
+                    ? "bg-emerald-600 text-white"
                     : "bg-gray-200 text-gray-800 hover:bg-gray-300"
                   }`}
               >
