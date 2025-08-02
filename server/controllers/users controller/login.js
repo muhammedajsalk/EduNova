@@ -79,7 +79,7 @@ async function login(req, res) {
         const match = await bcrypt.compare(password, user.password)
         if (!match) 
             return res.status(400).json({ success: false, message: "you entered password is incorrect" })
-        const accesTokken = await jwt.sign({ id: user._id }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
+        const accesTokken = await jwt.sign({ id: user._id,role:"user" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,
             secure: false,

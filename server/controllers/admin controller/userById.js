@@ -3,8 +3,13 @@ const userModel = require("../../models/usersModel")
 async function userById(req, res) {
     try {
         const { id } = req.params
-        console.log(id)
-        const user = await userModel.findById(id).populate("subscriptionId")
+        const user = await userModel.findById(id).populate("subscriptionId").populate({
+            path: "enrolledCourses.course",
+            populate: {
+                path: "instructorId",
+                model: "instructor" 
+            }
+        })
         if (!user) return res.status(400).json({ success: false, message: "the user not available" })
         res.status(200).json({ success: true, data: user })
     } catch (error) {
@@ -13,4 +18,4 @@ async function userById(req, res) {
     }
 }
 
-module.exports=userById
+module.exports = userById

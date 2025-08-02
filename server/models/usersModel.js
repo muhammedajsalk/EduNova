@@ -28,31 +28,48 @@ const userSchema = new mongoose.Schema({
     },
     subscriptionId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Subscription'
+        ref: 'Subscription'
     },
-    enrolledCourses: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Course' }],
+    enrolledCourses: [
+        {
+            course: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Course',
+                required: true
+            },
+            courseStartDate: {
+                type: Date,
+                required: true
+            },
+            status: {
+                type: String,
+                enum: ['active', 'complete'],
+                default: 'active'
+            }
+        }
+    ],
     isVerified: { type: Boolean, default: false },
-    otp:{
-        type:String
+    otp: {
+        type: String
     },
-    otpExpiry:{
-        type:Date
+    otpExpiry: {
+        type: Date
     },
-    resetToken:{
-        type:String,
-        default:null
+    resetToken: {
+        type: String,
+        default: null
     },
-    resetTokenExpiry:{
-        type:Date,
-        default:null
+    resetTokenExpiry: {
+        type: Date,
+        default: null
     },
-    role:{
-        type:String,
-        default:"user"
+    role: {
+        type: String,
+        default: "user"
     },
-    isActive:{
-        type:Boolean,
-        default:false
+    isActive: {
+        type: Boolean,
+        default: true
     }
 },
     {

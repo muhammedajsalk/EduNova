@@ -228,12 +228,8 @@ const CourseGrid = () => {
 
         <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
           <div className="flex items-center gap-1">
-            <Clock className="w-4 h-4" />
-            {course.duration}
-          </div>
-          <div className="flex items-center gap-1">
             <Users className="w-4 h-4" />
-            {course.studentsEnrolled} students
+            {course.students?.length} students
           </div>
           <div className="flex items-center gap-1">
             <Calendar className="w-4 h-4" />

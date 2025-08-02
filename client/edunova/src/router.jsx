@@ -45,6 +45,7 @@ import PaymentTransactionsDashboard from './components/admin/allPaymentSection'
 import AdminRevenew from './components/admin/adminRevenewPage'
 import PayoutsDashboard from './components/admin/allPayOutSection'
 import { PublicPageAccess } from './publicPageAccess'
+import UserCourses from './components/users/userCourses'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -141,6 +142,7 @@ function Routers() {
           <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}>
             <Route path="/learningDashboard" element={<UserDashboardLayout />}>
               <Route index element={<LearningDashboard />} />
+              <Route path='courses' element={<UserCourses/>} />
             </Route>
           </Route>
           <Route path='/notFound' element={<NotFound404 />}></Route>

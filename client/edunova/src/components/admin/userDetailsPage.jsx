@@ -1,4 +1,7 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 // Simple Skeleton Components
 const ProfileHeaderSkeleton = () => (
@@ -64,28 +67,8 @@ const TableSkeleton = () => (
 );
 
 // Sample data
-const allCourses = [
-  { name: "Advanced Web Development", date: "Nov 1, 2023", progress: 45, status: "Active" },
-  { name: "UI/UX Design Fundamentals", date: "Oct 15, 2023", progress: 78, status: "Active" },
-  { name: "Data Science Basics", date: "Sep 30, 2023", progress: 92, status: "Completed" },
-  { name: "React with TypeScript", date: "Aug 5, 2023", progress: 65, status: "Active" },
-  { name: "Machine Learning 101", date: "Jul 20, 2023", progress: 100, status: "Completed" },
-  { name: "Responsive Web Design", date: "Jun 30, 2023", progress: 25, status: "Active" },
-];
 
-const mockUserData = {
-  name: "Sarah Johnson",
-  email: "sarah.johnson@example.com",
-  avatar: "https://images.unsplash.com/photo-1494790108755-2616c6106672?w=150&h=150&fit=crop&crop=face",
-  provider: "google",
-  isActive: true,
-  subscriptionId: {
-    notes: { courseId: "Premium Plan" },
-    isActive: true,
-    planType: "Monthly",
-    endDate: "2024-02-15T00:00:00Z"
-  }
-};
+
 
 const ITEMS_PER_PAGE = 3;
 
@@ -93,28 +76,58 @@ function UserProfile() {
   const [currentPage, setCurrentPage] = useState(1);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [allCourses, setAllCourses] = useState([])
+  const { id } = useParams()
 
   useEffect(() => {
-    // Simulate API loading
+    axios.get(`http://localhost:5000/api/admin/userById/${id}`, { withCredentials: true })
+      .then((res) => {
+        setData(res.data.data)
+        setAllCourses(res.data?.data?.enrolledCourses)
+      }
+      )
+      .catch((err) => console.log(err))
     setTimeout(() => {
-      setData(mockUserData);
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
   }, []);
 
-  const formattedEndDate = data?.subscriptionId?.endDate 
+  const formattedEndDate = data?.subscriptionId?.endDate
     ? new Date(data.subscriptionId.endDate).toLocaleString("en-IN", {
-        timeZone: "Asia/Kolkata",
-        dateStyle: "full"
-      })
+      timeZone: "Asia/Kolkata",
+      dateStyle: "full"
+    })
     : "";
 
   function BlockAndUnblock() {
-    setData(prev => ({
-      ...prev,
-      isActive: !prev.isActive
-    }));
+    if (data.isActive) {
+      axios.post(`http://localhost:5000/api/admin/userBlockAndUnblock/${id}`, { isActive: false }, { withCredentials: true })
+        .then((res) => {
+          axios.get(`http://localhost:5000/api/admin/userById/${id}`, { withCredentials: true })
+            .then((res) => setData(res.data.data))
+            .catch((err) => console.log(err))
+          toast.success(res.data.message)
+        }
+        )
+        .catch((err) => toast.error(err.response?.data?.message || err.message))
+    } else {
+      axios.post(`http://localhost:5000/api/admin/userBlockAndUnblock/${id}`, { isActive: true }, { withCredentials: true })
+        .then((res) => {
+          axios.get(`http://localhost:5000/api/admin/userById/${id}`, { withCredentials: true })
+            .then((res) => setData(res.data.data))
+            .catch((err) => console.log(err))
+          toast.success(res.data.message)
+        })
+        .catch((err) => toast.error(err.response?.data?.message || err.message))
+    }
   }
+
+  function properDate(dateInput) {
+    const date = new Date(dateInput); // ensure it's a Date object
+    if (isNaN(date)) return 'Invalid Date'; // handle bad input
+    return date.toISOString().split('T')[0]; // returns 'YYYY-MM-DD'
+  }
+
 
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const paginatedCourses = allCourses.slice(startIndex, startIndex + ITEMS_PER_PAGE);
@@ -148,24 +161,15 @@ function UserProfile() {
                 <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">
                   {data.provider === "google" ? "Google Account" : "Manual Account"}
                 </span>
-                <span className={data.isActive 
-                  ? "text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full" 
+                <span className={data.isActive
+                  ? "text-xs bg-green-100 text-green-600 px-2 py-1 rounded-full"
                   : "text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full"}>
                   {data.isActive ? "Active" : "Block"}
                 </span>
               </div>
             </div>
           </div>
-          <button 
-            onClick={BlockAndUnblock}
-            className={`px-4 py-2 rounded transition-colors duration-200 ${
-              data.isActive 
-                ? "bg-red-100 text-red-600 hover:bg-red-200" 
-                : "bg-green-100 text-green-600 hover:bg-green-200"
-            }`}
-          >
-            {data.isActive ? "Block Account" : "Active Account"}
-          </button>
+          <button onClick={() => BlockAndUnblock()} className={data.isActive ? "bg-red-100 text-red-600 px-4 py-2 rounded" : "bg-green-100 text-green-600 px-4 py-2 rounded"}>{data.isActive ? "Block Account" : "Active Account"}</button>
         </div>
       </div>
 
@@ -174,12 +178,12 @@ function UserProfile() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
           <div>
             <p className="text-gray-500">Plan</p>
-            <p className="font-medium">{data?.subscriptionId?.notes?.courseId}</p>
+            <p className="font-medium">{data?.subscriptionId ? data?.subscriptionId?.notes?.courseId : "No Subscribed"}</p>
           </div>
           <div>
             <p className="text-gray-500">Status</p>
             <p className={data?.subscriptionId?.isActive ? "text-green-600 font-medium" : "text-red-600 font-medium"}>
-              {data?.subscriptionId?.isActive ? "● Active" : "● Blocked"}
+              {data?.subscriptionId?.isActive ? "● Active" : "●Inactive"}
             </p>
           </div>
           <div>
@@ -209,19 +213,18 @@ function UserProfile() {
             <tbody>
               {paginatedCourses.map((course, idx) => (
                 <tr key={idx} className="border-t hover:bg-gray-50 transition-colors duration-150">
-                  <td className="p-3">{course.name}</td>
-                  <td className="p-3">{course.date}</td>
+                  <td className="p-3">{course?.course?.title}</td>
+                  <td className="p-3">{properDate(course.courseStartDate)}</td>
                   <td className="p-3">
-                    <span className={`text-xs px-2 py-1 rounded-full ${
-                      course.status === "Completed"
-                        ? "bg-gray-100 text-gray-600"
-                        : "bg-green-100 text-green-600"
-                    }`}>
+                    <span className={`text-xs px-2 py-1 rounded-full ${course.status === "Completed"
+                      ? "bg-gray-100 text-gray-600"
+                      : "bg-green-100 text-green-600"
+                      }`}>
                       {course.status}
                     </span>
                   </td>
                   <td className="p-3 text-blue-600 cursor-pointer hover:underline">
-                    Instructor Name
+                    {course?.course?.instructorId?.name}
                   </td>
                 </tr>
               ))}
@@ -239,11 +242,10 @@ function UserProfile() {
               <button
                 key={i}
                 onClick={() => setCurrentPage(i + 1)}
-                className={`w-8 h-8 flex items-center justify-center rounded transition-colors duration-150 ${
-                  currentPage === i + 1 
-                    ? "bg-blue-600 text-white" 
-                    : "bg-gray-200 hover:bg-gray-300"
-                }`}
+                className={`w-8 h-8 flex items-center justify-center rounded transition-colors duration-150 ${currentPage === i + 1
+                  ? "bg-blue-600 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+                  }`}
               >
                 {i + 1}
               </button>
@@ -251,6 +253,7 @@ function UserProfile() {
           </div>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 }

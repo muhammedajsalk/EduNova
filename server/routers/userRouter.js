@@ -11,6 +11,7 @@ const { jwtAuth } = require('../middlewares/jwt Auth/jwtAuthMiddleware')
 const createpayment = require('../controllers/users controller/createPayment')
 const verifyPayment = require('../controllers/users controller/verifyPayment')
 const existingSubscription = require('../middlewares/existingSubscription')
+const courseEntroll = require('../controllers/users controller/courseEntroll')
 
 router.post("/auth/register",[authLimiter,otpAuth],userRegister)
 router.post("/auth/otpSent",otpLimiter,otpSent)
@@ -19,5 +20,6 @@ router.post('/auth/forgetPassword',otpLimiter,forgetPassword)
 router.post('/auth/resetPassword',resetPassword)
 router.post("/payment/purchaseSubscription",jwtAuth,existingSubscription, createpayment)
 router.post("/payment/verifyPayment",jwtAuth,verifyPayment)
+router.post("/course/entroll/:id",jwtAuth,courseEntroll)
 
 module.exports=router

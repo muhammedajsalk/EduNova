@@ -8,8 +8,8 @@ async function instructorById(req, res) {
         if (!instructor) return res.status(400).json({ success: false, message: "the instructor not available" })
         res.status(200).json({ success: true, data: instructor })
     } catch (error) {
+        console.log("server side errord: " + error)
         res.status(500).json({ success: false, message: "server side error" })
-        console.log("server side error: " + error)
     }
 }
 

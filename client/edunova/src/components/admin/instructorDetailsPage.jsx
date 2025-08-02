@@ -9,12 +9,21 @@ import { FaBuilding, FaChalkboardTeacher, FaDollarSign, FaUserGraduate, FaUsers,
 function InstructorDetailsPage() {
     const { id } = useParams()
     const [data, setData] = useState([])
+    const [course,setCourse]=useState([])
     
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/admin/instructorById/${id}`)
+        axios.get(`http://localhost:5000/api/admin/instructorById/${id}`,{withCredentials:true})
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err))
+            .catch((err) => console.log(err.response?.data?.message || err.message))
     }, [])
+
+    useEffect(()=>{
+        axios.get(`http://localhost:5000/api/admin/instructorCourses/${id}`)
+        .then((res)=>setCourse(res.data.data))
+        .catch((err) => console.log(err.response?.data?.message || err.message))
+    },[])
+
+
 
     function blockAndUnblock() {
         if (data.isActive) {
@@ -107,7 +116,7 @@ function InstructorDetailsPage() {
                         />
                         <StatBox
                             title="Total Courses"
-                            value={data?.myCourses?.length}
+                            value={course.length}
                             icon={<FaChalkboardTeacher className="w-6 h-6" />}
                         />
                         <StatBox
@@ -198,17 +207,17 @@ function InstructorDetailsPage() {
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {data?.myCourses?.slice(1, 4).map((course, index) => (
+                            {course?.slice(1, 4).map((course, index) => (
                                 <div key={course._id || index} className="border border-gray-200 rounded-lg overflow-hidden hover:shadow-md transition-shadow">
                                     <img
-                                        src={course.image}
+                                        src={course.thumbnail}
                                         alt={course.title}
-                                        className="w-full h-32 object-cover"
+                                        className="w-full h-62 object-cover"
                                     />
                                     <div className="p-4">
                                         <h3 className="font-medium text-gray-900 mb-2 line-clamp-2">{course.title}</h3>
                                         <p className="text-sm text-gray-600 mb-2">
-                                            {course.students} students
+                                            {course.students.length} students
                                         </p>
                                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                             course.status === 'Active' 

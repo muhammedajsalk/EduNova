@@ -1,14 +1,18 @@
 const subscriptionModel = require("../models/subscriptionModel")
 
 const existingSubscription = async (req, res, next) => {
-    const { id } = req.user
+    
 
-    if(!id){
+    if(!req.user?.id){
         return res.status(400).json({ success: false, message: "please login" })
+    }
+    
+    if(req.user?.role!=="user"){
+        return res.status(400).json({ success: false, message: "you can not access the subscription" })
     }
 
     try {
-        const subscription = await subscriptionModel.findOne({ userId: id })
+        const subscription = await subscriptionModel.findOne({ userId: req.user?.id})
         if (subscription && subscription.isActive) {
             return res.status(409).json({ success: false, message: "You already have an active subscription" })
         }

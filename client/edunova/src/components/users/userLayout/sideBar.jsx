@@ -22,7 +22,7 @@ const Sidebar = () => {
 
   const navItems = [
   { label: "Home", icon: <Home size={20} />, path: "/" },
-  { label: "Courses", icon: <BookOpen size={20} />, path: "/coursess" },
+  { label: "Courses", icon: <BookOpen size={20} />, path: "/learningDashboard/courses" },
   { label: "Community Chat", icon: <Users size={20} />, path: "/community" },
   { label: "Messages", icon: <Mail size={20} />, path: "/messages" },
   { label: "Notifications", icon: <Bell size={20} />, path: "/notifications" },

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import UserContext from "../../userContext";
 import { useContext } from "react";
+import { ToastContainer, toast } from 'react-toastify';
 
 const CourseEntrollSection = () => {
     const { id } = useParams()
@@ -29,6 +30,12 @@ const CourseEntrollSection = () => {
         } else {
             return `${sec} sec`;
         }
+    }
+
+    function entrollCourse(){
+        axios.post(`http://localhost:5000/api/users/course/entroll/${id}`,{},{ withCredentials: true })
+        .then((res)=>toast.success(res.data.message))
+        .catch((err)=>toast.error(err.response?.data?.message || err.message))
     }
     return (
         <>
@@ -64,7 +71,7 @@ const CourseEntrollSection = () => {
                     <div className="bg-white shadow-lg rounded-lg p-5 w-full lg:w-1/3">
                         {user.role === "user" && (
                             <>
-                                <button className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition">
+                                <button className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition" onClick={()=>entrollCourse()}>
                                     Enroll Now
                                 </button>
                                 <button className="w-full border border-gray-300 py-3 mt-3 rounded-lg font-semibold hover:bg-gray-100 transition">
@@ -149,6 +156,7 @@ const CourseEntrollSection = () => {
                         Learn More
                     </button>
                 </div>
+                <ToastContainer position="top-right" autoClose={3000} />
             </div>
         </>
     );

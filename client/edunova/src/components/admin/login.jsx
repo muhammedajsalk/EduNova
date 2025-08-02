@@ -27,7 +27,7 @@ function AdminLogin() {
   }
   return (
     <div className="min-h-screen flex flex-col md:flex-row">
-      <div className="md:w-1/2 bg-indigo-900 text-white flex items-center justify-center p-8">
+      <div className="md:w-1/2 bg-emerald-900 text-white flex items-center justify-center p-8">
         <div className="text-center">
           <img
             src="https://media.istockphoto.com/id/1344731992/photo/diverse-team-of-data-center-system-administrators-and-it-specialists-use-laptop-and-tablet.jpg?s=612x612&w=0&k=20&c=TNpqdTFPlD7fatcJFGzPBFZGxT1B5qTY4SNI6Y8lrEI="
@@ -83,7 +83,7 @@ function AdminLogin() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -94,7 +94,7 @@ function AdminLogin() {
               <input
                 type="password"
                 placeholder="Create a password"
-                className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className="w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
@@ -102,7 +102,7 @@ function AdminLogin() {
 
             <button
               type="submit"
-              className="w-full bg-indigo-800 text-white py-2 rounded-md hover:bg-indigo-700 transition flex items-center justify-center gap-2"
+              className="w-full bg-emerald-800 text-white py-2 rounded-md hover:bg-emerald-700 transition flex items-center justify-center gap-2"
             >
               {submiting ? (
                 <>

@@ -15,6 +15,7 @@ const courseApproveOrReject = require('../controllers/admin controller/courseRej
 const router = express.Router()
 const {jwtAuth} =require('../middlewares/jwt Auth/jwtAuthMiddleware')
 const getAllCourse = require('../controllers/admin controller/getAllCourse')
+const courseByInstructorId = require('../controllers/instructor controller/courseByInstructorId')
 
 
 router.post('/auth/login',authLimiter,login)
@@ -30,4 +31,5 @@ router.get('/coursePending',jwtAuth,coursePending)
 router.get("/courseById/:id",courseById)
 router.post('/courseApproveAndReject',jwtAuth, courseApproveOrReject)
 router.get("/allCourses",getAllCourse)
+router.get("/instructorCourses/:id",courseByInstructorId)
 module.exports=router

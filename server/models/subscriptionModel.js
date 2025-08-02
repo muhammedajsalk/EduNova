@@ -41,4 +41,7 @@ subscriptionSchema.methods.isValid = function () {
   return this.isActive && new Date() <= this.endDate;
 };
 
-module.exports = mongoose.model("Subscription", subscriptionSchema);
+const subscriptionModel = mongoose.model("Subscription", subscriptionSchema);
+
+
+module.exports=subscriptionModel

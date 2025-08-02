@@ -31,10 +31,13 @@ const InstructorDashboard = () => {
   const { user } = useContext(UserContext);
 
   useEffect(()=>{ 
-      axios.get("http://localhost:5000/api/instructor/course/courseByInstructorId",{ withCredentials: true })
+      axios.get(`http://localhost:5000/api/instructor/course/courseByInstructorId`,{ withCredentials: true })
       .then((res)=>setData(res.data.data))
       .catch((err)=>console.log())
   },[])
+
+  console.log(data)
+   
 
   const stats = [
     {
