@@ -6,7 +6,7 @@ async function jwtAuth(req, res, next) {
         const token=req.cookies.accesTokken
         if (!token) {
             req.user = null;
-            return res.status(400).json("please login")
+            return res.status(400).json({success: false,message:"please login"})
         }
         jwt.verify(token, process.env.JWT_SECRET_CODE, (error, decode) => {
             if (error) return res.status(400).json({ success: false, message: "token is invalid" })
