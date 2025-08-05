@@ -180,7 +180,7 @@ const UserCourseGrid = () => {
                 aria-label={`View course ${c.title}`}
               >
                 <Eye className="w-4 h-4" />
-                <Link to={`/instructorDashBoard/CourseView/${c._id}`}>View Course</Link>
+                <Link to={`/learningDashboard/courses/${c._id}`}>View Course</Link>
               </button>
             </div>
           </div>
