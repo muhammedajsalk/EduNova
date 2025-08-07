@@ -46,6 +46,7 @@ import AdminRevenew from './components/admin/adminRevenewPage'
 import PayoutsDashboard from './components/admin/allPayOutSection'
 import { PublicPageAccess } from './publicPageAccess'
 import UserCourses from './components/users/userCourses'
+import CourseVideoPlayer from './components/users/courseWatch'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -143,6 +144,7 @@ function Routers() {
             <Route path="/learningDashboard" element={<UserDashboardLayout />}>
               <Route index element={<LearningDashboard />} />
               <Route path='courses' element={<UserCourses/>} />
+              <Route path='courseWatching/:id' element={<CourseVideoPlayer/>} />
             </Route>
           </Route>
           <Route path='/notFound' element={<NotFound404 />}></Route>

@@ -70,7 +70,13 @@ const userSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true
-    }
+    },
+    userLikedVideos: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Lecture'
+        }
+    ]
 },
     {
         timestamps: true

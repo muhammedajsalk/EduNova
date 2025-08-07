@@ -5,9 +5,13 @@ const LectureSchema = new mongoose.Schema(
     title: { type: String, required: true },
     url: { type: String, required: true },
     duration: { type: Number, required: true },
+    totalWatchTime:{type:Number,default:0},
+    like:{type:Number,default:0}
   },
-  { _id: false }
+  { _id: true }
 );
+
+const lectureModel = mongoose.model("Lecture", LectureSchema);
 
 const SectionSchema = new mongoose.Schema(
   {
@@ -51,3 +55,5 @@ const CourseSchema = new mongoose.Schema(
 
 const CourseModel = mongoose.model("Course", CourseSchema);
 module.exports = CourseModel;
+
+module.exports.lectureModel = lectureModel;
