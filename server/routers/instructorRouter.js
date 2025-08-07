@@ -14,6 +14,7 @@ const { jwtAuth, roleConform } = require('../middlewares/jwt Auth/jwtAuthMiddlew
 const courseCreate = require('../controllers/instructor controller/courseCreate')
 const thumbnailUpload = require('../controllers/instructor controller/courseThumbanailUploading')
 const courseByInstructorId = require('../controllers/instructor controller/courseByInstructorId')
+const instructorTotalWatch = require('../controllers/instructor controller/instructorTotalWatchTime')
 
 
 router.post('/auth/register', [instructorRegisterLimiter,upload.fields([
@@ -35,4 +36,5 @@ router.post('/course/thumbnailUploading',uploadLimiter,jwtAuth,tumbanailUploadin
     {name:'image',maxCount:1}
 ]),thumbnailUpload)
 router.get("/course/courseByInstructorId",jwtAuth,courseByInstructorId)
+router.get("/course/totalWatchTime",jwtAuth,instructorTotalWatch)
 module.exports = router

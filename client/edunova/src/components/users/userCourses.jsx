@@ -157,11 +157,11 @@ const UserCourseGrid = () => {
 
           <div className={`p-6 ${isListView ? "flex-1" : ""}`}>
             <div className="flex items-center gap-2 mb-2">
-              <BookOpen className="w-4 h-4 text-indigo-600" />
-              <span className="text-sm text-indigo-600 font-medium">{c.category}</span>
+              <BookOpen className="w-4 h-4 text-emerald-600" />
+              <span className="text-sm text-emerald-600 font-medium">{c.category}</span>
             </div>
 
-            <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+            <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
               {c.title}
             </h3>
 
@@ -176,11 +176,11 @@ const UserCourseGrid = () => {
 
             <div className="flex items-center justify-between">
               <button
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
                 aria-label={`View course ${c.title}`}
               >
                 <Eye className="w-4 h-4" />
-                <Link to={`/learningDashboard/courses/${c._id}`}>View Course</Link>
+                <Link to={`/learningDashboard/courseWatching/${c._id}`}>View Course</Link>
               </button>
             </div>
           </div>
@@ -235,7 +235,7 @@ const UserCourseGrid = () => {
               onClick={() => handlePageChange(page)}
               className={`px-4 py-2 rounded-lg transition-colors ${
                 currentPage === page
-                  ? "bg-indigo-600 text-white"
+                  ? "bg-emerald-600 text-white"
                   : "bg-white border border-gray-300 hover:bg-gray-50"
               }`}
               aria-current={currentPage === page ? "page" : undefined}
@@ -267,7 +267,7 @@ const UserCourseGrid = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-indigo-600 mx-auto mb-4"></div>
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-emerald-600 mx-auto mb-4"></div>
           <p className="text-gray-600">Loading courses...</p>
         </div>
       </div>
@@ -282,7 +282,7 @@ const UserCourseGrid = () => {
           <p className="text-red-600 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg"
+            className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg"
           >
             Try Again
           </button>
@@ -319,7 +319,7 @@ const UserCourseGrid = () => {
                 placeholder="Search courses..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 aria-label="Search courses"
               />
             </div>
@@ -327,7 +327,7 @@ const UserCourseGrid = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               aria-label="Sort courses"
             >
               <option value="newest">Newest First</option>
@@ -376,7 +376,7 @@ const UserCourseGrid = () => {
               <p className="text-gray-600 mb-6">Try adjusting your search or sort criteria</p>
               <button
                 onClick={resetFilters}
-                className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg"
                 aria-label="Clear Filters"
               >
                 Clear Filters

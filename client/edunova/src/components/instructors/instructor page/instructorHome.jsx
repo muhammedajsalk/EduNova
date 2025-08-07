@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { 
-  DollarSign, 
-  Users, 
-  Eye, 
-  BookOpen, 
-  TrendingUp, 
-  Calendar, 
-  Star, 
-  MessageCircle, 
+import {
+  DollarSign,
+  Users,
+  Eye,
+  BookOpen,
+  TrendingUp,
+  Calendar,
+  Star,
+  MessageCircle,
   Bell,
   Award,
   PlayCircle,
@@ -27,17 +27,30 @@ import { Link } from 'react-router-dom';
 
 const InstructorDashboard = () => {
   const [timeRange, setTimeRange] = useState('3months');
-  const [data,setData]=useState([])
+  const [data, setData] = useState([])
+  const [totalWatchTime, setTotalWatchTime] = useState(null)
   const { user } = useContext(UserContext);
 
-  useEffect(()=>{ 
-      axios.get(`http://localhost:5000/api/instructor/course/courseByInstructorId`,{ withCredentials: true })
-      .then((res)=>setData(res.data.data))
-      .catch((err)=>console.log())
-  },[])
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/instructor/course/courseByInstructorId`, { withCredentials: true })
+      .then((res) => setData(res.data.data))
+      .catch((err) => console.log())
+  }, [])
 
-  console.log(data)
-   
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/instructor/course/totalWatchTime`, { withCredentials: true })
+      .then((res) => {
+        const seconds = res?.data?.data?.[0]?.totalWatchTime || 0;
+        const minutes = (seconds / 60).toFixed(2);
+        setTotalWatchTime(minutes);
+        console.log("new",seconds)
+      }
+      )
+      .catch((err) => console.log())
+  }, [])
+
+
+
 
   const stats = [
     {
@@ -62,7 +75,7 @@ const InstructorDashboard = () => {
     },
     {
       label: "Total Watch Time",
-      value: user.watchingHours,
+      value: `${totalWatchTime} minute`,
       sub: "Last 30 days",
       icon: Eye,
       color: "from-purple-500 to-purple-600",
@@ -136,7 +149,7 @@ const InstructorDashboard = () => {
   ];
 
   const StatCard = ({ stat }) => {
-    
+
     const IconComponent = stat.icon;
     return (
       <div className="group bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-all duration-300">
@@ -144,9 +157,8 @@ const InstructorDashboard = () => {
           <div className={`p-2 rounded-lg bg-gradient-to-r ${stat.color}`}>
             <IconComponent className="w-5 h-5 text-white" />
           </div>
-          <div className={`flex items-center text-xs font-medium ${
-            stat.changeType === 'positive' ? 'text-emerald-600' : 'text-red-600'
-          }`}>
+          <div className={`flex items-center text-xs font-medium ${stat.changeType === 'positive' ? 'text-emerald-600' : 'text-red-600'
+            }`}>
             <TrendingUp className="w-3 h-3 mr-1" />
             {stat.change}
           </div>
@@ -162,7 +174,7 @@ const InstructorDashboard = () => {
     );
   };
 
-  
+
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
@@ -172,7 +184,7 @@ const InstructorDashboard = () => {
           <div className="flex items-center mb-4 sm:mb-0">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
-                Welcome back {user.name}, 
+                Welcome back {user.name},
               </h1>
               <p className="text-gray-600 text-sm flex items-center mt-1">
                 <Globe className="w-4 h-4 mr-1" />
@@ -187,7 +199,7 @@ const InstructorDashboard = () => {
             </button>
             <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:shadow-md transition-all duration-300">
               <Link to={'/instructorDashboard/createCourse'}>
-                  Create Course
+                Create Course
               </Link>
             </button>
           </div>
@@ -214,11 +226,10 @@ const InstructorDashboard = () => {
                   <button
                     key={period}
                     onClick={() => setTimeRange(period)}
-                    className={`px-3 py-1 text-sm rounded-md font-medium transition-all ${
-                      timeRange === period
+                    className={`px-3 py-1 text-sm rounded-md font-medium transition-all ${timeRange === period
                         ? 'bg-blue-500 text-white shadow-sm'
                         : 'text-gray-600 hover:bg-gray-100'
-                    }`}
+                      }`}
                   >
                     {period === '1month' ? '1M' : period === '3months' ? '3M' : '6M'}
                   </button>
@@ -230,20 +241,20 @@ const InstructorDashboard = () => {
                 <AreaChart data={revenueData}>
                   <defs>
                     <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                      <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
                     </linearGradient>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
                   <XAxis dataKey="month" axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
                   <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12 }} />
-                  <Area 
-                    type="monotone" 
-                    dataKey="revenue" 
-                    stroke="#3B82F6" 
+                  <Area
+                    type="monotone"
+                    dataKey="revenue"
+                    stroke="#3B82F6"
                     strokeWidth={2}
-                    fillOpacity={1} 
-                    fill="url(#revenueGradient)" 
+                    fillOpacity={1}
+                    fill="url(#revenueGradient)"
                   />
                 </AreaChart>
               </ResponsiveContainer>
@@ -335,7 +346,7 @@ const InstructorDashboard = () => {
                 <span className="text-sm font-medium">Live Sessions</span>
               </button>
             </div>
-            
+
             {/* Insights */}
             <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-4">
               <div className="flex items-center mb-2">

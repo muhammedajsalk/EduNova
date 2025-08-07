@@ -12,6 +12,9 @@ const createpayment = require('../controllers/users controller/createPayment')
 const verifyPayment = require('../controllers/users controller/verifyPayment')
 const existingSubscription = require('../middlewares/existingSubscription')
 const courseEntroll = require('../controllers/users controller/courseEntroll')
+const { getLectureUrlByCourseTitle } = require('../controllers/users controller/coursePlayUrl')
+const updateWatchTime = require('../controllers/users controller/updateWatchTime')
+const courseLike = require('../controllers/users controller/CourseLike')
 
 router.post("/auth/register",[authLimiter,otpAuth],userRegister)
 router.post("/auth/otpSent",otpLimiter,otpSent)
@@ -21,5 +24,8 @@ router.post('/auth/resetPassword',resetPassword)
 router.post("/payment/purchaseSubscription",jwtAuth,existingSubscription, createpayment)
 router.post("/payment/verifyPayment",jwtAuth,verifyPayment)
 router.post("/course/entroll/:id",jwtAuth,courseEntroll)
+router.get("/course/:courseId/:courseTitle",jwtAuth,getLectureUrlByCourseTitle)
+router.post("/course/updateWatchTime",jwtAuth,updateWatchTime)
+router.post("/course/like",jwtAuth,courseLike)
 
 module.exports=router
