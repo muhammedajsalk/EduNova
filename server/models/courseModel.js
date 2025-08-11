@@ -5,8 +5,8 @@ const LectureSchema = new mongoose.Schema(
     title: { type: String, required: true },
     url: { type: String, required: true },
     duration: { type: Number, required: true },
-    totalWatchTime:{type:Number,default:0},
-    like:{type:Number,default:0}
+    totalWatchTime: { type: Number, default: 0 },
+    like: { type: Number, default: 0 }
   },
   { _id: true }
 );
@@ -40,15 +40,20 @@ const CourseSchema = new mongoose.Schema(
       ref: "instructor",
       required: true,
     },
-    rejectionReason:{
-      type:String,
-      default:""
+    rejectionReason: {
+      type: String,
+      default: ""
     },
-    isActive:{
-      type:Boolean,
-      default:true
+    isActive: {
+      type: Boolean,
+      default: true
     },
-    students: [{ type: mongoose.Schema.Types.ObjectId, ref: "users" }]
+    students: [
+      {
+        studentId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+        courseStartDate: { type: Date, default: Date.now }
+      }
+    ]
   },
   { timestamps: true }
 );

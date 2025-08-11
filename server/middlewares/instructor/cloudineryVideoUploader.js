@@ -10,10 +10,11 @@ const storage = new CloudinaryStorage({
         const instractorId=req.user.id
         const folder = `eduNova/courses/${instructorName ||instractorId|| 'unknown'}/lettureVideo`;
         let resource_type = file.mimetype.startsWith('video') ? 'video' : 'auto';
+        const ext = file.originalname.split('.').pop();
         return {
             folder,
             resource_type,
-            public_id: `${Date.now()}-${file.originalname}`,
+            public_id: `${Date.now()}.${ext}`
         };
     }
 })

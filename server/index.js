@@ -13,8 +13,8 @@ const startSubscriptionCleanupJob = require('./scheduled jobs/subscriptionCron')
 const app=express()
 const server_port=process.env.SERVER_PORT
 connectDb()
-app.use(express.json())
-app.use(express.urlencoded())
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 app.use(cookieParser())
 app.use(cors({origin:"http://localhost:5173",credentials:true}))
 

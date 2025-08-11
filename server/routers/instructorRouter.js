@@ -15,6 +15,7 @@ const courseCreate = require('../controllers/instructor controller/courseCreate'
 const thumbnailUpload = require('../controllers/instructor controller/courseThumbanailUploading')
 const courseByInstructorId = require('../controllers/instructor controller/courseByInstructorId')
 const instructorTotalWatch = require('../controllers/instructor controller/instructorTotalWatchTime')
+const topLecturesByInstructor = require('../controllers/instructor controller/topLectureInstructorById')
 
 
 router.post('/auth/register', [instructorRegisterLimiter,upload.fields([
@@ -37,4 +38,5 @@ router.post('/course/thumbnailUploading',uploadLimiter,jwtAuth,tumbanailUploadin
 ]),thumbnailUpload)
 router.get("/course/courseByInstructorId",jwtAuth,courseByInstructorId)
 router.get("/course/totalWatchTime",jwtAuth,instructorTotalWatch)
+router.get("/topLectures/:id",topLecturesByInstructor)
 module.exports = router

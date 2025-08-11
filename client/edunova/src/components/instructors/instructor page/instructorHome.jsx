@@ -29,6 +29,7 @@ const InstructorDashboard = () => {
   const [timeRange, setTimeRange] = useState('3months');
   const [data, setData] = useState([])
   const [totalWatchTime, setTotalWatchTime] = useState(null)
+  const [topCourses,setTopCourses]=useState([])
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -49,6 +50,13 @@ const InstructorDashboard = () => {
       .catch((err) => console.log())
   }, [])
 
+  useEffect(()=>{
+    axios.get(`http://localhost:5000/api/instructor/topLectures/${user?._id}`,{withCredentials:true})
+    .then((res)=>{
+      setTopCourses(res.data.data)
+    })
+    .catch((err)=>console.log())
+  },[])
 
 
 
@@ -102,12 +110,6 @@ const InstructorDashboard = () => {
     { month: 'Apr', revenue: 6800, students: 98 },
     { month: 'May', revenue: 9200, students: 125 },
     { month: 'Jun', revenue: 12458, students: 145 },
-  ];
-
-  const topCourses = [
-    { name: 'Advanced React Development', students: 324, revenue: '$4,850', growth: '+12%', rating: 4.9 },
-    { name: 'Python for Beginners', students: 256, revenue: '$3,420', growth: '+8%', rating: 4.7 },
-    { name: 'UI/UX Design Masterclass', students: 189, revenue: '$2,890', growth: '+15%', rating: 4.8 },
   ];
 
   const activities = [
@@ -268,11 +270,11 @@ const InstructorDashboard = () => {
               {topCourses.map((course, index) => (
                 <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 text-sm">{course.name}</h3>
+                    <h3 className="font-semibold text-gray-900 text-sm">{course.courseTitle}</h3>
                     <div className="flex items-center space-x-3 text-xs text-gray-600 mt-1">
                       <span className="flex items-center">
                         <Users className="w-3 h-3 mr-1" />
-                        {course.students}
+                        {course.totalStudents}
                       </span>
                       <span className="flex items-center">
                         <Star className="w-3 h-3 mr-1 text-yellow-500" />
@@ -281,7 +283,7 @@ const InstructorDashboard = () => {
                     </div>
                     <div className="flex items-center justify-between mt-2">
                       <span className="font-bold text-green-600 text-sm">{course.revenue}</span>
-                      <span className="text-emerald-600 text-xs font-medium">{course.growth}</span>
+                      <span className="text-emerald-600 text-xs font-medium">last 7 days Student growth {course.studentsLast7Days}</span>
                     </div>
                   </div>
                 </div>

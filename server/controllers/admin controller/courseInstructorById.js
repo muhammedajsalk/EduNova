@@ -6,7 +6,7 @@ const courseInstructorById = async (req,res) => {
         if (!id) {
              res.status(400).json({success:false,message:"data fetching error"})
         }
-        const courses=await CourseModel.find({instructorId:id})
+        const courses=await CourseModel.find({instructorId:id}).populate("users")
         if(courses.length===0) return res.status(200).json({success:true,data:[]})
         res.status(200).json({success:true,data:courses})
     } catch (error) {

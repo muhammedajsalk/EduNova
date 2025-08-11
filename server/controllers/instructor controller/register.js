@@ -3,7 +3,7 @@ const bcrypt=require('bcryptjs')
 
 async function register(req, res) {
     try {
-        const { name, email, password, bio, phone, skills, linkedInProfile } = req.body;
+        const { name, email, password, bio, phone, skills, linkedInProfile,profession} = req.body;
 
         const skillsArray=skills.split(',')
 
@@ -20,6 +20,7 @@ async function register(req, res) {
         };
         const instractor = await instructorModel.findOne({ email })
         instractor.name = name,
+        instractor.profession=profession,
         instractor.email = email,
         instractor.phone = phone,
         instractor.password = hashedPassword,

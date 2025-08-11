@@ -67,6 +67,7 @@ function InstructorRegister() {
       bio: '',
       skills: '',
       linkedInProfile: '',
+      profession:'',
       avatar: null,
       demoVideo: null,
       degreeCertificate: null,
@@ -237,6 +238,23 @@ function InstructorRegister() {
                 />
                 {formik.touched.name && formik.errors.name && (
                   <p className="mt-1 text-sm text-red-600">{formik.errors.name}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Profession *
+                </label>
+                <input
+                  name="name"
+                  type="text"
+                  value={formik.values.profession}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  placeholder="Software Developer"/>
+                {formik.touched.profession && formik.errors.profession && (
+                  <p className="mt-1 text-sm text-red-600">{formik.errors.profession}</p>
                 )}
               </div>
 

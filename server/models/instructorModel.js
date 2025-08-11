@@ -16,26 +16,23 @@ const instructorSchema = new mongoose.Schema({
     },
 
     avatar: {
-        type: String, // URL to avatar image
+        type: String, 
     },
 
-    // Profile Info
     bio: {
         type: String,
         maxlength: 1000,
     },
 
     skills: {
-        type: [String], // e.g., ["JavaScript", "React", "Teaching"]
+        type: [String], 
     },
 
-    // Instructor Course Info
     myCourses: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course",
     }],
 
-    // Earnings & Financials
     earnings: {
         type: Number,
         default: 0,
@@ -51,7 +48,6 @@ const instructorSchema = new mongoose.Schema({
         }
     }],
 
-    // Verification Info
 
     demoVideo: {
         type: String,
