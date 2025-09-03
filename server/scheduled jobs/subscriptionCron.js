@@ -25,6 +25,7 @@ const startSubscriptionCleanupJob = () => {
 
       console.log(`[Cron Job] Expired subscriptions updated: ${result.modifiedCount}`);
       console.log(`[Cron Job] Expired mentorship updated: ${mentorDate.modifiedCount}`);
+      console.log(`[Cron Job] Expired videosession updated: ${videoSession.modifiedCount}`);
     } catch (err) {
       console.error("[Cron Job] Subscription cleanup error:", err);
     }

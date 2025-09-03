@@ -39,6 +39,11 @@ const videoSessionModelSchema = new mongoose.Schema({
     isActive: {
         type: Boolean,
         default: true
+    },
+    status:{
+      type:String,
+      enum:["completed","upcomming","canceled"],
+      default:"upcomming"
     }
 }, { timestamps: true })
 
