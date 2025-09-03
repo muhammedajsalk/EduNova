@@ -19,6 +19,7 @@ const mentorshipGetById = require('../controllers/users controller/getMentorship
 const buyMentorship = require('../controllers/users controller/buyMentorship')
 const verifyMentoshipPayment = require('../controllers/users controller/verifyMentorshipPayment')
 const getUserMentorshipById = require('../controllers/users controller/getUserMentorshipById')
+const logOut = require('../controllers/users controller/logout')
 
 router.post("/auth/register",[authLimiter,otpAuth],userRegister)
 router.post("/auth/otpSent",otpLimiter,otpSent)
@@ -35,5 +36,6 @@ router.get("/mentorShip/:id",jwtAuth,mentorshipGetById)
 router.post("/mentorShip/buy",jwtAuth,buyMentorship),
 router.post("/mentorShip/verify",jwtAuth,verifyMentoshipPayment)
 router.get("/getUserAllMentorship",jwtAuth,getUserMentorshipById)
+router.post("/logout",jwtAuth,logOut)
 
 module.exports=router

@@ -1,13 +1,16 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { FiMenu, FiX, FiBell } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../../../userContext";
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
 
 function UserNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [desktopProfileOpen, setDesktopProfileOpen] = useState(false);
   const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
   const { user } = useContext(UserContext);
+  const navigate=useNavigate()
 
   const desktopRef = useRef();
   const mobileRef = useRef();
@@ -27,8 +30,20 @@ function UserNavbar() {
 
   const closeMenu = () => setIsOpen(false);
 
+  const logOut=()=>{
+    axios.post("http://localhost:5000/api/users/logout",{},{withCredentials:true})
+    .then((res)=>{
+      toast.success("logOut Successfully")
+      setTimeout(() => {
+        navigate("/login")
+      }, 3000);
+    })
+    .catch((err)=>console.log(err))
+  }
+
   return (
-    <nav className="shadow-sm px-6 py-4 w-full fixed top-0 left-0 bg-white z-50">
+    <>
+      <nav className="shadow-sm px-6 py-4 w-full fixed top-0 left-0 bg-white z-50">
       <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
         <div className="text-2xl font-bold text-emerald-600">EduNova</div>
 
@@ -60,7 +75,7 @@ function UserNavbar() {
             <div className="absolute right-0 top-12 w-48 bg-white border rounded-lg shadow-lg py-2 z-50">
               <Link to="/learningDashboard" className="block px-4 py-2 hover:bg-gray-100">Dashboard</Link>
               <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</Link>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">Log Out</button>
+              <button className="w-full text-left px-4 py-2 hover:bg-gray-100" onClick={()=>logOut()}>Log Out</button>
             </div>
           )}
         </div>
@@ -104,12 +119,14 @@ function UserNavbar() {
             <div className="mt-2 w-full bg-white border rounded-lg shadow-lg py-2 z-50">
               <Link to="/learningDashboard" className="block px-4 py-2 hover:bg-gray-100" onClick={closeMenu}>Dashboard</Link>
               <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100" onClick={closeMenu}>Profile</Link>
-              <button className="w-full text-left px-4 py-2 hover:bg-gray-100">Log Out</button>
+              <button className="w-full text-left px-4 py-2 hover:bg-gray-100" onClick={()=>logOut()}>Log Out</button>
             </div>
           )}
         </div>
       )}
     </nav>
+    <ToastContainer position="top-right" autoClose={3000} />
+    </>
   );
 }
 
