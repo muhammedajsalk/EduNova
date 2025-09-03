@@ -1,33 +1,35 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
-  FaBook,
-  FaUsers,
-  FaDollarSign,
-  FaHome,
-  FaTimes,
-  FaAdn,
-  FaUserCircle,
-} from "react-icons/fa";
-import { 
-  Home, 
-  BookOpen, 
-  Users, 
-  DollarSign, 
-  X, 
-  Mail, 
+  Home,
+  BookOpen,
+  Users,
+  DollarSign,
   Settings,
-  Menu,
-  Search,
-  Bell,
-  User,
-  Activity
-} from 'lucide-react';
-import { useContext, useEffect, useState } from "react";
+  Activity,
+  LogOut,
+} from "lucide-react";
+import { useContext } from "react";
 import { FiMenu } from "react-icons/fi";
+import { FaTimes, FaUserCircle } from "react-icons/fa";
 import UserContext from "../../../userContext";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const InstructorSidebar = ({ isOpen, setIsOpen }) => {
+  const navigate = useNavigate();
+  const { user } = useContext(UserContext);
+
+  const logOut = async () => {
+    try {
+      await axios.post("http://localhost:5000/api/users/logout", {}, { withCredentials: true });
+      toast.success("Logged out successfully");
+      setTimeout(() => navigate("/login"), 1500);
+    } catch (err) {
+      console.error(err);
+      toast.error("Logout failed. Try again.");
+    }
+  };
+
   const navItems = [
     { label: "Dashboard", icon: <Home size={18} />, path: "/instructorDashboard" },
     { label: "My Courses", icon: <BookOpen size={18} />, path: "/instructorDashboard/courses" },
@@ -36,8 +38,6 @@ const InstructorSidebar = ({ isOpen, setIsOpen }) => {
     { label: "Earnings", icon: <DollarSign size={18} />, path: "/instructorDashboard/earnings" },
     { label: "Setting", icon: <Settings size={18} />, path: "/instructorDashboard/earnings" },
   ];
-
-  const { user } = useContext(UserContext);
 
   return (
     <div className="flex h-screen bg-gray-50">
@@ -85,6 +85,17 @@ const InstructorSidebar = ({ isOpen, setIsOpen }) => {
               <span className="font-medium group-hover:text-gray-900">{item.label}</span>
             </NavLink>
           ))}
+
+          {/* Logout Button */}
+          <button
+            onClick={logOut}
+            className="w-full flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-red-50 transition-all duration-200 group"
+          >
+            <span className="text-gray-500 group-hover:text-red-600">
+              <LogOut size={18} />
+            </span>
+            <span className="font-medium group-hover:text-red-700">Logout</span>
+          </button>
         </nav>
 
         {/* Divider */}
@@ -97,8 +108,8 @@ const InstructorSidebar = ({ isOpen, setIsOpen }) => {
               <FaUserCircle className="text-white" size={20} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-gray-900 truncate">{user.name}</p>
-              <p className="text-xs text-gray-500 truncate">{user.email}</p>
+              <p className="text-sm font-medium text-gray-900 truncate">{user?.name}</p>
+              <p className="text-xs text-gray-500 truncate">{user?.email}</p>
             </div>
           </div>
         </div>
@@ -111,6 +122,7 @@ const InstructorSidebar = ({ isOpen, setIsOpen }) => {
           onClick={() => setIsOpen(false)}
         />
       )}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

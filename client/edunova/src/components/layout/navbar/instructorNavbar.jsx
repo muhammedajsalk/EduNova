@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import { FiMenu, FiX, FiBell } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import UserContext from "../../../userContext";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 function InstructorNavbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,8 +25,20 @@ function InstructorNavbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const logOut=()=>{
+      axios.post("http://localhost:5000/api/users/logout",{},{withCredentials:true})
+      .then((res)=>{
+        toast.success("logOut Successfully")
+        setTimeout(() => {
+          navigate("/login")
+        }, 3000);
+      })
+      .catch((err)=>console.log(err))
+    }
+
   return (
-    <nav className="bg-white shadow-sm px-6 py-4 w-full fixed top-0 left-0 z-50">
+    <>
+     <nav className="bg-white shadow-sm px-6 py-4 w-full fixed top-0 left-0 z-50">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         {/* Logo */}
         <div className="text-2xl font-bold text-emerald-600">EduNova</div>
@@ -92,7 +106,7 @@ function InstructorNavbar() {
                 role="menuitem"
                 onClick={() => {
                   setProfileOpen(false);
-                  // Add your logout logic here
+                  logOut()
                 }}
               >
                 Log Out
@@ -200,7 +214,7 @@ function InstructorNavbar() {
                   onClick={() => {
                     setProfileOpen(false);
                     setIsOpen(false);
-                    // Add your logout logic here
+                    logOut()
                   }}
                 >
                   Log Out
@@ -211,6 +225,8 @@ function InstructorNavbar() {
         </div>
       )}
     </nav>
+    <ToastContainer position="top-right" autoClose={3000} />
+    </>  
   );
 }
 
