@@ -27,7 +27,7 @@ async function login(req, res) {
                     sameSite: 'strict',
                     maxAge: 60 * 60 * 1000
                 })
-                return res.status(200).json({ success: true, message: "instructor succefully logged" })
+                return res.status(200).json({ success: true, message: "instructor succefully logged" ,data:isEmailIsAvailable})
             }
         }
         const { email, password } = req.body
@@ -44,7 +44,7 @@ async function login(req, res) {
             sameSite: 'strict',
             maxAge: 60 * 60 * 1000
         })
-        res.status(200).json({ success: true, message: "instructor succefully logged" })
+        res.status(200).json({ success: true, message: "instructor succefully logged" ,data:instructor})
     } catch (error) {
         res.status(500).json({ success: false, message: "server side error" })
         console.log(error)

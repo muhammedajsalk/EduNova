@@ -12,6 +12,8 @@ const LearningDashboard = () => {
 
   const { user } = useContext(UserContext);
 
+  console.log("user",user)
+
   useEffect(() => {
     axios.get(`http://localhost:5000/api/admin/userById/${user?._id}`, { withCredentials: true })
       .then((res) => setCoursesData(res?.data?.data?.enrolledCourses || []))

@@ -39,7 +39,8 @@ async function login(req, res) {
                 await isEmailIsAvailable.save()
                 return res.status(200).json({
                     success: true,
-                    message: "user loged succefully"
+                    message: "user loged succefully",
+                    data:isEmailIsAvailable
                 })
             }
             const newUser = new userModel({
@@ -88,7 +89,8 @@ async function login(req, res) {
         })
         res.status(200).json({
             success: true,
-            message: 'Successfully logged in'
+            message: 'Successfully logged in',
+            data:user
         })
     } catch (error) {
         res.status(500).json({ success: false, message: "server side error" })

@@ -82,12 +82,9 @@ function Routers() {
           <Route path='/insrtuctor/terms' element={<InstructorTerms />}></Route>
           <Route path='/ForgotPassword/:role' element={<ForgotPassword />}></Route>
           <Route path='/ResetPassword/:token/:role' element={<ResetPassword />}></Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}>
-            <Route path='/learningDashboard' element={<LearningDashboard />}></Route>
-          </Route>
           <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user', "instructor"]} />}>
             <Route path='/courseEntrollSection/:id' element={<CourseEntrollSection />}></Route>
-            <Route path='/findMentor/mentorsDetails/:id' element={<InstructorBooking/>} />
+            <Route path='/findMentor/mentorsDetails/:id' element={<InstructorBooking />} />
           </Route>
           <Route path='/instructorRegistor' element={<InstructorRegister />}></Route>
           <Route path='/adminLogin' element={<AdminLogin />}></Route>
@@ -136,24 +133,28 @@ function Routers() {
           <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
             <Route path='/admin/courseDetails/:id' element={<CourseDetailsPage />}></Route>
           </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}>
+          <Route
+            element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}
+          >
+            <Route path="/learningDashboard" element={<UserDashboardLayout />}>
+              <Route index element={<LearningDashboard />} />
+              <Route path="courses" element={<UserCourses />} />
+              <Route path="courseWatching/:id" element={<CourseVideoPlayer />} />
+            </Route>
+          </Route>
+          <Route
+            element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}
+          >
             <Route path="/instructorDashboard" element={<DashboardLayout />}>
               <Route index element={<InstructorHome />} />
               <Route path="courses" element={<InstructorAllCourse />} />
-              <Route path='createCourse' element={<CreateCourse />}></Route>
-              <Route path='CourseView/:id' element={<CourseViewPage />}></Route>
-              <Route path='Mentorship/scheduledStudent' element={<ScheduledStudents />}></Route>
-              <Route path='Mentorship/scheduledStudent/creation' element={<MentorshipProgramCreator/>}></Route>
+              <Route path="createCourse" element={<CreateCourse />} />
+              <Route path="CourseView/:id" element={<CourseViewPage />} />
+              <Route path="Mentorship/scheduledStudent" element={<ScheduledStudents />} />
+              <Route path="Mentorship/scheduledStudent/creation" element={<MentorshipProgramCreator />} />
             </Route>
           </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}>
-            <Route path="/learningDashboard" element={<UserDashboardLayout />}>
-              <Route index element={<LearningDashboard />} />
-              <Route path='courses' element={<UserCourses/>} />
-              <Route path='courseWatching/:id' element={<CourseVideoPlayer/>} />
-              <Route path='courseWatching/:id' element={<CourseVideoPlayer/>} />
-            </Route>
-          </Route>
+
           <Route path='/notFound' element={<NotFound404 />}></Route>
         </Routes>
       </Layout>
