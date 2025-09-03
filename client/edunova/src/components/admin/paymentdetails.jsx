@@ -35,11 +35,9 @@ export default function PaymentDetailsPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 lg:p-8">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8">
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-4 sm:mb-0">Payment Details</h1>
           
-          {/* User Dropdown */}
           <div className="relative">
             <button
               onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
@@ -63,9 +61,7 @@ export default function PaymentDetailsPage() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Column */}
           <div className="space-y-6">
-            {/* Customer Information */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Customer Information</h2>
               
@@ -96,7 +92,6 @@ export default function PaymentDetailsPage() {
               </div>
             </div>
 
-            {/* Payment Summary */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Payment Summary</h2>
               
@@ -130,7 +125,6 @@ export default function PaymentDetailsPage() {
               </button>
             </div>
 
-            {/* Subscription Details */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Subscription Details</h2>
               
@@ -165,9 +159,7 @@ export default function PaymentDetailsPage() {
             </div>
           </div>
 
-          {/* Right Column */}
           <div className="space-y-6">
-            {/* Billing Information */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Billing Information</h2>
               
@@ -191,11 +183,9 @@ export default function PaymentDetailsPage() {
               </div>
             </div>
 
-            {/* Payment History */}
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Payment History</h2>
               
-              {/* Desktop Table */}
               <div className="hidden md:block overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -223,7 +213,6 @@ export default function PaymentDetailsPage() {
                 </table>
               </div>
 
-              {/* Mobile Cards */}
               <div className="md:hidden space-y-4">
                 {paymentHistory.map((payment, index) => (
                   <div key={index} className="border border-gray-200 rounded-lg p-4">

@@ -86,7 +86,7 @@ function UserProfile() {
         setAllCourses(res.data?.data?.enrolledCourses)
       }
       )
-      .catch((err) => console.log(err))
+      .catch((err) => console.log("Error Fetching user"))
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
@@ -105,7 +105,7 @@ function UserProfile() {
         .then((res) => {
           axios.get(`http://localhost:5000/api/admin/userById/${id}`, { withCredentials: true })
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err))
+            .catch((err) => console.log("Error block users"))
           toast.success(res.data.message)
         }
         )
@@ -115,7 +115,7 @@ function UserProfile() {
         .then((res) => {
           axios.get(`http://localhost:5000/api/admin/userById/${id}`, { withCredentials: true })
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err))
+            .catch((err) => console.log("Error unblock users"))
           toast.success(res.data.message)
         })
         .catch((err) => toast.error(err.response?.data?.message || err.message))

@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 
-// Get duration from video file
 const getVideoDuration = (file) => {
   return new Promise((resolve, reject) => {
     const video = document.createElement("video");
@@ -19,7 +18,6 @@ const getVideoDuration = (file) => {
   });
 };
 
-// Yup validation schema
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required").max(100),
   category: Yup.string().required("Category is required"),
@@ -48,7 +46,6 @@ const validationSchema = Yup.object({
 });
 
 const CreateCourse = () => {
-  // ...All logic states and handlers (same as your code), no changes needed.
 
   const [uploadProgress, setUploadProgress] = useState({});
   const [uploadStatus, setUploadStatus] = useState({});
@@ -86,12 +83,11 @@ const CreateCourse = () => {
             }
         );
 
-        setThumbnailUploadProgress(0); // reset after upload
+        setThumbnailUploadProgress(0);
         return res.data.imageUrl;
     };
 
 
-    // ✅ Upload video & get duration
     const handleVideoUpload = async (file, key, setFieldValue, path) => {
         const formData = new FormData();
         formData.append("video", file);
@@ -122,9 +118,6 @@ const CreateCourse = () => {
         try {
             const payload = { ...values };
 
-            console.log("payload"+payload)
-
-            // Upload thumbnail if new
             if (typeof payload.thumbnail !== "string") {
                 payload.thumbnail = await uploadThumbnail(payload.thumbnail);
             }
@@ -136,7 +129,7 @@ const CreateCourse = () => {
             localStorage.removeItem("courseDraft");
             toast.success("course uploaded succefully")
         } catch (error) {
-            console.error(error);
+            console.error("Error uploading course");
             toast.error("course uploading unsuccefully")
         }
     };
@@ -151,7 +144,6 @@ const CreateCourse = () => {
     <>
       <div className="min-h-screen bg-slate-50">
         <div className="max-w-6xl mx-auto bg-white shadow-xl rounded-2xl px-10 py-10 mb-8">
-          {/* Page Title */}
           <div className="flex items-center justify-between mb-10">
             <div>
               <h2 className="text-3xl font-black text-slate-800 tracking-tight">Create New Course</h2>
@@ -162,7 +154,6 @@ const CreateCourse = () => {
             </div>
           </div>
           
-          {/* Formik Form */}
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
@@ -170,7 +161,6 @@ const CreateCourse = () => {
           >
             {({ values, setFieldValue }) => (
               <Form className="space-y-12">
-                {/* THUMBNAIL */}
                 <div className="group relative flex items-center gap-8 bg-slate-50 p-6 rounded-lg border border-dashed border-emerald-200 hover:border-emerald-400 transition mb-8 shadow-inner">
                   <div className="h-36 w-64 flex-shrink-0 flex flex-col justify-center items-center bg-gradient-to-tr from-emerald-50 to-white rounded-lg border border-emerald-100 overflow-hidden">
                     {typeof values.thumbnail === "string" ? (
@@ -212,9 +202,7 @@ const CreateCourse = () => {
                   </div>
                 </div>
 
-                {/* DETAILS ROW */}
                 <div className="grid md:grid-cols-2 gap-8">
-                  {/* Title */}
                   <div>
                     <Field
                       name="title"
@@ -224,7 +212,6 @@ const CreateCourse = () => {
                     <ErrorMessage name="title" component="div" className="text-red-600 text-xs mt-1" />
                     <p className="text-slate-400 text-xs">{values.title.length}/100 characters</p>
                   </div>
-                  {/* Category */}
                   <div>
                     <Field
                       as="select"
@@ -240,7 +227,6 @@ const CreateCourse = () => {
                   </div>
                 </div>
                 
-                {/* Description */}
                 <div>
                   <Field
                     as="textarea"
@@ -253,7 +239,6 @@ const CreateCourse = () => {
                   <div className="flex justify-end text-slate-400 text-xs">{values.description.length}/5000 characters</div>
                 </div>
 
-                {/* Curriculum Sections */}
                 <FieldArray name="curriculum">
                   {({ push, remove }) => (
                     <div>
@@ -274,13 +259,11 @@ const CreateCourse = () => {
                           <FaPlus /> Add Section
                         </button>
                       </div>
-                      {/* Section List */}
                       {values.curriculum.map((section, sectionIndex) => (
                         <div
                           key={sectionIndex}
                           className="mb-8 p-6 bg-slate-50 rounded-xl border border-slate-200 shadow-md"
                         >
-                          {/* Section Header */}
                           <div className="flex items-center mb-2">
                             <Field
                               name={`curriculum.${sectionIndex}.section`}
@@ -304,7 +287,6 @@ const CreateCourse = () => {
                             className="text-red-600 text-xs mb-2"
                           />
 
-                          {/* Lectures in section */}
                           <FieldArray name={`curriculum.${sectionIndex}.lectures`}>
                             {({ push: pushLecture, remove: removeLecture }) => (
                               <div>
@@ -317,7 +299,6 @@ const CreateCourse = () => {
                                       key={lectureIndex}
                                       className="mb-5 py-4 px-4 rounded-md bg-white border border-slate-200 shadow-inner flex flex-col md:flex-row md:items-center gap-4 relative group"
                                     >
-                                      {/* Lecture title */}
                                       <Field
                                         name={`curriculum.${sectionIndex}.lectures.${lectureIndex}.title`}
                                         placeholder="Lecture Title"
@@ -328,7 +309,6 @@ const CreateCourse = () => {
                                         component="div"
                                         className="text-red-600 text-xs absolute left-0 -bottom-5"
                                       />
-                                      {/* Video Upload / Status */}
                                       <div className="w-full md:w-[320px] flex items-center">
                                         {typeof lecture.file === "string" ? (
                                           <div className="flex items-center gap-2 text-green-700 font-bold text-xs">
@@ -367,7 +347,6 @@ const CreateCourse = () => {
                                             aria-label={`Upload video for lecture ${lectureIndex + 1}`}
                                           />
                                         )}
-                                        {/* Progress bar/status */}
                                         {uploadStatus[key] === "uploading" && (
                                           <div className="ml-2 w-20 h-2 rounded-full bg-emerald-100">
                                             <div
@@ -388,13 +367,11 @@ const CreateCourse = () => {
                                         component="div"
                                         className="text-red-600 text-xs absolute left-1 mt-1"
                                       />
-                                      {/* Duration */}
                                       {lecture.duration && (
                                         <div className="text-xs text-slate-500 italic w-28">
                                           <span>⏱ {Math.floor(lecture.duration / 60)}m {Math.round(lecture.duration % 60)}s</span>
                                         </div>
                                       )}
-                                      {/* Remove lecture */}
                                       <button
                                         type="button"
                                         onClick={() => removeLecture(lectureIndex)}
@@ -406,7 +383,6 @@ const CreateCourse = () => {
                                     </div>
                                   );
                                 })}
-                                {/* Add lecture btn */}
                                 <button
                                   type="button"
                                   onClick={() =>
@@ -426,7 +402,6 @@ const CreateCourse = () => {
                   )}
                 </FieldArray>
 
-                {/* Toolbar: Save draft / Submit */}
                 <div className="flex items-center justify-between border-t pt-8 mt-12">
                   <div className="flex gap-4">
                     <button

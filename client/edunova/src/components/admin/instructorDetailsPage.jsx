@@ -14,13 +14,13 @@ function InstructorDetailsPage() {
     useEffect(() => {
         axios.get(`http://localhost:5000/api/admin/instructorById/${id}`,{withCredentials:true})
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err.response?.data?.message || err.message))
+            .catch((err) => console.log("Error Fetching Instructor"))
     }, [])
 
     useEffect(()=>{
         axios.get(`http://localhost:5000/api/admin/instructorCourses/${id}`)
         .then((res)=>setCourse(res.data.data))
-        .catch((err) => console.log(err.response?.data?.message || err.message))
+        .catch((err) => console.log("Error Fetching Instructor Course"))
     },[])
 
 
@@ -31,7 +31,7 @@ function InstructorDetailsPage() {
                 .then((res) => {
                     axios.get(`http://localhost:5000/api/admin/instructorById/${id}`, { withCredentials: true })
                         .then((res) => setData(res.data.data))
-                        .catch((err) => console.log(err))
+                        .catch((err) => console.log("Error Block Instructor"))
                     toast.success(res.data.message)
                 })
                 .catch((err) => toast.error(err.response?.data?.message || err.message))
@@ -40,7 +40,7 @@ function InstructorDetailsPage() {
                 .then((res) => {
                     axios.get(`http://localhost:5000/api/admin/instructorById/${id}`, { withCredentials: true })
                         .then((res) => setData(res.data.data))
-                        .catch((err) => console.log(err))
+                        .catch((err) => console.log("Error unBlock Instructor"))
                     toast.success(res.data.message)
                 })
                 .catch((err) => toast.error(err.response?.data?.message || err.message))

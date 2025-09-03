@@ -58,7 +58,7 @@ function CoursesManagement() {
     axios
       .get("http://localhost:5000/api/admin/allCourses", { withCredentials: true })
       .then((res) => setCourses(res.data.data))
-      .catch((err) => console.error(err))
+      .catch((err) => console.error("Fetching issue"))
       .finally(() => setLoading(false));
   }, []);
 

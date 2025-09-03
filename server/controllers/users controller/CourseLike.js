@@ -4,7 +4,6 @@ const userModel = require("../../models/usersModel")
 const courseLike = async (req, res) => {
     try {
         const { courseId, lectureId } = req.body
-        console.log(req.user)
         const { id } = req.user
         const user = await userModel.findById(id)
         const course=await CourseModel.findById(courseId)

@@ -85,11 +85,8 @@ export default function PaymentTransactionsDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 lg:p-8 mt-12">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-6">Payment Transactions</h1>
-          
-          {/* Stats Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h3 className="text-sm font-medium text-gray-500 mb-2">Total Transactions</h3>
@@ -116,10 +113,8 @@ export default function PaymentTransactionsDashboard() {
             </div>
           </div>
 
-          {/* Controls */}
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-              {/* Search and Filters */}
               <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
                 <div className="relative">
                   <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
@@ -166,7 +161,6 @@ export default function PaymentTransactionsDashboard() {
                 </div>
               </div>
 
-              {/* Right side controls */}
               <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-gray-600">Last 30 days</span>
@@ -195,9 +189,7 @@ export default function PaymentTransactionsDashboard() {
           </div>
         </div>
 
-        {/* Transactions Table */}
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          {/* Desktop Table */}
           <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
@@ -265,7 +257,6 @@ export default function PaymentTransactionsDashboard() {
             </table>
           </div>
 
-          {/* Mobile Cards */}
           <div className="lg:hidden">
             {transactions.map((transaction) => (
               <div key={transaction.id} className="p-6 border-b border-gray-200 last:border-b-0">
@@ -300,7 +291,6 @@ export default function PaymentTransactionsDashboard() {
             ))}
           </div>
 
-          {/* Pagination */}
           <div className="bg-white px-6 py-3 border-t border-gray-200">
             <div className="flex items-center justify-between">
               <p className="text-sm text-gray-700">

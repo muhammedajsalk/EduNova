@@ -18,7 +18,6 @@ const InstructorBooking = () => {
     currentMonth
   }
 
-  console.log("data", data)
 
   const fetchInstructor = async () => {
     try {
@@ -26,8 +25,6 @@ const InstructorBooking = () => {
         `http://localhost:5000/api/users/mentorShip/${instructorId}`,
         { withCredentials: true }
       );
-
-        console.log("datas", data)
 
       if (data.success) {
         const mentorshipDate = new Date(data.data.date);
@@ -42,8 +39,7 @@ const InstructorBooking = () => {
       }
     } catch (err) {
       console.error(
-        "Error fetching instructor details:",
-        err.response?.data?.message || err.message
+        "Error fetching instructor details:"
       );
     }
   };
@@ -140,12 +136,10 @@ const InstructorBooking = () => {
       );
     });
 
-  // Show loading while API not loaded or month not set
   if (!instructor || !currentMonth) {
     return <div className="p-4">Loading instructor details...</div>;
   }
 
-  // UI constants
   const monthNames = [
     "January", "February", "March", "April", "May", "June",
     "July", "August", "September", "October", "November", "December"
@@ -158,10 +152,8 @@ const InstructorBooking = () => {
     <div className="min-h-screen bg-gray-50 p-4 mt-16">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
 
-        {/* LEFT COLUMN */}
         <div className="lg:col-span-2 space-y-6">
 
-          {/* Instructor Card */}
           <div className="bg-white rounded-lg p-6 shadow-sm flex items-start space-x-4">
             <img
               src={instructor.instructorImage}
@@ -178,23 +170,19 @@ const InstructorBooking = () => {
             </div>
           </div>
 
-          {/* Calendar */}
           <div className="bg-white rounded-lg p-6 shadow-sm">
-            {/* Calendar header */}
             <div className="flex justify-between mb-6">
               <h3 className="text-lg font-medium">
                 {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
               </h3>
             </div>
 
-            {/* Days of week */}
             <div className="grid grid-cols-7 text-sm text-center font-medium text-gray-500">
               {dayNames.map((day) => (
                 <div key={day}>{day}</div>
               ))}
             </div>
 
-            {/* Calendar days */}
             <div className="grid grid-cols-7 gap-1 mt-2">
               {days.map((day, idx) => (
                 <div key={idx}>
@@ -216,7 +204,6 @@ const InstructorBooking = () => {
               ))}
             </div>
 
-            {/* Time slots */}
             <div className="mt-6">
               <h4 className="text-base font-medium mb-4">Available Time Slots</h4>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
@@ -237,7 +224,6 @@ const InstructorBooking = () => {
           </div>
         </div>
 
-        {/* RIGHT COLUMN - Booking Summary */}
         <div className="bg-white rounded-lg p-6 shadow-sm h-fit">
           <h3 className="text-lg font-medium mb-6">Booking Summary</h3>
 

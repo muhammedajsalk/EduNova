@@ -20,7 +20,7 @@ function HomeCourses() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {courses.map((course, idx) => {
-          const maxPossibleScore = 100; // adjust to match backend scoring
+          const maxPossibleScore = 100;
           const rating = Math.min(5, (course.score / maxPossibleScore) * 5);
 
           return (

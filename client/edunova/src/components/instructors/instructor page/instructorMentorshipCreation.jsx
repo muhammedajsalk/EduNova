@@ -102,7 +102,6 @@ export default function MentorshipProgramCreator() {
   const allDays = eachDayOfInterval({ start: startDate, end: endDate });
 
   const saveDraft = () => {
-    console.log("Saving draft...", formik.values);
     toast.success("Draft saved successfully!");
   };
 
@@ -117,7 +116,7 @@ export default function MentorshipProgramCreator() {
     try {
       await saveSelectedDate(day);
     } catch (error) {
-      console.error("Error saving date:", error);
+      console.error("Error saving date");
     }
   };
 

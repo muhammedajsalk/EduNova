@@ -15,7 +15,7 @@ const CourseViewPage = () => {
         setIsLoading(true);
         axios.get(`http://localhost:5000/api/admin/courseById/${id}`, { withCredentials: true })
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err))
+            .catch((err) => console.log("Error Fetching course"))
             .finally(() => setIsLoading(false));
     }, [id]);
 
@@ -95,7 +95,6 @@ const CourseViewPage = () => {
             ) : (
                 <>
                     <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-6 ">
-                        {/* Header */}
                         <div className="flex justify-between items-center">
                             <div>
                                 <h1 className="text-2xl font-bold">{data.title}</h1>
@@ -108,9 +107,7 @@ const CourseViewPage = () => {
                             </div>
                         </div>
 
-                        {/* Course Info */}
                         <div className="grid md:grid-cols-3 gap-6">
-                            {/* Description */}
                             <div className="md:col-span-2 bg-white shadow rounded-xl p-5">
                                 <span className="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full mb-2 inline-block">{data.category}</span>
                                 <div className="aspect-video bg-gray-100 flex items-center justify-center rounded-xl text-gray-400 text-4xl">
@@ -128,7 +125,6 @@ const CourseViewPage = () => {
                                 <div className="mt-2 text-green-600 font-semibold text-sm">Status: Active</div>
                             </div>
 
-                            {/* ✅ Only Course Statistics (Instructor Details Removed) */}
                             <div className="bg-white shadow rounded-xl p-5">
                                 <h3 className="font-bold text-lg mb-4 text-gray-800">Course Statistics</h3>
                                 <ul className="space-y-3 text-gray-700 text-sm">
@@ -160,7 +156,6 @@ const CourseViewPage = () => {
                             </div>
                         </div>
 
-                        {/* Curriculum */}
                         <div className="mt-8">
                             <h2 className="text-xl font-semibold mb-4">Course Curriculum</h2>
                             <div className="space-y-6">
@@ -192,7 +187,6 @@ const CourseViewPage = () => {
                         </div>
                     </div>
 
-                    {/* Video Modal */}
                     {isModalOpen && (
                         <div className="fixed inset-0 bg-opacity-60 flex items-center justify-center z-50">
                             <div className="bg-black w-full max-w-2xl rounded shadow-lg p-4 relative">

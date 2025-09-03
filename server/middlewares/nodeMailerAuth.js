@@ -9,7 +9,6 @@ async function otpAuth(req, res, next) {
             const { otp, name, email, password, role } = req.body
             const model = role === "user" ? userModel : instructorModel;
             const user = await model.findOne({ email })
-            console.log(req.body)
             const existingUser = await model.findOne({ email, name })
             if (role === "instructor") {
                 const existingInstructor = await instructorModel.findOne({ email })

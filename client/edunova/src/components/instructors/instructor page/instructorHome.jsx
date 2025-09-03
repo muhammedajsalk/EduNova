@@ -35,7 +35,7 @@ const InstructorDashboard = () => {
   useEffect(() => {
     axios.get(`http://localhost:5000/api/instructor/course/courseByInstructorId`, { withCredentials: true })
       .then((res) => setData(res.data.data))
-      .catch((err) => console.log())
+      .catch((err) => console.log("Error Fetching course"))
   }, [])
 
   useEffect(() => {
@@ -44,10 +44,9 @@ const InstructorDashboard = () => {
         const seconds = res?.data?.data?.[0]?.totalWatchTime || 0;
         const minutes = (seconds / 60).toFixed(2);
         setTotalWatchTime(minutes);
-        console.log("new",seconds)
       }
       )
-      .catch((err) => console.log())
+      .catch((err) => console.log("Error Fetching topWatchTime"))
   }, [])
 
   useEffect(()=>{
@@ -55,7 +54,7 @@ const InstructorDashboard = () => {
     .then((res)=>{
       setTopCourses(res.data.data)
     })
-    .catch((err)=>console.log())
+    .catch((err)=>console.log("Error Fetching Lectures"))
   },[])
 
 
@@ -181,7 +180,6 @@ const InstructorDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6">
       <div className="max-w-full sm:max-w-6xl mx-auto">
-        {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6">
           <div className="flex items-center mb-4 sm:mb-0">
             <div>
@@ -207,16 +205,13 @@ const InstructorDashboard = () => {
           </div>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
           {stats.map((stat, index) => (
             <StatCard key={index} stat={stat} />
           ))}
         </div>
 
-        {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-          {/* Revenue Chart */}
           <div className="lg:col-span-2 bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4">
               <div>
@@ -263,7 +258,6 @@ const InstructorDashboard = () => {
             </div>
           </div>
 
-          {/* Top Performing Courses */}
           <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
             <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">Top Performing Courses</h2>
             <div className="space-y-3">
@@ -292,9 +286,7 @@ const InstructorDashboard = () => {
           </div>
         </div>
 
-        {/* Bottom Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Recent Activity */}
           <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg sm:text-xl font-bold text-gray-900">Recent Activity</h2>
@@ -327,7 +319,6 @@ const InstructorDashboard = () => {
             </div>
           </div>
 
-          {/* Quick Actions & Insights */}
           <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
             <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3 mb-4">
@@ -349,7 +340,6 @@ const InstructorDashboard = () => {
               </button>
             </div>
 
-            {/* Insights */}
             <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-lg p-4">
               <div className="flex items-center mb-2">
                 <Zap className="w-4 h-4 text-indigo-600 mr-2" />

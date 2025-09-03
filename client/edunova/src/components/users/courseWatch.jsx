@@ -72,7 +72,7 @@ const CourseVideoPlayer = () => {
         }
         axios.post("http://localhost:5000/api/users/course/like",{courseId:activeVideo.courseId,lectureId:activeVideo._id},{withCredentials:true})
         .then((res)=>console.log(res.data.message))
-        .catch((err)=>console.log(err))
+        .catch((err)=>console.log("Error Course Fetching"))
     };
 
 
@@ -106,7 +106,7 @@ const CourseVideoPlayer = () => {
             } catch (err) {
                 if (!axios.isCancel(err)) {
                     setError("Failed to load course. Please try again.");
-                    console.error("Fetch course error:", err.message);
+                    console.error("Fetch course error");
                 }
             } finally {
                 setLoading(false);
@@ -150,7 +150,7 @@ const CourseVideoPlayer = () => {
             } catch (err) {
                 if (!axios.isCancel(err)) {
                     setError("Failed to load video. Please try again.");
-                    console.error("Fetch video URL error:", err.message);
+                    console.error("Fetch video URL error");
                 }
             }
         };
@@ -186,7 +186,7 @@ const CourseVideoPlayer = () => {
                         );
                     } catch (err) {
                         if (!axios.isCancel(err)) {
-                            console.error("Error updating watch time:", err.message);
+                            console.error("Error updating watch time");
                         }
                     }
                 };
@@ -280,7 +280,7 @@ const CourseVideoPlayer = () => {
 
     const handleVideoError = useCallback((e) => {
         setError("Video playback failed. Please try again.");
-        console.error("Playback error:", e);
+        console.error("Playback error:");
     }, []);
 
     const getLectureProgress = useCallback((lecture) => {
@@ -575,7 +575,6 @@ const CourseVideoPlayer = () => {
                     <VideoPlayerWithWatermark url={secureUrl} user={user} />
                 </div>
 
-                {/* Watched status */}
                 <div className="w-full max-w-5xl mt-4 flex flex-col md:flex-row md:items-center md:gap-4 gap-2">
                     <span className="text-gray-600 text-sm font-medium">
                           Watched: {Math.floor(watchedTime / 60)}:{String(Math.floor(watchedTime % 60)).padStart(2, '0')} minutes

@@ -36,7 +36,7 @@ const SubscriptionPage = () => {
     useEffect(() => {
         axios.get("http://localhost:5000/api/public/me", { withCredentials: true })
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err))
+            .catch((err) => console.log("Fetching Error"))
     }, [])
     const [billingCycle, setBillingCycle] = useState("monthly");
 
@@ -45,9 +45,6 @@ const SubscriptionPage = () => {
             standard: billingCycle === "monthly" ? 1000 : 10000, 
             premium: billingCycle === "monthly" ? 2500 : 25000, 
         };
-
-        console.log("amountMap", amountMap[plan])
-        console.log("courseId", plan + "-" + billingCycle)
 
         try {
             const res = await axios.post(
@@ -63,7 +60,7 @@ const SubscriptionPage = () => {
             const { order } = res.data;
 
             const options = {
-                key: import.meta.env.VITE_RAZORPAY_KEY_ID, // Or hardcode it
+                key: import.meta.env.VITE_RAZORPAY_KEY_ID,
                 amount: order?.amount,
                 currency: order?.currency,
                 name: "E-Learning Platform",
@@ -81,7 +78,6 @@ const SubscriptionPage = () => {
                             },
                             { withCredentials: true }
                         );
-                        console.log(verifyRes)
                         toast.success("Payment successful! Access granted.");
                     } catch (err) {
                         const message = err?.response?.data?.message || err?.message || "Something went wrong during payment.";
@@ -89,7 +85,7 @@ const SubscriptionPage = () => {
                     }
                 },
                 theme: {
-                    color: "#4F46E5", // emerald
+                    color: "#4F46E5",
                 },
             };
 
@@ -105,7 +101,6 @@ const SubscriptionPage = () => {
     return (
         <>
             <div className="font-sans text-gray-800 px-4 md:px-20 py-10 mt-10">
-                {/* Header */}
                 <section className="text-center mb-10">
                     <h1 className="text-3xl md:text-4xl font-bold mb-2">
                         Choose Your Learning Journey
@@ -138,9 +133,7 @@ const SubscriptionPage = () => {
                     </div>
                 </section>
 
-                {/* Pricing Cards */}
                 <section className="grid md:grid-cols-3 gap-8 mb-16">
-                    {/* Free Plan */}
                     <div className="border rounded-lg p-6 text-center shadow-sm">
                         <h3 className="text-xl font-semibold mb-2">Free</h3>
                         <p className="text-3xl font-bold mb-1">₹0</p>
@@ -157,7 +150,6 @@ const SubscriptionPage = () => {
                         </button>
                     </div>
 
-                    {/* Standard Plan */}
                     <div className="border-2 border-emerald-600 rounded-lg p-6 text-center shadow-lg relative">
                         <span className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-emerald-600 text-white px-3 py-1 text-xs rounded">
                             Most Popular
@@ -187,7 +179,6 @@ const SubscriptionPage = () => {
 
                     </div>
 
-                    {/* Premium Plan */}
                     <div className="border rounded-lg p-6 text-center shadow-sm">
                         <h3 className="text-xl font-semibold mb-2">Premium</h3>
                         <p className="text-3xl font-bold mb-1">
@@ -213,7 +204,6 @@ const SubscriptionPage = () => {
                     </div>
                 </section>
 
-                {/* Comparison Table */}
                 <section className="mb-16">
                     <h2 className="text-xl font-semibold text-center mb-6">Compare Plans</h2>
                     <div className="overflow-x-auto shadow-lg rounded-lg">
@@ -240,7 +230,6 @@ const SubscriptionPage = () => {
                     </div>
                 </section>
 
-                {/* Payment Section */}
                 <section className="text-center text-sm text-gray-500">
                     <p className="mb-3">Trusted Payment Methods</p>
                     <div className="flex justify-center gap-6">

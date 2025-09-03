@@ -29,7 +29,6 @@ const Sidebar = () => {
       toast.success("Logged out successfully");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
-      console.error(err);
       toast.error("Logout failed. Try again.");
     }
   };
@@ -45,7 +44,6 @@ const Sidebar = () => {
 
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* Mobile Menu Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="md:hidden fixed top-4 left-4 z-60 p-2 bg-white rounded-lg shadow-lg border border-gray-200"
@@ -54,7 +52,6 @@ const Sidebar = () => {
         <Menu size={20} className="text-gray-700" />
       </button>
 
-      {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 z-50 transform w-72 bg-white border-r border-gray-200
           transition-transform duration-300 ease-in-out 
@@ -62,7 +59,6 @@ const Sidebar = () => {
           md:translate-x-0 md:static md:w-72
           shadow-xl md:shadow-none`}
       >
-        {/* Header */}
         <div className="p-6 border-b border-gray-100 flex justify-between items-center">
           <h1 className="text-xl font-semibold text-emerald-600">EduNova</h1>
           <button
@@ -74,7 +70,6 @@ const Sidebar = () => {
           </button>
         </div>
 
-        {/* Search Bar */}
         <div className="p-6 border-b border-gray-100">
           <div className="relative">
             <Search
@@ -90,7 +85,6 @@ const Sidebar = () => {
           </div>
         </div>
 
-        {/* Navigation */}
         <nav className="p-6 space-y-1">
           {navItems.map((item, i) => {
             const isActive = location.pathname === item.path;
@@ -114,7 +108,6 @@ const Sidebar = () => {
             );
           })}
 
-          {/* Logout Button */}
           <button
             onClick={logOut}
             className="w-full flex items-center gap-3 p-3 rounded-lg text-gray-700 hover:bg-red-50 transition-all duration-200 group"
@@ -126,10 +119,8 @@ const Sidebar = () => {
           </button>
         </nav>
 
-        {/* Divider */}
         <div className="mx-6 border-t border-gray-200 my-4"></div>
 
-        {/* User Profile */}
         <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-200 bg-white">
           <div className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
             <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-purple-600 rounded-full flex items-center justify-center">
@@ -143,7 +134,6 @@ const Sidebar = () => {
         </div>
       </aside>
 
-      {/* Overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 bg-black bg-opacity-30 z-40 md:hidden backdrop-blur-sm"
@@ -151,7 +141,6 @@ const Sidebar = () => {
         />
       )}
 
-      {/* Toasts */}
       <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );

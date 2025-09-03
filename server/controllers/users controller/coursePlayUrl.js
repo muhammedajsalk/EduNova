@@ -3,10 +3,7 @@ const CourseModel = require("../../models/courseModel");
 exports.getLectureUrlByCourseTitle = async (req, res) => {
     try {
         const courseTitle = req.params.courseTitle;
-        const courseId = req.params.courseId; // optional
-
-        console.log("courseTitle",courseTitle)
-        console.log("lectureIndex",courseId)
+        const courseId = req.params.courseId;
 
         if (!courseTitle) {
             return res.status(400).json({ success: false, message: "Course title is required" });

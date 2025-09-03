@@ -5,10 +5,6 @@ const mentorshipModel = require("../../models/mentorshipModel");
 const mentorshipGetById = async (req, res) => {
   try {
     const mentorshipId = req.params.id;
-
-    console.log(mentorshipId)
-
-
     if (!mongoose.Types.ObjectId.isValid(mentorshipId)) {
       return res.status(400).json({
         success: false,

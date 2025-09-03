@@ -20,7 +20,7 @@ function AdminNavbar() {
           navigate("/login");
         }, 3000);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("Error Logout"));
   };
 
   return (
@@ -29,7 +29,6 @@ function AdminNavbar() {
         <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
           <div className="text-2xl font-bold text-emerald-600">EduNova</div>
 
-          {/* Desktop Menu */}
           <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
             <li className="hover:underline decoration-emerald-600">
               <Link to={"/adminDashBoard"}>Home</Link>
@@ -48,7 +47,6 @@ function AdminNavbar() {
             </li>
           </ul>
 
-          {/* Profile Dropdown (Desktop) */}
           <div className="hidden md:flex items-center space-x-4 relative">
             <button
               onClick={toggleDropdown}
@@ -69,7 +67,6 @@ function AdminNavbar() {
             )}
           </div>
 
-          {/* Mobile Menu Toggle */}
           <div className="md:hidden">
             <button onClick={toggleMenu}>
               {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -77,7 +74,6 @@ function AdminNavbar() {
           </div>
         </div>
 
-        {/* Mobile Dropdown */}
         {isOpen && (
           <div className="md:hidden mt-4 space-y-4 px-2">
             <ul className="flex flex-col space-y-2 text-gray-700 font-medium">

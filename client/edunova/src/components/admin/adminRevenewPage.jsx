@@ -4,7 +4,6 @@ import { TrendingUp, Users, Calendar, DollarSign, Target, UserCheck } from 'luci
 import { Link } from 'react-router-dom';
 
 const AdminRevenew = () => {
-    // Sample data for charts
     const revenueData = [
         { month: 'Jan', value: 40000 },
         { month: 'Feb', value: 45000 },
@@ -77,7 +76,6 @@ const AdminRevenew = () => {
     return (
         <div className="min-h-screen bg-gray-50 p-4 lg:p-8 mt-12">
             <div className="max-w-7xl mx-auto">
-                {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
                     <StatCard
                         title="Total Revenue"
@@ -121,9 +119,7 @@ const AdminRevenew = () => {
                     />
                 </div>
 
-                {/* Charts Row */}
                 <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 mb-8">
-                    {/* Revenue Trends */}
                     <div className="xl:col-span-2 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-lg font-semibold text-gray-900">Revenue Trends</h2>
@@ -152,7 +148,6 @@ const AdminRevenew = () => {
                         </div>
                     </div>
 
-                    {/* Revenue by Source */}
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <h2 className="text-lg font-semibold text-gray-900 mb-6">Revenue by Source</h2>
                         <div className="h-48 flex items-center justify-center">
@@ -188,7 +183,6 @@ const AdminRevenew = () => {
                     </div>
                 </div>
 
-                {/* Revenue by Plan Type */}
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-8">
                     <h2 className="text-lg font-semibold text-gray-900 mb-6">Revenue by Plan Type</h2>
                     <div className="h-64">
@@ -207,9 +201,7 @@ const AdminRevenew = () => {
                     </div>
                 </div>
 
-                {/* Tables Row */}
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-                    {/* Top Earning Instructors */}
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <h2 className="text-lg font-semibold text-gray-900 mb-6">Top Earning Instructors</h2>
                         <div className="overflow-x-auto">
@@ -246,8 +238,6 @@ const AdminRevenew = () => {
                             </table>
                         </div>
                     </div>
-
-                    {/* Payout Requests */}
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-lg font-semibold text-gray-900">Payout Requests</h2>

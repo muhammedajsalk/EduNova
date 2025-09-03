@@ -24,7 +24,6 @@ const revenueData = [
   { name: 'Apr', value: 847293, target: 800000 },
 ];
 
-// Enhanced Metric Card with animations and better visuals
 const MetricCard = ({ title, value, change, changeType, icon: Icon, gradient, trend }) => (
   <div className={`group relative overflow-hidden rounded-3xl p-6 ${gradient} shadow-lg hover:shadow-xl transition-all duration-300 border-0 transform hover:-translate-y-1`}>
     <div className="absolute inset-0 bg-gradient-to-r from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -56,7 +55,6 @@ const MetricCard = ({ title, value, change, changeType, icon: Icon, gradient, tr
   </div>
 );
 
-// Premium Chart Container
 const ChartContainer = ({ title, subtitle, value, change, children, actions }) => (
   <div className="bg-white/70 backdrop-blur-xl rounded-3xl p-8 shadow-xl border border-white/20 hover:shadow-2xl transition-all duration-300">
     <div className="flex items-start justify-between mb-6">
@@ -88,7 +86,6 @@ const ChartContainer = ({ title, subtitle, value, change, children, actions }) =
   </div>
 );
 
-// Premium Table Component
 const ModernWatchTable = ({ title, icon: Icon, data, columns, actions = true }) => (
   <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-xl border border-white/20 overflow-hidden">
     <div className="px-8 py-6 border-b border-gray-100/50 bg-gradient-to-r from-gray-50/50 to-transparent">
@@ -198,7 +195,6 @@ const ModernLikeTable = ({ title, icon: Icon, data, columns, actions = true }) =
               </td>
               <td className="px-8 py-5 whitespace-nowrap">
                 <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800">
-                  {console.log(row.like)}
                   {row.like}
                 </span>
               </td>
@@ -210,7 +206,6 @@ const ModernLikeTable = ({ title, icon: Icon, data, columns, actions = true }) =
   </div>
 );
 
-// Enhanced Alert Component
 const AlertItem = ({ type, message, time, status = 'active' }) => (
   <div className={`group relative overflow-hidden rounded-2xl p-5 border transition-all duration-300 hover:shadow-lg ${
     type === 'critical' 
@@ -256,22 +251,17 @@ function AdminDashboard() {
   const [topLiked, setTopLiked] = useState([]);
 
   useEffect(() => {
-    // Your actual API call
     axios.get("http://localhost:5000/api/admin/topLectures")
     .then((res) => {
       setTopWatched(res.data.data[0]?.topWatched)
       setTopLiked(res.data.data[0]?.topLiked)
     })
-    .catch((err) => console.log(err))
+    .catch((err) => console.log("Fetching issue"))
   }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 mt-16">
-      {/* Ultra Modern Header */}
-
-      {/* Main Content */}
       <main className="px-8 py-8 space-y-10">
-        {/* Hero Metrics */}
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <MetricCard
             title="User"
@@ -310,8 +300,6 @@ function AdminDashboard() {
             gradient="bg-gradient-to-br from-orange-500 to-red-600"
           />
         </section>
-
-        {/* Advanced Charts */}
         <section className="grid lg:grid-cols-2 gap-8">
           <ChartContainer
             title="Monthly Active Users"
@@ -410,8 +398,6 @@ function AdminDashboard() {
             </ResponsiveContainer>
           </ChartContainer>
         </section>
-
-        {/* Premium Tables */}
         <section className="grid lg:grid-cols-2 gap-8">
           <ModernWatchTable
             title="Top Watched Lectures"
@@ -426,8 +412,6 @@ function AdminDashboard() {
             columns={['Lecture', 'Course', 'Instructor', 'Likes']}
           />
         </section>
-
-        {/* Enhanced System Alerts */}
         <section>
           <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-xl border border-white/20 p-8">
             <div className="flex items-center justify-between mb-8">

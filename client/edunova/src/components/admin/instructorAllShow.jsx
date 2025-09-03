@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-// Status Badge
 const StatusBadge = React.memo(({ status }) => {
   const base = "inline-flex px-2 py-1 text-xs font-semibold rounded-full";
   if (status === true || status === "approved")
@@ -14,7 +13,6 @@ const StatusBadge = React.memo(({ status }) => {
   return null;
 });
 
-// Skeleton Row
 const SkeletonRow = React.memo(() => (
   <tr className="animate-pulse border-t">
     <td className="px-6 py-4 flex items-center gap-3">
@@ -38,7 +36,6 @@ function InstructorsManagement() {
   const [sort, setSort] = useState("Name");
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Fetch data once on mount
   useEffect(() => {
     setLoading(true);
     axios
@@ -48,7 +45,6 @@ function InstructorsManagement() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Derived stats (using memo for efficiency)
   const { total, active, blocked, pending } = useMemo(() => {
     let active = 0, blocked = 0, pending = 0;
     for (const i of instructors) {
@@ -59,7 +55,6 @@ function InstructorsManagement() {
     return { total: instructors.length, active, blocked, pending };
   }, [instructors]);
 
-  // Filter, sort, and search in a single memo
   const filteredSorted = useMemo(() => {
     let data = instructors.filter(inst => {
       const q = search.trim().toLowerCase();
@@ -72,7 +67,6 @@ function InstructorsManagement() {
       return match;
     });
 
-    // Sorting
     data = [...data].sort((a, b) => {
       switch (sort) {
         case "Name":
@@ -90,7 +84,6 @@ function InstructorsManagement() {
     return data;
   }, [instructors, search, status, sort]);
 
-  // Pagination (reset to 1 when query or filter changes)
   const perPage = 3;
   const totalPages = Math.ceil(filteredSorted.length / perPage);
   const visible = useMemo(
@@ -99,13 +92,11 @@ function InstructorsManagement() {
   );
   useEffect(() => { setCurrentPage(1); }, [search, status, sort]);
 
-  // Date format helper
   const fmtDate = iso => iso ? new Date(iso).toLocaleDateString() : "-";
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 lg:p-8 mt-12">
       <div className="max-w-7xl mx-auto">
-        {/* Header & verification badge */}
         <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">Instructors Management</h1>
           <Link to="/admin/instructor_Pending_Section" className="relative inline-block">
@@ -118,7 +109,6 @@ function InstructorsManagement() {
           </Link>
         </div>
 
-        {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-lg p-6 shadow-sm">
             <h3 className="text-sm font-medium text-gray-500 mb-2">Total Instructors</h3>
@@ -134,7 +124,6 @@ function InstructorsManagement() {
           </div>
         </div>
 
-        {/* Controls */}
         <div className="bg-white rounded-lg p-6 shadow-sm mb-8">
           <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
             <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
@@ -175,9 +164,7 @@ function InstructorsManagement() {
           </div>
         </div>
 
-        {/* Table */}
         <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          {/* Desktop Table */}
           <div className="hidden lg:block overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
@@ -231,7 +218,6 @@ function InstructorsManagement() {
             </table>
           </div>
 
-          {/* Mobile cards */}
           <div className="lg:hidden">
             {loading ? (
               Array.from({ length: 3 }).map((_, idx) => (
@@ -282,7 +268,6 @@ function InstructorsManagement() {
             )}
           </div>
 
-          {/* Pagination */}
           {!loading && totalPages > 1 && (
             <div className="bg-white px-6 py-3 border-t border-gray-200">
               <div className="flex items-center justify-between">

@@ -212,7 +212,6 @@ function Login() {
                                     setSubmiting(true)
                                     axios.post('http://localhost:5000/api/instructor/auth/login', credentialResponse, { withCredentials: true })
                                         .then((res) => {
-                                            console.log("instructor data",res.data)
                                             setUser({role:"instructor",...res.data?.data})
                                             toast.success(res.data.message)
                                             setTimeout(() => {

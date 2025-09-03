@@ -16,7 +16,7 @@ const CourseDetailsPage = () => {
         setIsLoading(true);
         axios.get(`http://localhost:5000/api/admin/courseById/${id}`, { withCredentials: true })
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err))
+            .catch((err) => console.log("Fetching issue"))
             .finally(() => setIsLoading(false))
     }, [])
 

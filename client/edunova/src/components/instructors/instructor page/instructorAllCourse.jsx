@@ -20,34 +20,27 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-// API Endpoint constant
 const API_ENDPOINT = "http://localhost:5000/api/instructor/course/courseByInstructorId";
 
 const COURSES_PER_PAGE_GRID = 9;
 const COURSES_PER_PAGE_LIST = 6;
 
 const CourseGrid = () => {
-  // STATES
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Filters and search
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [selectedLevel, setSelectedLevel] = useState("All");
 
-  // Sort and view mode
   const [sortBy, setSortBy] = useState("newest");
   const [viewMode, setViewMode] = useState("grid");
 
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Filters sidebar toggle for mobile
   const [showFilters, setShowFilters] = useState(false);
 
-  // Fetch courses
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -56,7 +49,7 @@ const CourseGrid = () => {
         setCourses(res.data.data || []);
         setError(null);
       } catch (err) {
-        console.error("Failed to fetch courses:", err);
+        console.error("Failed to fetch courses:");
         setError("Failed to load courses. Please try again.");
       } finally {
         setLoading(false);
@@ -65,7 +58,6 @@ const CourseGrid = () => {
     fetchCourses();
   }, []);
 
-  // Unique categories and levels for filtering
   const categories = useMemo(() => {
     const unique = [...new Set(courses.map(c => c.category))];
     return ["All", ...unique];
@@ -76,7 +68,6 @@ const CourseGrid = () => {
     return ["All", ...unique];
   }, [courses]);
 
-  // Filtering and Sorting the data
   const filteredAndSortedCourses = useMemo(() => {
     let filtered = courses.filter(course => {
       const matchesSearch =
@@ -89,7 +80,6 @@ const CourseGrid = () => {
       return matchesSearch && matchesCategory && matchesLevel;
     });
 
-    // Sort by selection
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "newest":
@@ -112,7 +102,6 @@ const CourseGrid = () => {
     return filtered;
   }, [courses, searchTerm, selectedCategory, selectedLevel, sortBy]);
 
-  // Pagination logic
   const coursesPerPage = viewMode === "grid" ? COURSES_PER_PAGE_GRID : COURSES_PER_PAGE_LIST;
 
   const paginationData = useMemo(() => {
@@ -123,14 +112,11 @@ const CourseGrid = () => {
     return { currentCourses, totalPages };
   }, [filteredAndSortedCourses, currentPage, coursesPerPage]);
 
-  // Reset page to 1 on filters/search/sort change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, selectedCategory, selectedLevel, sortBy, viewMode]);
 
-  // Handle page change
 
-  // Reset all filters & search
   const resetFilters = () => {
     setSearchTerm("");
     setSelectedCategory("All");
@@ -139,7 +125,6 @@ const CourseGrid = () => {
     setCurrentPage(1);
   };
 
-  // FilterSidebar component
   const FilterSidebar = () => (
     <div className={`bg-white rounded-xl shadow-lg p-6 ${showFilters ? "block" : "hidden lg:block"}`}>
       <div className="flex items-center justify-between mb-6">
@@ -153,7 +138,6 @@ const CourseGrid = () => {
         </button>
       </div>
 
-      {/* Category Filter */}
       <fieldset className="mb-6">
         <legend className="block text-sm font-medium text-gray-700 mb-3">Category</legend>
         <div className="space-y-2">
@@ -173,7 +157,6 @@ const CourseGrid = () => {
         </div>
       </fieldset>
 
-      {/* Level Filter */}
       <fieldset className="mb-6">
         <legend className="block text-sm font-medium text-gray-700 mb-3">Level</legend>
         <div className="space-y-2">
@@ -195,7 +178,6 @@ const CourseGrid = () => {
     </div>
   );
 
-  // CourseCard component supporting both grid and list view
   const CourseCard = ({ course, isListView = false }) => (
     <div
       className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
@@ -255,14 +237,12 @@ const CourseGrid = () => {
     </div>
   );
 
-  // Pagination component with ellipsis for large pages
   const Pagination = () => {
     const { totalPages } = paginationData;
     if (totalPages <= 1) return null;
 
-    // Generate visible pages for pagination with ellipsis
     const getVisiblePages = useMemo(() => {
-      const delta = 2; // pages around current
+      const delta = 2;
       const range = [];
       const rangeWithDots = [];
 
@@ -274,7 +254,6 @@ const CourseGrid = () => {
         range.push(i);
       }
 
-      // add 1 and dots if needed
       if (currentPage - delta > 2) {
         rangeWithDots.push(1, "...");
       } else {
@@ -283,7 +262,6 @@ const CourseGrid = () => {
 
       rangeWithDots.push(...range);
 
-      // add end dots and last page
       if (currentPage + delta < totalPages - 1) {
         rangeWithDots.push("...", totalPages);
       } else if (totalPages > 1) {
@@ -338,7 +316,6 @@ const CourseGrid = () => {
     );
   };
 
-  // Loading UI
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -350,7 +327,6 @@ const CourseGrid = () => {
     );
   }
 
-  // Error UI
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -369,7 +345,6 @@ const CourseGrid = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 py-6 bg-gray-50">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 ">
@@ -385,10 +360,8 @@ const CourseGrid = () => {
       </div>
 
       <div className="max-w-7xl mx-auto px-4">
-        {/* Search, Sort, View, Filter toggle */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
           <div className="flex flex-col lg:flex-row gap-4">
-            {/* Search */}
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -401,7 +374,6 @@ const CourseGrid = () => {
               />
             </div>
 
-            {/* Sort */}
             <select
               value={sortBy}
               onChange={e => setSortBy(e.target.value)}
@@ -416,7 +388,6 @@ const CourseGrid = () => {
               <option value="price-high">Price: High to Low</option>
             </select>
 
-            {/* View Mode toggle */}
             <div
               className="flex items-center gap-2 bg-gray-100 rounded-lg p-1"
               role="group"
@@ -446,11 +417,9 @@ const CourseGrid = () => {
           </div>
         </div>
 
-        {/* Main Content */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
 
-          {/* Course collection */}
           <main className="lg:col-span-3">
             {paginationData.currentCourses.length === 0 ? (
               <div className="text-center py-16">

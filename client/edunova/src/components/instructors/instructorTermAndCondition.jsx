@@ -4,7 +4,6 @@ const InstructorTerms = () => {
   return (
     <div className="bg-gray-50 text-gray-800 min-h-screen px-6 py-10 md:px-20 lg:px-32">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-2xl p-8">
-        {/* Header */}
         <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center text-emerald-600">
           Instructor Terms & Conditions
         </h1>
@@ -12,7 +11,6 @@ const InstructorTerms = () => {
           Last Updated: July 2025
         </p>
 
-        {/* Introduction */}
         <section className="mb-6">
           <h2 className="text-xl md:text-2xl font-semibold mb-3">Introduction</h2>
           <p className="text-gray-700 text-sm md:text-base leading-relaxed">
@@ -23,7 +21,6 @@ const InstructorTerms = () => {
           </p>
         </section>
 
-        {/* Content Guidelines */}
         <section className="mb-6">
           <h2 className="text-xl md:text-2xl font-semibold mb-3">Content Guidelines</h2>
           <ul className="list-disc list-inside text-gray-700 text-sm md:text-base space-y-2">
@@ -34,7 +31,6 @@ const InstructorTerms = () => {
           </ul>
         </section>
 
-        {/* Revenue & Payouts */}
         <section className="mb-6">
           <h2 className="text-xl md:text-2xl font-semibold mb-3">Revenue & Payouts</h2>
           <p className="text-gray-700 text-sm md:text-base leading-relaxed mb-2">
@@ -48,7 +44,6 @@ const InstructorTerms = () => {
           </ul>
         </section>
 
-        {/* Responsibilities */}
         <section className="mb-6">
           <h2 className="text-xl md:text-2xl font-semibold mb-3">Instructor Responsibilities</h2>
           <ul className="list-disc list-inside text-gray-700 text-sm md:text-base space-y-2">
@@ -58,7 +53,6 @@ const InstructorTerms = () => {
           </ul>
         </section>
 
-        {/* Termination */}
         <section className="mb-6">
           <h2 className="text-xl md:text-2xl font-semibold mb-3">Termination of Account</h2>
           <p className="text-gray-700 text-sm md:text-base leading-relaxed">

@@ -47,7 +47,7 @@ function HeroSection() {
      
       <div className="w-full lg:w-[45%]">
         <img
-          src="https://media.istockphoto.com/id/639359406/photo/students-studying-in-college-library.jpg?s=612x612&w=0&k=20&c=8ItJkQbEDQPMRkjqxCCpCKIBThJ6dZ2HLWfwQ4Zj470=" // Replace with actual image path
+          src="https://media.istockphoto.com/id/639359406/photo/students-studying-in-college-library.jpg?s=612x612&w=0&k=20&c=8ItJkQbEDQPMRkjqxCCpCKIBThJ6dZ2HLWfwQ4Zj470="
           alt="Learning"
           className="rounded-xl shadow-md"
         />

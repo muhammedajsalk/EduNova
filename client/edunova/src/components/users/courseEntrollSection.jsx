@@ -15,7 +15,7 @@ const CourseEntrollSection = () => {
     useEffect(() => {
         axios.get(`http://localhost:5000/api/admin/courseById/${id}`)
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log(err))
+            .catch((err) => console.log("Error Fetching Course"))
     }, [])
 
     function formatDurationReadable(seconds) {
@@ -40,9 +40,7 @@ const CourseEntrollSection = () => {
     return (
         <>
             <div className="max-w-6xl mx-auto px-4 py-6 mt-20">
-                {/* Header Section */}
                 <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-6">
-                    {/* Left Side */}
                     <div className="flex-1">
                         <h1 className="text-3xl font-bold text-gray-900 mb-2">
                             {data.title}
@@ -53,7 +51,6 @@ const CourseEntrollSection = () => {
                         </p>
                         <p className="text-gray-700 mb-4">Created by David Mitchell</p>
 
-                        {/* Tags */}
                         <div className="flex gap-2 flex-wrap mb-4">
                             <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm font-semibold">
                                 Bestseller
@@ -67,7 +64,6 @@ const CourseEntrollSection = () => {
                         </div>
                     </div>
 
-                    {/* Right Side - Enroll Box */}
                     <div className="bg-white shadow-lg rounded-lg p-5 w-full lg:w-1/3">
                         {user.role === "user" && (
                             <>
@@ -88,7 +84,6 @@ const CourseEntrollSection = () => {
                     </div>
                 </div>
 
-                {/* Course Preview */}
                 <div className="mt-6">
                     <img
                         src="https://jaro-website.s3.ap-south-1.amazonaws.com/2024/08/programming-background-with-person-working-with-codes-computer_23-2150010125.jpg"
@@ -97,8 +92,6 @@ const CourseEntrollSection = () => {
                     />
                 </div>
 
-                {/* Course Curriculum */}
-                {/* Curriculum */}
                 <div className="mt-8">
                     <h2 className="text-xl font-semibold mb-4">Course Curriculum</h2>
                     <div className="space-y-6">
@@ -129,7 +122,6 @@ const CourseEntrollSection = () => {
                     </div>
                 </div>
 
-                {/* Instructor */}
                 <div className="mt-10 flex items-center gap-4">
                     <img
                         src={data.instructorId?.avatar}
@@ -144,7 +136,6 @@ const CourseEntrollSection = () => {
                     </div>
                 </div>
 
-                {/* Mentoring Section */}
                 <div className="mt-10 bg-emerald-50 p-6 rounded-lg">
                     <h3 className="text-xl font-bold mb-3">Get Personal Mentoring</h3>
                     <ul className="text-gray-700 space-y-2">

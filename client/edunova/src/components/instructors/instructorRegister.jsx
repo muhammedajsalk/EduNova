@@ -217,7 +217,7 @@ function InstructorRegister() {
                   onChange={(e) => handleFileChange(e, 'avatar')}
                   file={formik.values.avatar}
                   type="avatar"
-                  className="w-32 h-32" // Adjust size of container
+                  className="w-32 h-32"
                 />
               </div>
 
@@ -248,7 +248,7 @@ function InstructorRegister() {
                 <input
                   name="name"
                   type="text"
-                  value={formik.values.profession}//
+                  value={formik.values.profession}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"

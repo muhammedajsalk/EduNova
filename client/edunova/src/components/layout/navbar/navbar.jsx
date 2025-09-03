@@ -13,17 +13,14 @@ function Navbar() {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const handleLogout = () => {
-    // Add your logout logic here
     console.log("User logged out");
   };
 
   return (
     <nav className="bg-white shadow-sm px-6 py-4 w-full fixed top-0 left-0 z-50">
       <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
-        {/* Logo */}
         <div className="text-2xl font-bold text-emerald-600">EduNova</div>
 
-        {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
           <li className="hover:underline decoration-emerald-600"><Link to="/">Home</Link></li>
           <li className="hover:underline decoration-emerald-600"><Link to="/about">About</Link></li>
@@ -32,7 +29,6 @@ function Navbar() {
           <li className="hover:underline decoration-emerald-600"><Link to="/subscription">Subscriptions</Link></li>
         </ul>
 
-        {/* Right Side */}
         <div className="hidden md:flex items-center space-x-4">
           {!user ? (
             <>
@@ -97,7 +93,6 @@ function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Icon */}
         <div className="md:hidden">
           <button onClick={toggleMenu}>
             {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -105,7 +100,6 @@ function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden mt-4 space-y-4 px-2">
           <ul className="flex flex-col space-y-2 text-gray-700 font-medium">

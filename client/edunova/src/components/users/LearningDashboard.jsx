@@ -12,27 +12,22 @@ const LearningDashboard = () => {
 
   const { user } = useContext(UserContext);
 
-  console.log("user",user)
-
   useEffect(() => {
     axios.get(`http://localhost:5000/api/admin/userById/${user?._id}`, { withCredentials: true })
       .then((res) => setCoursesData(res?.data?.data?.enrolledCourses || []))
-      .catch(err => console.log(err))
+      .catch(err => console.log("Error Fetching User"))
   }, [])
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/users/getUserAllMentorship`, { withCredentials: true })
       .then((res) => setMentorshipData(res?.data?.data))
-      .catch(err => console.log(err))
+      .catch(err => console.log("Error Fetching Mentorship"))
   }, [])
 
-
-  console.log("mentorshipData", mentorshipData)
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <div className="px-6 md:px-12 py-8 space-y-10 max-w-7xl mx-auto">
 
-        {/* Enhanced Header with Quick Actions */}
         <div className="relative">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 pb-8">
             <div className="space-y-4">
@@ -49,7 +44,6 @@ const LearningDashboard = () => {
               </div>
             </div>
 
-            {/* Quick Actions */}
             <div className="flex flex-wrap gap-3">
               <button className="flex items-center gap-2 bg-white px-4 py-2 rounded-lg border border-gray-200 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-200 shadow-sm">
                 <Calendar size={16} />
@@ -63,13 +57,10 @@ const LearningDashboard = () => {
           </div>
         </div>
 
-        {/* Enhanced Courses Section */}
         <section className="space-y-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <h2 className="text-2xl md:text-3xl font-serif font-bold text-gray-900">Your Courses</h2>
           </div>
-
-          {console.log(coursesData)}
 
           {coursesData.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

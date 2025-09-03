@@ -14,7 +14,6 @@ function InstructorNavbar() {
   const toggleMenu = () => setIsOpen((prev) => !prev);
   const toggleProfile = () => setProfileOpen((prev) => !prev);
 
-  // Close profile dropdown if clicked outside
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (profileRef.current && !profileRef.current.contains(e.target)) {
@@ -33,17 +32,15 @@ function InstructorNavbar() {
           navigate("/login")
         }, 3000);
       })
-      .catch((err)=>console.log(err))
+      .catch((err)=>console.log("Error logOut"))
     }
 
   return (
     <>
      <nav className="bg-white shadow-sm px-6 py-4 w-full fixed top-0 left-0 z-50">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
-        {/* Logo */}
         <div className="text-2xl font-bold text-emerald-600">EduNova</div>
 
-        {/* Desktop menu */}
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
           <li className="hover:underline decoration-emerald-600"><Link to="/">Home</Link></li>
           <li className="hover:underline decoration-emerald-600"><Link to="/about">About</Link></li>
@@ -51,7 +48,6 @@ function InstructorNavbar() {
           <li className="hover:underline decoration-emerald-600"><Link to="/findMentor">Mentorship</Link></li>
         </ul>
 
-        {/* Desktop profile section */}
         <div
           className="hidden md:flex items-center space-x-4 relative"
           ref={profileRef}
@@ -115,7 +111,6 @@ function InstructorNavbar() {
           )}
         </div>
 
-        {/* Mobile menu toggle */}
         <div className="md:hidden flex items-center">
           <button
             onClick={toggleMenu}
@@ -127,7 +122,6 @@ function InstructorNavbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden mt-4 space-y-4 px-4">
           <ul className="flex flex-col space-y-2 text-gray-700 font-medium">

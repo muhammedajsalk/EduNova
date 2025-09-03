@@ -8,10 +8,8 @@ const UserDashboardLayout = () => {
 
   return (
     <div className="flex h-screen overflow-hidden bg-gray-100">
-      {/* Sidebar */}
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      {/* Mobile overlay */}
       {isOpen && (
         <div
           className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden"
@@ -19,9 +17,7 @@ const UserDashboardLayout = () => {
         />
       )}
 
-      {/* Main Content Area */}
       <div className="relative flex flex-1 flex-col overflow-hidden">
-        {/* Mobile topbar */}
         <div className="md:hidden flex items-center justify-between p-4 bg-white shadow z-30">
           <button
             onClick={() => setIsOpen(true)}
@@ -34,7 +30,6 @@ const UserDashboardLayout = () => {
           </h1>
         </div>
 
-        {/* Main content with scrolling */}
         <main className="flex-1 overflow-y-auto p-4">
           <Outlet />
         </main>

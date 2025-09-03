@@ -14,7 +14,7 @@ function CourseListing() {
   useEffect(() => {
     axios.get("http://localhost:5000/api/admin/allCourses")
       .then((res) => setCourseData(res.data.data))
-      .catch((err) => console.log(err))
+      .catch((err) => console.log("Error Fetching course"))
   }, [])
 
 

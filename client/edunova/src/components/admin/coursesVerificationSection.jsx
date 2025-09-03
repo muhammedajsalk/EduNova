@@ -152,8 +152,6 @@ const CourseApproval = () => {
         <>
             {loading ? (
                 <div className="animate-pulse max-w-6xl mx-auto mt-10 px-6 space-y-8">
-                    {/* Header Section */}
-                    {/* Instructor Info */}
                     <div className="bg-gray-100 p-4 rounded shadow space-y-4 mt-30">
                         <div className="h-4 bg-gray-300 w-32 rounded" />
                         <div className="flex items-center gap-4">
@@ -165,7 +163,6 @@ const CourseApproval = () => {
                         </div>
                     </div>
 
-                    {/* Stats */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                         {[1, 2, 3, 4].map((i) => (
                             <div key={i} className="bg-white rounded shadow p-4 space-y-3">
@@ -175,7 +172,6 @@ const CourseApproval = () => {
                         ))}
                     </div>
 
-                    {/* Curriculum */}
                     <div>
                         <div className="h-6 bg-gray-300 w-56 mb-4 rounded" />
                         <div className="space-y-4">
@@ -204,9 +200,7 @@ const CourseApproval = () => {
                 </div>
             ) : (
                 <div className="p-4 md:p-8 max-w-6xl mx-auto mt-15">
-                    {/* Course Header */}
                     <div className="flex flex-col md:flex-row items-start gap-6">
-                        {/* Thumbnail */}
                         <div className="relative w-full md:w-40 h-40 md:h-32 rounded overflow-hidden">
                             <img
                                 src={data.thumbnail}
@@ -215,7 +209,6 @@ const CourseApproval = () => {
                             />
                         </div>
 
-                        {/* Title & Description */}
                         <div className="flex-1">
                             <h1 className="text-xl md:text-2xl font-semibold">{data.title}</h1>
                             <p className="text-gray-600 text-sm mt-2">{data.description}</p>
@@ -224,7 +217,6 @@ const CourseApproval = () => {
                             </div>
                         </div>
 
-                        {/* Status */}
                         <div className="mt-4 md:mt-0 text-left md:text-right min-w-[120px]">
                             <span
                                 className={`text-sm px-2 py-1 rounded font-medium ${data.status === "approved"
@@ -241,7 +233,6 @@ const CourseApproval = () => {
                     </div>
 
 
-                    {/* Instructor Details */}
                     <div className="mt-8 bg-gray-50 p-4 rounded shadow">
                         <h2 className="text-sm font-semibold text-gray-700 mb-3">Instructor Details</h2>
                         <div className="flex items-center gap-4">
@@ -258,7 +249,6 @@ const CourseApproval = () => {
                     </div>
 
 
-                    {/* Course Stats */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-8">
                         <div className="bg-white rounded shadow p-4">
                             <p className="text-sm font-medium text-gray-600 flex items-center gap-2"><FaVideo /> Total Lectures</p>
@@ -278,7 +268,6 @@ const CourseApproval = () => {
                         </div>
                     </div>
 
-                    {/* Curriculum */}
                     <div className="mt-8">
                         <h2 className="text-xl font-semibold mb-4">Course Curriculum</h2>
                         <div className="space-y-6">
@@ -308,7 +297,6 @@ const CourseApproval = () => {
                             ))}
                         </div>
                     </div>
-                    {/* Rejection Reason */}
                     <div className="mt-4">
                         <label className="block text-sm font-medium text-gray-700 mb-1">Rejection Reason</label>
                         <textarea
@@ -319,7 +307,6 @@ const CourseApproval = () => {
                             onChange={(e) => setRejectReason(e.target.value)}
                         ></textarea>
                     </div>
-                    {/* Action Buttons */}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mt-8">
                         <button className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded flex items-center gap-2" disabled={Click} onClick={() => approved()}>
                             {approveSubmiting ? (
@@ -351,7 +338,6 @@ const CourseApproval = () => {
                 </div>
             )}
 
-            {/* ✅ Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0  bg-opacity-60 flex items-center justify-center z-50">
                     <div className="bg-black w-full max-w-2xl rounded shadow-lg p-4 relative">

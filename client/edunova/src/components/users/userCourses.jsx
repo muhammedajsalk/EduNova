@@ -28,22 +28,17 @@ const UserCourseGrid = () => {
     [user?._id]
   );
 
-  // States
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Search and sort
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("newest");
 
-  // View mode
   const [viewMode, setViewMode] = useState("grid");
 
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
 
-  // Fetch courses
   useEffect(() => {
     if (!user?._id) return;
     const fetchCourses = async () => {
@@ -53,7 +48,7 @@ const UserCourseGrid = () => {
         setCourses(res?.data?.data?.enrolledCourses || []);
         setError(null);
       } catch (err) {
-        console.error("Failed to fetch courses:", err.message);
+        console.error("Failed to fetch courses:");
         setError("Failed to load courses. Please try again.");
       } finally {
         setLoading(false);
@@ -62,7 +57,6 @@ const UserCourseGrid = () => {
     fetchCourses();
   }, [API_ENDPOINT, user?._id]);
 
-  // Filter and sort courses
   const filteredAndSortedCourses = useMemo(() => {
     const filtered = courses.filter(({ course }) => {
       if (!course) return false;
@@ -108,12 +102,10 @@ const UserCourseGrid = () => {
     return { currentCourses, totalPages };
   }, [filteredAndSortedCourses, currentPage, coursesPerPage]);
 
-  // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [searchTerm, sortBy, viewMode]);
 
-  // Page change handler
   const handlePageChange = useCallback(
     (page) => {
       if (page >= 1 && page <= paginationData.totalPages) {
@@ -124,14 +116,12 @@ const UserCourseGrid = () => {
     [paginationData.totalPages]
   );
 
-  // Reset filters
   const resetFilters = useCallback(() => {
     setSearchTerm("");
     setSortBy("newest");
     setCurrentPage(1);
   }, []);
 
-  // Course card component
   const CourseCard = useCallback(
     ({ course, isListView = false }) => {
       const c = course.course || {};
@@ -190,7 +180,6 @@ const UserCourseGrid = () => {
     []
   );
 
-  // Pagination component
   const Pagination = () => {
     const { totalPages } = paginationData;
     if (totalPages <= 1) return null;
@@ -262,7 +251,6 @@ const UserCourseGrid = () => {
     );
   };
 
-  // Loading UI
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -274,7 +262,6 @@ const UserCourseGrid = () => {
     );
   }
 
-  // Error UI
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -293,7 +280,6 @@ const UserCourseGrid = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 py-6 bg-gray-50">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 ">
@@ -308,7 +294,6 @@ const UserCourseGrid = () => {
         </div>
       </div>
 
-      {/* Search, Sort, View */}
       <div className="max-w-7xl mx-auto px-4">
         <div className="bg-white rounded-xl shadow-sm p-6 mb-8">
           <div className="flex flex-col lg:flex-row gap-4">
@@ -367,7 +352,6 @@ const UserCourseGrid = () => {
           </div>
         </div>
 
-        {/* Courses grid/list */}
         <main>
           {paginationData.currentCourses.length === 0 ? (
             <div className="text-center py-16">

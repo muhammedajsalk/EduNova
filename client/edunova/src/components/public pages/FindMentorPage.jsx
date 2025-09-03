@@ -22,20 +22,17 @@ const FindMentorPage = () => {
 
   const user = { role: "user" };
 
-  // Fetch mentors
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/public/allMentorShip")
       .then((res) => setMentorsData(res.data?.data || []))
       .catch((err) => {
-        console.error("Failed to fetch mentors:", err);
+        console.error("Failed to fetch mentors:");
         setMentorsData([]);
       });
   }, []);
 
-  console.log("mentorData", mentorsData)
-
-  // Filter & Sort
   const filteredMentors = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
 
@@ -52,16 +49,12 @@ const FindMentorPage = () => {
       return matchesSearch && matchesPrice;
     });
 
-    // Immutable sort
     return [...result].sort((a, b) => {
       if (sortBy === "price") return a.amount - b.amount;
       return (b.instructorRating || 0) - (a.instructorRating || 0);
     });
   }, [searchQuery, priceRange, sortBy, mentorsData]);
 
-  console.log("filteredData", filteredMentors)
-
-  // Pagination
   const totalPages = Math.max(1, Math.ceil(filteredMentors.length / MENTORS_PER_PAGE));
   const currentSafePage = Math.min(currentPage, totalPages);
   const startIndex = (currentSafePage - 1) * MENTORS_PER_PAGE;
@@ -92,7 +85,6 @@ const FindMentorPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
       <div className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-600 text-white">
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="text-center max-w-4xl mx-auto">
@@ -103,7 +95,6 @@ const FindMentorPage = () => {
               Connect with industry experts who can accelerate your career growth
             </p>
 
-            {/* Search Bar */}
             <div className="relative max-w-2xl mx-auto">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
               <input
@@ -122,7 +113,6 @@ const FindMentorPage = () => {
       </div>
 
       <div className="container mx-auto px-4 py-12">
-        {/* Filters & Sort */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
           <div className="flex items-center gap-4">
             <p className="text-gray-600 font-medium">
@@ -146,7 +136,6 @@ const FindMentorPage = () => {
           </select>
         </div>
 
-        {/* Filters Panel */}
         {showFilters && (
           <div className="bg-white p-6 rounded-2xl shadow-lg mb-8 border border-gray-200">
             <h3 className="font-semibold text-lg mb-4">Filters</h3>
@@ -193,7 +182,6 @@ const FindMentorPage = () => {
           </div>
         )}
 
-        {/* Mentors Grid */}
         {paginatedMentors.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
             {paginatedMentors.map((mentor) => (
@@ -264,7 +252,6 @@ const FindMentorPage = () => {
           </div>
         )}
 
-        {/* Pagination */}
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-4">
             <button

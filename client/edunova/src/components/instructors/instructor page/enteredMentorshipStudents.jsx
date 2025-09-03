@@ -15,10 +15,9 @@ const ScheduledStudents = () => {
   useEffect(() => {
     axios.get("http://localhost:5000/api/instructor/getAllMentorship", { withCredentials: true })
       .then((res) => setMentorship(res.data?.data))
-      .catch((err) => console.log(err.response?.data?.message || err.message))
+      .catch((err) => console.log("Error Fetching all mentorship"))
   }, [])
 
-  console.log("mentoship", mentorship)
 
   const students = mentorship || []
 
@@ -47,23 +46,19 @@ const ScheduledStudents = () => {
 
   const handleReschedule = (studentId) => {
     console.log('Reschedule student:', studentId);
-    // Add reschedule logic here
   };
 
   const handleCancel = (studentId) => {
     console.log('Cancel session for student:', studentId);
-    // Add cancel logic here
   };
 
   const handleMoreActions = (studentId) => {
     console.log('More actions for student:', studentId);
-    // Add more actions logic here
   };
 
   return (
     <div className="min-h-screen bg-gray-50 p-4 lg:p-6">
       <div className="max-w-7xl mx-auto ">
-        {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
   <div className="mb-4 lg:mb-0">
     <h1 className="text-2xl font-bold text-gray-900">Scheduled Students</h1>
@@ -71,7 +66,6 @@ const ScheduledStudents = () => {
   </div>
 
   <div className="flex flex-col sm:flex-row gap-3 self-start lg:self-auto">
-    {/* 🔹 Create Mentorship */}
     <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200">
       <Users size={20} />
       <span className="font-medium">
@@ -81,7 +75,6 @@ const ScheduledStudents = () => {
       </span>
     </button>
 
-    {/* 🔹 Mentorship Preview */}
     <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200">
       <Eye size={20} />
       <span className="font-medium">
@@ -94,10 +87,8 @@ const ScheduledStudents = () => {
 </div>
 
 
-        {/* Filters and Search */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
           <div className="flex flex-col lg:flex-row gap-4">
-            {/* Search */}
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
               <input
@@ -111,9 +102,7 @@ const ScheduledStudents = () => {
           </div>
         </div>
 
-        {/* Students Table */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          {/* Desktop Table Header */}
           <div className="hidden lg:grid grid-cols-12 gap-4 px-6 py-4 bg-gray-50 border-b border-gray-200 text-sm font-medium text-gray-700">
             <div className="col-span-3">Student Name</div>
             <div className="col-span-3">Session Date & Time</div>
@@ -123,11 +112,9 @@ const ScheduledStudents = () => {
             <div className="col-span-2">Actions</div>
           </div>
 
-          {/* Students List */}
           <div className="divide-y divide-gray-200">
             {filteredStudents.map((student) => (
               <div key={student.id} className="px-6 py-4">
-                {/* Desktop Layout */}
                 <div className="hidden lg:grid grid-cols-12 gap-4 items-center">
                   <div className="col-span-3 flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-lg">
@@ -176,7 +163,6 @@ const ScheduledStudents = () => {
                   </div>
                 </div>
 
-                {/* Mobile Layout */}
                 <div className="lg:hidden space-y-3">
                   <div className="flex items-center gap-3">
                     <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-xl">
@@ -234,7 +220,6 @@ const ScheduledStudents = () => {
           </div>
         </div>
 
-        {/* Pagination */}
         <div className="flex items-center justify-between mt-6">
           <div className="text-sm text-gray-700">
             Showing 1 to 5 of 12 entries

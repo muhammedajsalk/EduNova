@@ -38,7 +38,7 @@ function UserNavbar() {
         navigate("/login")
       }, 3000);
     })
-    .catch((err)=>console.log(err))
+    .catch((err)=>console.log("Error logOut"))
   }
 
   return (
@@ -47,7 +47,6 @@ function UserNavbar() {
       <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
         <div className="text-2xl font-bold text-emerald-600">EduNova</div>
 
-        {/* Desktop Menu */}
         <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About</Link></li>
@@ -56,7 +55,6 @@ function UserNavbar() {
           <li><Link to="/subscription">Subscriptions</Link></li>
         </ul>
 
-        {/* Desktop Profile */}
         <div className="hidden md:flex items-center space-x-4 relative" ref={desktopRef}>
           <button aria-label="Notifications" className="text-gray-600 hover:text-emerald-600">
             <FiBell size={20} />
@@ -80,7 +78,6 @@ function UserNavbar() {
           )}
         </div>
 
-        {/* Mobile Toggle */}
         <div className="md:hidden">
           <button onClick={() => setIsOpen((prev) => !prev)} aria-label="Toggle navigation">
             {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
@@ -88,7 +85,6 @@ function UserNavbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       {isOpen && (
         <div className="md:hidden mt-4 space-y-4 px-4">
           <ul className="flex flex-col space-y-2 text-gray-700 font-medium">
@@ -99,7 +95,6 @@ function UserNavbar() {
             <li><Link to="/subscription" onClick={closeMenu}>Subscriptions</Link></li>
           </ul>
 
-          {/* Mobile Profile */}
           <div ref={mobileRef} className="flex items-center justify-between mt-4">
             <button className="text-gray-600 hover:text-emerald-600">
               <FiBell size={20} />

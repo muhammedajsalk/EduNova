@@ -58,7 +58,7 @@ function Register() {
         toast.success(res.data.message)
       })
       .catch((err) => {
-        console.error("OTP send error:", err.response?.data?.message || err.message)
+        console.error("OTP send error:")
         toast.error(err.response?.data?.message || err.message)
       })
       .finally(() => {

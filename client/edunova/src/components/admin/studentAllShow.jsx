@@ -21,7 +21,7 @@ function StudentsManagement() {
     axios
       .get("http://localhost:5000/api/admin/AllUsers", { withCredentials: true })
       .then((res) => setUsers(res.data.data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log("Error Fetching users"));
   }, []);
 
   // Stats

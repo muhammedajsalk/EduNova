@@ -18,7 +18,7 @@ function InstructorVerification() {
                 const res = await axios.get(`http://localhost:5000/api/admin/instructorById/${id}`,{withCredentials: true});
                 setData(res.data?.data);
             } catch (error) {
-                console.error("Error fetching instructor:", error);
+                console.error("Error fetching instructor");
             }
         };
         fetchInstructor();

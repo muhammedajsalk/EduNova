@@ -42,7 +42,7 @@ function CoursePendingSections() {
       .get("http://localhost:5000/api/admin/coursePending", { withCredentials: true })
       .then((res) => setData(res.data.data))
       .catch((err) => {
-        console.error(err);
+        console.error("Fetching Issue");
         setData([]);
       })
       .finally(() => setLoading(false));

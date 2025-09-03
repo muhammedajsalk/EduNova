@@ -44,7 +44,7 @@ function CourseDetails() {
                             <img
                                 src="https://media.istockphoto.com/id/1432156040/vector/vector-flat-illustration-of-web-ui-ux-design-web-development-concept-team-designers-creating.jpg?s=612x612&w=0&k=20&c=XEMYf3ZGy5QncMGeuMMcgKcOUIE1bxl2xWPrw6owLpc="
                                 alt="course preview"
-                                className="w-full h-auto object-cover max-h-[400px]" // ADDED
+                                className="w-full h-auto object-cover max-h-[400px]"
                             />
                             <button className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-4 rounded-full shadow-lg">
                                 <FaPlay className="text-emerald-600" />

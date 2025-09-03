@@ -18,7 +18,6 @@ const instructorTotalWatch = async (req,res) => {
         ];
 
         const result = await CourseModel.aggregate(totalWatchTimePipeline);
-        console.log(result)
         res.status(200).json({success:true,data:result})
     } catch (error) {
         console.error("Course creation error:", error);

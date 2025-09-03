@@ -25,7 +25,7 @@ const InstructorSidebar = ({ isOpen, setIsOpen }) => {
       toast.success("Logged out successfully");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {
-      console.error(err);
+      console.error("Logout failed. Try again.");
       toast.error("Logout failed. Try again.");
     }
   };

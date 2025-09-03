@@ -26,7 +26,7 @@ function PendingSections() {
       })
       .then((res) => setData(res.data.data))
       .catch((err) => {
-        console.error(err);
+        console.error("Error Fetching Instructor");
         setData([]);
       })
       .finally(() => setLoading(false));

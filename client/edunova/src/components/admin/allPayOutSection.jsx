@@ -54,7 +54,6 @@ export default function PayoutsDashboard() {
     const handleApprove = async (id) => {
         try {
             await axios.put(`/api/admin/payouts/${id}/approve`);
-            // fetchPayouts(); // Uncomment when real API is integrated
         } catch (err) {
             console.error("Error approving:", err);
         }
@@ -63,7 +62,6 @@ export default function PayoutsDashboard() {
     const handleReject = async (id) => {
         try {
             await axios.put(`/api/admin/payouts/${id}/reject`);
-            // fetchPayouts(); // Uncomment when real API is integrated
         } catch (err) {
             console.error("Error rejecting:", err);
         }
@@ -72,10 +70,7 @@ export default function PayoutsDashboard() {
     return (
         <div className="min-h-screen bg-gray-50 p-4 md:p-8 mt-12">
             <div className="max-w-7xl mx-auto">
-                {/* Header Section */}
                 <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">Instructor Payouts</h1>
-
-                {/* Stats */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     {[
                         { label: 'Total Transactions', value: '$487,392.54', change: '+12.5%', color: 'text-green-600' },
