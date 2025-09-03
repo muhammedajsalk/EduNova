@@ -32,7 +32,7 @@ const InstructorSidebar = ({ isOpen, setIsOpen }) => {
     { label: "Dashboard", icon: <Home size={18} />, path: "/instructorDashboard" },
     { label: "My Courses", icon: <BookOpen size={18} />, path: "/instructorDashboard/courses" },
     { label: "Student Message", icon: <Users size={18} />, path: "/instructorDashboard/student_message" },
-    { label: "Mentor Section", icon: <Activity size={18} />, path: "/instructorDashboard/mentor_section" },
+    { label: "Mentor Section", icon: <Activity size={18} />, path: "/instructorDashboard/Mentorship/scheduledStudent" },
     { label: "Earnings", icon: <DollarSign size={18} />, path: "/instructorDashboard/earnings" },
     { label: "Setting", icon: <Settings size={18} />, path: "/instructorDashboard/earnings" },
   ];

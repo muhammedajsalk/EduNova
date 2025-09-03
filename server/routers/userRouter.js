@@ -15,6 +15,10 @@ const courseEntroll = require('../controllers/users controller/courseEntroll')
 const { getLectureUrlByCourseTitle } = require('../controllers/users controller/coursePlayUrl')
 const updateWatchTime = require('../controllers/users controller/updateWatchTime')
 const courseLike = require('../controllers/users controller/CourseLike')
+const mentorshipGetById = require('../controllers/users controller/getMentorshipById')
+const buyMentorship = require('../controllers/users controller/buyMentorship')
+const verifyMentoshipPayment = require('../controllers/users controller/verifyMentorshipPayment')
+const getUserMentorshipById = require('../controllers/users controller/getUserMentorshipById')
 
 router.post("/auth/register",[authLimiter,otpAuth],userRegister)
 router.post("/auth/otpSent",otpLimiter,otpSent)
@@ -27,5 +31,9 @@ router.post("/course/entroll/:id",jwtAuth,courseEntroll)
 router.get("/course/:courseId/:courseTitle",jwtAuth,getLectureUrlByCourseTitle)
 router.post("/course/updateWatchTime",jwtAuth,updateWatchTime)
 router.post("/course/like",jwtAuth,courseLike)
+router.get("/mentorShip/:id",jwtAuth,mentorshipGetById)
+router.post("/mentorShip/buy",jwtAuth,buyMentorship),
+router.post("/mentorShip/verify",jwtAuth,verifyMentoshipPayment)
+router.get("/getUserAllMentorship",jwtAuth,getUserMentorshipById)
 
 module.exports=router

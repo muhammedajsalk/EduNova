@@ -47,6 +47,9 @@ import PayoutsDashboard from './components/admin/allPayOutSection'
 import { PublicPageAccess } from './publicPageAccess'
 import UserCourses from './components/users/userCourses'
 import CourseVideoPlayer from './components/users/courseWatch'
+import MentorshipProgramCreator from './components/instructors/instructor page/instructorMentorshipCreation'
+import ScheduledStudents from './components/instructors/instructor page/enteredMentorshipStudents'
+import InstructorBooking from './components/users/mentorshipDeatils'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -84,6 +87,7 @@ function Routers() {
           </Route>
           <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user', "instructor"]} />}>
             <Route path='/courseEntrollSection/:id' element={<CourseEntrollSection />}></Route>
+            <Route path='/findMentor/mentorsDetails/:id' element={<InstructorBooking/>} />
           </Route>
           <Route path='/instructorRegistor' element={<InstructorRegister />}></Route>
           <Route path='/adminLogin' element={<AdminLogin />}></Route>
@@ -138,12 +142,15 @@ function Routers() {
               <Route path="courses" element={<InstructorAllCourse />} />
               <Route path='createCourse' element={<CreateCourse />}></Route>
               <Route path='CourseView/:id' element={<CourseViewPage />}></Route>
+              <Route path='Mentorship/scheduledStudent' element={<ScheduledStudents />}></Route>
+              <Route path='Mentorship/scheduledStudent/creation' element={<MentorshipProgramCreator/>}></Route>
             </Route>
           </Route>
           <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}>
             <Route path="/learningDashboard" element={<UserDashboardLayout />}>
               <Route index element={<LearningDashboard />} />
               <Route path='courses' element={<UserCourses/>} />
+              <Route path='courseWatching/:id' element={<CourseVideoPlayer/>} />
               <Route path='courseWatching/:id' element={<CourseVideoPlayer/>} />
             </Route>
           </Route>

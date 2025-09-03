@@ -63,6 +63,11 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: null
     },
+    mentorshipId: [
+        {
+            mentorshipId: { type: mongoose.Schema.Types.ObjectId, ref: "mentorship" },
+        }
+    ],
     role: {
         type: String,
         default: "user"

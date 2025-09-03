@@ -16,6 +16,8 @@ const thumbnailUpload = require('../controllers/instructor controller/courseThum
 const courseByInstructorId = require('../controllers/instructor controller/courseByInstructorId')
 const instructorTotalWatch = require('../controllers/instructor controller/instructorTotalWatchTime')
 const topLecturesByInstructor = require('../controllers/instructor controller/topLectureInstructorById')
+const createMentorShip = require('../controllers/instructor controller/createMentorShip')
+const getAllMentorship = require('../controllers/instructor controller/getAllMentorship')
 
 
 router.post('/auth/register', [instructorRegisterLimiter,upload.fields([
@@ -38,5 +40,7 @@ router.post('/course/thumbnailUploading',uploadLimiter,jwtAuth,tumbanailUploadin
 ]),thumbnailUpload)
 router.get("/course/courseByInstructorId",jwtAuth,courseByInstructorId)
 router.get("/course/totalWatchTime",jwtAuth,instructorTotalWatch)
-router.get("/topLectures/:id",topLecturesByInstructor)
+router.get("/topLectures/:id",jwtAuth,topLecturesByInstructor)
+router.post("/createMentorShip",jwtAuth,createMentorShip)
+router.get("/getAllMentorship",jwtAuth,getAllMentorship)
 module.exports = router
