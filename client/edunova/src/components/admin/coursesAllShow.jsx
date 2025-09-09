@@ -1,57 +1,213 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import {
+  Search,
+  Filter,
+  Eye,
+  BookOpen,
+  Users,
+  AlertCircle,
+  CheckCircle2,
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+  MoreHorizontal,
+  Download,
+  RefreshCw,
+  SortAsc,
+  Grid3X3,
+  List,
+  User,
+  Star,
+  Calendar,
+  TrendingUp,
+  Bell,
+  Play
+} from 'lucide-react';
 
-// Badge component (claimed status field is "status": "approved"|"blocked")
 const StatusBadge = ({ status }) => {
-  const base =
-    "inline-flex px-2 py-1 text-xs font-semibold rounded-full";
+  const base = "inline-flex items-center px-3 py-1 text-xs font-bold rounded-full transition-all duration-200";
+  
   if (status === "approved")
     return (
-      <span className={`${base} bg-green-100 text-green-800`}>Active</span>
+      <span className={`${base} bg-gradient-to-r from-emerald-100 to-green-100 text-emerald-800 shadow-sm`}>
+        <CheckCircle2 className="w-3 h-3 mr-1" />
+        Active
+      </span>
     );
   if (status === "blocked" || status === false)
     return (
-      <span className={`${base} bg-red-100 text-red-800`}>Blocked</span>
+      <span className={`${base} bg-gradient-to-r from-red-100 to-rose-100 text-red-800 shadow-sm`}>
+        <AlertCircle className="w-3 h-3 mr-1" />
+        Blocked
+      </span>
     );
   if (status === "pending")
     return (
-      <span className={`${base} bg-yellow-100 text-yellow-800`}>Pending</span>
+      <span className={`${base} bg-gradient-to-r from-amber-100 to-yellow-100 text-amber-800 shadow-sm`}>
+        <Clock className="w-3 h-3 mr-1" />
+        Pending
+      </span>
     );
   return null;
 };
 
-// SkeletonRow for loading
-const SkeletonRow = () => (
-  <tr className="animate-pulse border-t">
-    <td className="px-6 py-4">
-      <div className="h-4 w-32 bg-gray-200 rounded" />
-    </td>
-    <td className="px-6 py-4 flex items-center gap-3">
-      <div className="w-8 h-8 bg-gray-300 rounded-full" />
-      <div className="h-4 w-28 bg-gray-200 rounded" />
-    </td>
-    <td className="px-6 py-4">
-      <div className="h-4 w-8 bg-gray-200 rounded" />
-    </td>
-    <td className="px-6 py-4">
-      <div className="h-6 w-20 bg-emerald-300 rounded" />
-    </td>
-    <td className="px-6 py-4">
-      <div className="h-6 w-16 bg-green-200 rounded" />
-    </td>
-  </tr>
+const StatsCard = ({ title, value, icon: Icon, gradient, trend, loading = false, badge = null }) => (
+  <div className={`group relative overflow-hidden rounded-2xl p-6 ${gradient} shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-1 hover:scale-[1.02] cursor-pointer`}>
+    <div className="absolute inset-0 opacity-5">
+      <div className="absolute inset-0 bg-gradient-to-r from-white/20 via-transparent to-white/10 transform -skew-x-12 group-hover:skew-x-12 transition-transform duration-1000" />
+    </div>
+    
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transform translate-x-[-100%] group-hover:translate-x-[100%] transition-all duration-1000" />
+    
+    <div className="relative z-10">
+      <div className="flex items-center justify-between mb-4">
+        <div className="p-3 bg-white/20 rounded-2xl backdrop-blur-sm group-hover:bg-white/30 transition-all duration-300 group-hover:scale-110 group-hover:rotate-3">
+          {loading ? (
+            <div className="w-6 h-6 bg-white/40 rounded animate-pulse" />
+          ) : (
+            <Icon className="w-6 h-6 text-white drop-shadow-md" />
+          )}
+        </div>
+        {badge && (
+          <div className="flex items-center space-x-2">
+            {trend && (
+              <div className="text-xs font-bold px-2 py-1 rounded-full bg-white/20 text-white/90 backdrop-blur-sm">
+                {trend}
+              </div>
+            )}
+            {badge}
+          </div>
+        )}
+      </div>
+      <div className="space-y-1">
+        <p className="text-sm font-semibold text-white/90 tracking-wide">{title}</p>
+        <p className="text-3xl font-bold text-white drop-shadow-md tracking-tight">
+          {loading ? (
+            <div className="h-8 w-16 bg-white/30 rounded animate-pulse" />
+          ) : (
+            value
+          )}
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
+const ActionButton = ({ onClick, children, variant = 'secondary', size = 'md', disabled = false }) => {
+  const baseClasses = "inline-flex items-center justify-center font-medium rounded-xl transition-all duration-200 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none";
+  
+  const variants = {
+    primary: "bg-gradient-to-r from-blue-500 to-indigo-600 text-white hover:from-blue-600 hover:to-indigo-700 shadow-lg hover:shadow-xl focus:ring-blue-500",
+    secondary: "bg-white/80 backdrop-blur-sm text-gray-700 border border-gray-200 hover:bg-white hover:border-gray-300 shadow-sm hover:shadow-md focus:ring-gray-500",
+    ghost: "text-gray-600 hover:text-gray-900 hover:bg-gray-100 focus:ring-gray-500",
+    warning: "bg-gradient-to-r from-amber-500 to-orange-600 text-white hover:from-amber-600 hover:to-orange-700 shadow-lg hover:shadow-xl focus:ring-amber-500"
+  };
+  
+  const sizes = {
+    sm: "px-3 py-2 text-sm",
+    md: "px-4 py-2 text-sm",
+    lg: "px-6 py-3 text-base"
+  };
+  
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`${baseClasses} ${variants[variant]} ${sizes[size]}`}
+    >
+      {children}
+    </button>
+  );
+};
+
+const CourseCard = ({ course }) => (
+  <div className="group bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/30 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-1">
+    <div className="flex items-start justify-between mb-4">
+      <div className="flex-1">
+        <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-2 line-clamp-2">
+          {course.title}
+        </h3>
+        <div className="flex items-center space-x-3 text-sm text-gray-600 mb-3">
+          <div className="flex items-center space-x-2">
+            <img 
+              src={course.instructorId.avatar} 
+              alt={course.instructorId.name}
+              className="w-8 h-8 rounded-full object-cover ring-2 ring-white shadow-sm" 
+            />
+            <span className="font-medium">{course.instructorId.name}</span>
+          </div>
+        </div>
+      </div>
+      <StatusBadge status={course.status || course.verificationStatus} />
+    </div>
+    
+    <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="flex items-center space-x-2 text-sm text-gray-600">
+        <Users className="w-4 h-4 text-blue-500" />
+        <span className="font-medium">{course.students?.length || 0} Students</span>
+      </div>
+      <div className="flex items-center space-x-2 text-sm text-gray-600">
+        <Star className="w-4 h-4 text-yellow-500" />
+        <span className="font-medium">4.8 Rating</span>
+      </div>
+    </div>
+    
+    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+      <Link
+        to={`/admin/courseDetails/${course._id}`}
+        className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors group/link"
+      >
+        <Eye className="w-4 h-4 mr-1 group-hover/link:scale-110 transition-transform" />
+        View Details
+      </Link>
+      <div className="flex items-center space-x-2">
+        <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+          <Play className="w-4 h-4" />
+        </button>
+        <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+          <MoreHorizontal className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+const SkeletonCard = () => (
+  <div className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-white/30 animate-pulse">
+    <div className="flex items-start justify-between mb-4">
+      <div className="flex-1">
+        <div className="h-5 bg-gray-200 rounded w-3/4 mb-2" />
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-gray-200 rounded-full" />
+          <div className="h-4 bg-gray-200 rounded w-24" />
+        </div>
+      </div>
+      <div className="h-6 w-16 bg-gray-200 rounded-full" />
+    </div>
+    <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="h-4 bg-gray-200 rounded" />
+      <div className="h-4 bg-gray-200 rounded" />
+    </div>
+    <div className="flex items-center justify-between pt-4 border-t border-gray-100">
+      <div className="h-4 bg-gray-200 rounded w-20" />
+      <div className="flex space-x-2">
+        <div className="w-8 h-8 bg-gray-200 rounded-lg" />
+        <div className="w-8 h-8 bg-gray-200 rounded-lg" />
+      </div>
+    </div>
+  </div>
 );
 
 function CoursesManagement() {
   const [courses, setCourses] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Dashboard search/filter/sort/pagination states
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("All");
   const [sort, setSort] = useState("Title");
   const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useState('table');
 
   useEffect(() => {
     setLoading(true);
@@ -62,28 +218,23 @@ function CoursesManagement() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Stats
   const courseActive = courses.filter((c) => c.status === "approved" || c.isActive === true);
   const courseBlocked = courses.filter((c) => c.status === "blocked" || c.isActive === false);
   const pendingCount = courses.filter((c) => c.verificationStatus === "pending").length;
 
-  // Filtering and searching
-  const filtered = courses
-    .filter((course) => {
-      // Search
-      const q = search.trim().toLowerCase();
-      const match =
-        course.title?.toLowerCase().includes(q) ||
-        course.instructorId?.name?.toLowerCase().includes(q);
-      // Status
-      if (status === "All") return match;
-      if (status === "Active") return match && (course.status === "approved" || course.isActive === true);
-      if (status === "Blocked") return match && (course.status === "blocked" || course.isActive === false);
-      if (status === "Pending") return match && (course.verificationStatus === "pending");
-      return match;
-    });
+  const filtered = courses.filter((course) => {
+    const q = search.trim().toLowerCase();
+    const match =
+      course.title?.toLowerCase().includes(q) ||
+      course.instructorId?.name?.toLowerCase().includes(q);
+    
+    if (status === "All") return match;
+    if (status === "Active") return match && (course.status === "approved" || course.isActive === true);
+    if (status === "Blocked") return match && (course.status === "blocked" || course.isActive === false);
+    if (status === "Pending") return match && (course.verificationStatus === "pending");
+    return match;
+  });
 
-  // Sorting (simple sort by title or students count)
   const sorted = [...filtered].sort((a, b) => {
     if (sort === "Title") return a.title.localeCompare(b.title);
     if (sort === "Students") return (b.students?.length ?? 0) - (a.students?.length ?? 0);
@@ -91,243 +242,329 @@ function CoursesManagement() {
     return 0;
   });
 
-  // Pagination logic
-  const perPage = 3;
+  const perPage = viewMode === 'grid' ? 9 : 6;
   const totalPages = Math.ceil(sorted.length / perPage);
   const visible = sorted.slice((currentPage - 1) * perPage, currentPage * perPage);
 
   useEffect(() => {
-    setCurrentPage(1); // reset to pg1 on search/filter/sort
+    setCurrentPage(1);
   }, [search, status, sort]);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 lg:p-8 mt-12">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/50 to-indigo-100/80 mt-16">
+      <div className="max-w-7xl mx-auto px-6 py-8">
 
-        {/* Header and Pending link */}
-        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <h1 className="text-2xl lg:text-3xl font-bold text-gray-900">
-            Courses Management
-          </h1>
-          <Link to="/admin/course_Pending_Section">
-            <span className="text-sm text-white px-4 py-2 bg-emerald-500 rounded-lg">
-              Course Verify Pending
-              {pendingCount > 0 &&
-                <span className="inline-block ml-2 bg-red-600 text-white rounded-full px-2">{pendingCount}</span>
-              }
-            </span>
-          </Link>
-        </div>
-
-        {/* Stats cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Total Courses</h3>
-            <p className="text-2xl font-bold text-gray-900">{loading ? "..." : courses.length}</p>
-          </div>
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Active Courses</h3>
-            <p className="text-2xl font-bold text-gray-900">{loading ? "..." : courseActive.length}</p>
-          </div>
-          <div className="bg-white rounded-lg p-6 shadow-sm">
-            <h3 className="text-sm font-medium text-gray-500 mb-2">Blocked Courses</h3>
-            <p className="text-2xl font-bold text-gray-900">{loading ? "..." : courseBlocked.length}</p>
-          </div>
-        </div>
-
-        {/* Controls */}
-        <div className="bg-white rounded-lg p-6 shadow-sm mb-8">
-          <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
-            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-              <input
-                type="text"
-                placeholder="Search Courses or Instructor..."
-                value={search}
-                disabled={loading}
-                onChange={e => { setSearch(e.target.value); setCurrentPage(1); }}
-                className="pl-4 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-64"
-              />
-              <select
-                value={status}
-                onChange={e => { setStatus(e.target.value); setCurrentPage(1); }}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                disabled={loading}
-              >
-                <option value="All">All Status</option>
-                <option value="Active">Active</option>
-                <option value="Blocked">Blocked</option>
-                <option value="Pending">Pending</option>
-              </select>
+        <div className="mb-10">
+          <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 mb-8">
+            <div>
+              <h1 className="text-4xl font-bold text-gray-900 tracking-tight mb-2">
+                Courses Management
+              </h1>
+              <p className="text-gray-600 text-lg">Monitor and manage all courses</p>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Sort by:</span>
-              <select
-                value={sort}
-                onChange={e => setSort(e.target.value)}
-                className="px-3 py-1 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                disabled={loading}
-              >
-                <option value="Title">Title</option>
-                <option value="Students">Students</option>
-                <option value="Status">Status</option>
-              </select>
+            <div className="flex items-center space-x-3">
+              <Link to="/admin/course_Pending_Section">
+                <ActionButton variant="warning" size="lg">
+                  <Bell className="w-4 h-4 mr-2" />
+                  Course Verify Pending
+                  {pendingCount > 0 && (
+                    <span className="inline-flex items-center justify-center w-6 h-6 ml-2 bg-red-600 text-white rounded-full text-xs font-bold animate-pulse">
+                      {pendingCount}
+                    </span>
+                  )}
+                </ActionButton>
+              </Link>
+              <ActionButton variant="secondary">
+                <Download className="w-4 h-4 mr-2" />
+                Export
+              </ActionButton>
+              <ActionButton variant="primary">
+                <RefreshCw className="w-4 h-4 mr-2" />
+                Refresh
+              </ActionButton>
             </div>
           </div>
-        </div>
 
-        {/* Table */}
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-          {/* Desktop Table */}
-          <div className="hidden lg:block overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Course
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Instructor
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Students
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    View
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    Status
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {loading
-                  ? Array.from({ length: 3 }).map((_, idx) => <SkeletonRow key={idx} />)
-                  : visible.map((inst, idx) => (
-                    <tr key={inst._id || idx} className="border-t hover:bg-gray-50">
-                      <td className="px-6 py-4">{inst.title}</td>
-                      <td className="px-6 py-4 flex items-center gap-3 min-w-[180px]">
-                        <img src={inst.instructorId.avatar} alt={inst.instructorId.name}
-                          className="w-8 h-8 rounded-full object-cover" />
-                        {inst.instructorId.name}
-                      </td>
-                      <td className="px-6 py-4">{inst.students?.length || 0}</td>
-                      <td className="px-6 py-4">
-                        <Link
-                          to={`/admin/courseDetails/${inst._id}`}
-                          className="text-blue-600 hover:text-blue-900 flex items-center gap-1"
-                        >
-                          View
-                        </Link>
-                      </td>
-                      <td className="px-6 py-4">
-                        <StatusBadge status={inst.status || inst.verificationStatus} />
-                      </td>
-                    </tr>
-                  ))}
-                {!loading && visible.length === 0 && (
-                  <tr>
-                    <td colSpan={5} className="px-6 py-8 text-center text-gray-400">
-                      No courses found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
+            <StatsCard
+              title="Total Courses"
+              value={courses.length}
+              icon={BookOpen}
+              gradient="bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700"
+              trend="+15% this month"
+              loading={loading}
+            />
+            <StatsCard
+              title="Active Courses"
+              value={courseActive.length}
+              icon={CheckCircle2}
+              gradient="bg-gradient-to-br from-emerald-500 via-green-500 to-teal-600"
+              trend="+12% this month"
+              loading={loading}
+            />
+            <StatsCard
+              title="Blocked Courses"
+              value={courseBlocked.length}
+              icon={AlertCircle}
+              gradient="bg-gradient-to-br from-red-500 via-rose-500 to-pink-600"
+              trend="-5% this month"
+              loading={loading}
+            />
           </div>
 
-          {/* Mobile Cards */}
-          <div className="lg:hidden">
-            {loading ? (
-              Array.from({ length: 3 }).map((_, idx) => (
-                <div key={idx} className="p-6 border-b border-gray-200 last:border-b-0 animate-pulse">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-8 h-8 bg-gray-300 rounded-full" />
-                    <div className="w-3/4 h-4 bg-gray-200 rounded" />
-                  </div>
-                  <div className="flex justify-between mb-3">
-                    <div className="w-1/5 h-4 bg-gray-200 rounded" />
-                    <div className="w-1/5 h-4 bg-gray-200 rounded" />
-                  </div>
-                  <div className="flex gap-2">
-                    <div className="w-16 h-7 bg-emerald-300 rounded" />
-                  </div>
+          <div className="bg-white/80 backdrop-blur-2xl rounded-3xl p-8 shadow-xl border border-white/30 mb-8">
+            <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center justify-between">
+              
+              <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+                <div className="relative group">
+                  <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5 group-focus-within:text-blue-500 transition-colors" />
+                  <input
+                    type="text"
+                    placeholder="Search courses or instructors..."
+                    value={search}
+                    disabled={loading}
+                    onChange={(e) => { setSearch(e.target.value); setCurrentPage(1); }}
+                    className="pl-12 pr-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-80 bg-white/80 backdrop-blur-sm transition-all duration-200 hover:border-gray-300"
+                  />
                 </div>
-              ))
-            ) : (
-              visible.length === 0 ? (
-                <div className="p-6 text-center text-gray-400">No courses found.</div>
-              ) : (
-                visible.map((inst) => (
-                  <div key={inst._id} className="p-6 border-b border-gray-200 last:border-b-0">
-                    <div className="flex justify-between items-start mb-3">
-                      <div>
-                        <div className="font-medium text-gray-900">{inst.title}</div>
-                        <div className="text-sm flex items-center gap-2 text-gray-500">
-                          <img src={inst.instructorId.avatar} alt={inst.instructorId.name} className="w-7 h-7 rounded-full object-cover" />
-                          {inst.instructorId.name}
-                        </div>
-                      </div>
-                      <StatusBadge status={inst.status || inst.verificationStatus} />
-                    </div>
-                    <div className="flex justify-between mb-2">
-                      <span>Students: {inst.students?.length ?? 0}</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <Link
-                        to={`/admin/courseDetails/${inst._id}`}
-                        className="text-blue-600 hover:text-blue-900 flex items-center gap-1"
-                      >
-                        View
-                      </Link>
-                    </div>
-                  </div>
-                ))
-              )
-            )}
-          </div>
+                
+                <div className="relative">
+                  <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                  <select
+                    value={status}
+                    onChange={(e) => { setStatus(e.target.value); setCurrentPage(1); }}
+                    disabled={loading}
+                    className="pl-10 pr-8 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/80 backdrop-blur-sm appearance-none cursor-pointer transition-all duration-200 hover:border-gray-300"
+                  >
+                    <option value="All">All Status</option>
+                    <option value="Active">Active Only</option>
+                    <option value="Blocked">Blocked Only</option>
+                    <option value="Pending">Pending Only</option>
+                  </select>
+                </div>
+              </div>
 
-          {/* Pagination */}
-          {!loading && totalPages > 1 && (
-            <div className="bg-white px-6 py-3 border-t border-gray-200">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-gray-700">
-                  Showing <span className="font-medium">{(currentPage - 1) * perPage + 1}</span>-
-                  <span className="font-medium">{Math.min(currentPage * perPage, sorted.length)}</span> of
-                  <span className="font-medium"> {sorted.length} </span> courses
-                </p>
+              <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                  <button
-                    className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50"
-                    disabled={currentPage === 1}
-                    onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                  <SortAsc className="w-4 h-4 text-gray-500" />
+                  <span className="text-sm text-gray-600 font-medium">Sort by:</span>
+                  <select
+                    value={sort}
+                    onChange={(e) => setSort(e.target.value)}
+                    disabled={loading}
+                    className="px-3 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white/80 backdrop-blur-sm text-sm"
                   >
-                    ‹
+                    <option value="Title">Title</option>
+                    <option value="Students">Students</option>
+                    <option value="Status">Status</option>
+                  </select>
+                </div>
+                
+                <div className="flex items-center bg-gray-100 rounded-xl p-1">
+                  <button
+                    onClick={() => setViewMode('table')}
+                    className={`p-2 rounded-lg transition-all duration-200 ${
+                      viewMode === 'table' 
+                        ? 'bg-white shadow-sm text-blue-600' 
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
+                  >
+                    <List className="w-4 h-4" />
                   </button>
-                  {Array.from({ length: totalPages }).map((_, pg) => (
-                    <button
-                      key={pg + 1}
-                      onClick={() => setCurrentPage(pg + 1)}
-                      className={`px-3 py-1 text-sm rounded ${
-                        currentPage === pg + 1
-                          ? "bg-blue-600 text-white"
-                          : "border border-gray-300 hover:bg-gray-50"
-                      }`}
-                    >
-                      {pg + 1}
-                    </button>
-                  ))}
                   <button
-                    className="px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50"
-                    disabled={currentPage === totalPages}
-                    onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                    onClick={() => setViewMode('grid')}
+                    className={`p-2 rounded-lg transition-all duration-200 ${
+                      viewMode === 'grid' 
+                        ? 'bg-white shadow-sm text-blue-600' 
+                        : 'text-gray-500 hover:text-gray-700'
+                    }`}
                   >
-                    ›
+                    <Grid3X3 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
             </div>
-          )}
+          </div>
         </div>
+
+        {viewMode === 'grid' ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            {loading ? (
+              Array.from({ length: 6 }).map((_, idx) => (
+                <SkeletonCard key={idx} />
+              ))
+            ) : visible.length === 0 ? (
+              <div className="col-span-full flex flex-col items-center justify-center py-12 text-gray-500">
+                <BookOpen className="w-16 h-16 mb-4 text-gray-300" />
+                <p className="text-lg font-medium">No courses found</p>
+                <p className="text-sm">Try adjusting your search or filters</p>
+              </div>
+            ) : (
+              visible.map((course) => (
+                <CourseCard key={course._id} course={course} />
+              ))
+            )}
+          </div>
+        ) : (
+          <div className="bg-white/80 backdrop-blur-2xl rounded-3xl shadow-xl border border-white/30 overflow-hidden mb-8">
+            {loading ? (
+              <div className="p-12 text-center">
+                <div className="inline-block w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mb-4" />
+                <p className="text-gray-600 font-medium">Loading courses...</p>
+              </div>
+            ) : (
+              <>
+                <div className="hidden lg:block overflow-x-auto">
+                  <table className="w-full">
+                    <thead className="bg-gradient-to-r from-gray-50/80 to-gray-100/60">
+                      <tr>
+                        <th className="px-8 py-5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Course
+                        </th>
+                        <th className="px-8 py-5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Instructor
+                        </th>
+                        <th className="px-8 py-5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Students
+                        </th>
+                        <th className="px-8 py-5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-8 py-5 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100/50">
+                      {visible.length === 0 ? (
+                        <tr>
+                          <td colSpan={5} className="px-8 py-12 text-center text-gray-500">
+                            <div className="flex flex-col items-center space-y-3">
+                              <BookOpen className="w-12 h-12 text-gray-300" />
+                              <p className="text-lg font-medium">No courses found</p>
+                              <p className="text-sm">Try adjusting your search or filters</p>
+                            </div>
+                          </td>
+                        </tr>
+                      ) : (
+                        visible.map((course) => (
+                          <tr key={course._id} className="hover:bg-gradient-to-r hover:from-blue-50/30 hover:to-purple-50/30 transition-all duration-300 group">
+                            <td className="px-8 py-6 whitespace-nowrap">
+                              <div className="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors max-w-xs truncate">
+                                {course.title}
+                              </div>
+                              <div className="text-sm text-gray-500 mt-1">ID: {course._id.slice(-6)}</div>
+                            </td>
+                            <td className="px-8 py-6 whitespace-nowrap">
+                              <div className="flex items-center space-x-3">
+                                <img 
+                                  src={course.instructorId.avatar} 
+                                  alt={course.instructorId.name}
+                                  className="w-10 h-10 rounded-2xl object-cover ring-2 ring-gray-100 group-hover:ring-blue-200 transition-all duration-300 shadow-sm" 
+                                />
+                                <div className="text-sm font-medium text-gray-900">{course.instructorId.name}</div>
+                              </div>
+                            </td>
+                            <td className="px-8 py-6 whitespace-nowrap">
+                              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800">
+                                <Users className="w-3 h-3 mr-1" />
+                                {course.students?.length || 0}
+                              </span>
+                            </td>
+                            <td className="px-8 py-6 whitespace-nowrap">
+                              <StatusBadge status={course.status || course.verificationStatus} />
+                            </td>
+                            <td className="px-8 py-6 whitespace-nowrap">
+                              <div className="flex items-center space-x-2">
+                                <Link
+                                  to={`/admin/courseDetails/${course._id}`}
+                                  className="inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-xl transition-all duration-200 group/link"
+                                >
+                                  <Eye className="w-4 h-4 mr-2 group-hover/link:scale-110 transition-transform" />
+                                  View Details
+                                </Link>
+                                <button className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-all duration-200">
+                                  <MoreHorizontal className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="lg:hidden divide-y divide-gray-100">
+                  {visible.length === 0 ? (
+                    <div className="p-8 text-center text-gray-500">
+                      <BookOpen className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                      <p className="font-medium">No courses found</p>
+                    </div>
+                  ) : (
+                    visible.map((course) => (
+                      <CourseCard key={course._id} course={course} />
+                    ))
+                  )}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {!loading && totalPages > 1 && (
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/30">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-sm text-gray-700 font-medium">
+                Showing <span className="font-bold text-blue-600">{(currentPage - 1) * perPage + 1}</span>-
+                <span className="font-bold text-blue-600">{Math.min(currentPage * perPage, sorted.length)}</span> of
+                <span className="font-bold text-blue-600"> {sorted.length}</span> courses
+              </p>
+              
+              <div className="flex items-center space-x-2">
+                <ActionButton
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                  disabled={currentPage === 1}
+                >
+                  <ChevronLeft className="w-4 h-4 mr-1" />
+                  Previous
+                </ActionButton>
+                
+                <div className="flex items-center space-x-1">
+                  {Array.from({ length: Math.min(totalPages, 5) }).map((_, idx) => {
+                    const pageNum = idx + 1;
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`px-3 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                          currentPage === pageNum
+                            ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg"
+                            : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                </div>
+                
+                <ActionButton
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+                  disabled={currentPage >= totalPages}
+                >
+                  Next
+                  <ChevronRight className="w-4 h-4 ml-1" />
+                </ActionButton>
+              </div>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

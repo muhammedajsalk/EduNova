@@ -7,7 +7,7 @@ const UserDashboardLayout = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-100">
+    <div className="flex h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/40">
       <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
 
       {isOpen && (
@@ -26,7 +26,7 @@ const UserDashboardLayout = () => {
             <FaBars />
           </button>
           <h1 className="text-lg font-semibold text-emerald-600">
-            Instructor Panel
+            Student Panel
           </h1>
         </div>
 

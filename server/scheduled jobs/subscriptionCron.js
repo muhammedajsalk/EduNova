@@ -4,7 +4,7 @@ const mentorshipModel = require("../models/mentorshipModel");
 const videoSessionModel = require("../models/videoSessionModel");
 
 const startSubscriptionCleanupJob = () => {
-  cron.schedule("0 0 * * *", async () => {
+  cron.schedule("* * * * *", async () => {
     const now = new Date();
 
     try {
@@ -20,7 +20,7 @@ const startSubscriptionCleanupJob = () => {
 
       const videoSession = await videoSessionModel.updateMany(
         { selectedTimes: { $lt: now }, isActive: true },
-        { $set: { isActive: false } }
+        { $set: { isActive: false ,status:"canceled"} }
       )
 
       console.log(`[Cron Job] Expired subscriptions updated: ${result.modifiedCount}`);

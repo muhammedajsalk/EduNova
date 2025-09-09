@@ -74,7 +74,7 @@ const AdminRevenew = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 p-4 lg:p-8 mt-12">
+        <div className="min-h-screen bg-gray-50 p-4 lg:p-8 mt-18">
             <div className="max-w-7xl mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-8">
                     <StatCard

@@ -1,15 +1,45 @@
-import React, { useState } from "react";
-import { FiMenu, FiX } from "react-icons/fi";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useRef, useEffect, useContext } from "react";
+import { FiMenu, FiX, FiBell, FiUser, FiLogOut, FiSettings, FiHome, FiUsers, FiBook, FiDollarSign } from "react-icons/fi";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import UserContext from "../../../userContext";
 
 function AdminNavbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  const [desktopProfileOpen, setDesktopProfileOpen] = useState(false);
+  const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const desktopRef = useRef();
+  const mobileRef = useRef();
+  const notificationRef = useRef();
+
+  const adminUser = {
+    name: "Muhammed Ajsal",
+    email: "admin@edunova.com",
+    avatar: null
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (desktopRef.current && !desktopRef.current.contains(e.target)) {
+        setDesktopProfileOpen(false);
+      }
+      if (mobileRef.current && !mobileRef.current.contains(e.target)) {
+        setMobileProfileOpen(false);
+      }
+      if (notificationRef.current && !notificationRef.current.contains(e.target)) {
+        setNotificationOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const closeMenu = () => setIsOpen(false);
 
   const logOut = () => {
     axios
@@ -20,104 +50,312 @@ function AdminNavbar() {
           navigate("/login");
         }, 3000);
       })
-      .catch((err) => console.log("Error Logout"));
+      .catch((err) => {
+        toast.error("Error logging out");
+        console.log("Error Logout", err);
+      });
   };
+
+  const navLinks = [
+    { path: "/adminDashBoard", label: "Dashboard", icon: FiHome },
+    { path: "/admin/studentsManagement", label: "Users", icon: FiUsers },
+    { path: "/courseManagement", label: "Courses", icon: FiBook },
+    { path: "/admin/instructorManagement", label: "Instructors", icon: FiUsers },
+    { path: "/adminRevenew", label: "Revenue", icon: FiDollarSign },
+  ];
+
+  const isActivePath = (path) => location.pathname === path;
+
+  const notifications = [
+    { id: 1, title: "New instructor registration", desc: "John Doe applied as instructor", time: "1h ago", unread: true },
+    { id: 2, title: "Course approval pending", desc: "React Advanced course needs review", time: "3h ago", unread: true },
+    { id: 3, title: "Payment processed", desc: "Monthly subscription payment received", time: "5h ago", unread: false },
+    { id: 4, title: "User report", desc: "Spam report from user complaint", time: "1d ago", unread: false },
+  ];
+
+  const unreadCount = notifications.filter(n => n.unread).length;
 
   return (
     <>
-      <nav className="bg-white shadow-sm px-6 py-4 w-full fixed top-0 left-0 z-50">
+      <nav className="bg-white/95 backdrop-blur-md shadow-lg px-4 md:px-6 py-4 w-full fixed top-0 left-0 z-50 border-b border-gray-100">
         <div className="flex items-center justify-between w-full max-w-7xl mx-auto">
-          <div className="text-2xl font-bold text-emerald-600">EduNova</div>
+          <Link to="/adminDashBoard" className="flex items-center space-x-2 group">
+            <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+              <span className="text-white font-bold text-xl">E</span>
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 bg-clip-text text-transparent">
+              EduNova
+            </span>
+            <span className="hidden sm:inline-block px-2 py-1 bg-gradient-to-r from-emerald-100 to-teal-100 text-emerald-700 text-xs font-semibold rounded-full">
+              Admin
+            </span>
+          </Link>
 
-          <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
-            <li className="hover:underline decoration-emerald-600">
-              <Link to={"/adminDashBoard"}>Home</Link>
-            </li>
-            <li className="hover:underline decoration-emerald-600">
-              <Link to={"/admin/studentsManagement"}>Users</Link>
-            </li>
-            <li className="hover:underline decoration-emerald-600">
-              <Link to={"/courseManagement"}>Courses</Link>
-            </li>
-            <li className="hover:underline decoration-emerald-600">
-              <Link to={"/admin/instructorManagement"}>Instructors</Link>
-            </li>
-            <li className="hover:underline decoration-emerald-600">
-              <Link to={"/adminRevenew"}>Revenue</Link>
-            </li>
+          <ul className="hidden md:flex items-center space-x-1">
+            {navLinks.map((link) => (
+              <li key={link.path}>
+                <Link
+                  to={link.path}
+                  className={`
+                    relative px-4 py-2 rounded-lg font-medium transition-all duration-300
+                    ${isActivePath(link.path)
+                      ? "text-emerald-600 bg-emerald-50"
+                      : "text-gray-600 hover:text-emerald-600 hover:bg-gray-50"
+                    }
+                  `}
+                >
+                  {link.label}
+                  {isActivePath(link.path) && (
+                    <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-0.5 bg-emerald-600 rounded-full"></span>
+                  )}
+                </Link>
+              </li>
+            ))}
           </ul>
 
-          <div className="hidden md:flex items-center space-x-4 relative">
-            <button
-              onClick={toggleDropdown}
-              className="text-gray-700 font-medium focus:outline-none"
-            >
-              Muhammed Ajsal
-            </button>
+          <div className="hidden md:flex items-center space-x-3">
+            <div className="relative" ref={notificationRef}>
+              <button
+                onClick={() => setNotificationOpen(!notificationOpen)}
+                className="relative p-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-lg transition-all duration-300"
+                aria-label="Notifications"
+              >
+                <FiBell size={20} />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
 
-            {dropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
-                <button
-                  onClick={logOut}
-                  className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
+              {notificationOpen && (
+                <div className="absolute right-0 top-12 w-80 bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden animate-slideDown">
+                  <div className="bg-gradient-to-r from-emerald-500 to-teal-500 text-white px-4 py-3">
+                    <h3 className="font-semibold">Admin Notifications</h3>
+                  </div>
+                  <div className="max-h-96 overflow-y-auto">
+                    {notifications.map((notif) => (
+                      <div
+                        key={notif.id}
+                        className={`px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors ${
+                          notif.unread ? "bg-emerald-50/50" : ""
+                        }`}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <p className="font-medium text-gray-800 text-sm">{notif.title}</p>
+                            <p className="text-gray-600 text-xs mt-1">{notif.desc}</p>
+                          </div>
+                          <span className="text-xs text-gray-500">{notif.time}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="px-4 py-3 text-center border-t border-gray-100">
+                    <button className="text-emerald-600 text-sm font-medium hover:text-emerald-700">
+                      View all notifications
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="relative" ref={desktopRef}>
+              <button
+                onClick={() => setDesktopProfileOpen(!desktopProfileOpen)}
+                className="flex items-center space-x-3 px-3 py-2 rounded-xl hover:bg-gray-50 transition-all duration-300 group"
+                aria-label="Toggle profile menu"
+              >
+                <div className="relative">
+                  <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-full flex items-center justify-center shadow-lg group-hover:shadow-xl transition-all duration-300">
+                    {adminUser.avatar ? (
+                      <img
+                        src={adminUser.avatar}
+                        alt="Admin"
+                        className="w-10 h-10 rounded-full object-cover"
+                      />
+                    ) : (
+                      <FiUser size={20} className="text-white" />
+                    )}
+                  </div>
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                </div>
+                <div className="text-left hidden lg:block">
+                  <p className="text-sm font-semibold text-gray-800">{adminUser.name}</p>
+                  <p className="text-xs text-gray-500">Administrator</p>
+                </div>
+                <svg
+                  className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${
+                    desktopProfileOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  Logout
-                </button>
-              </div>
-            )}
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {desktopProfileOpen && (
+                <div className="absolute right-0 top-14 w-64 bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden animate-slideDown">
+                  <div className="px-4 py-3 bg-gradient-to-r from-emerald-50 to-teal-50 border-b border-gray-100">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-full flex items-center justify-center shadow-md">
+                        <FiUser size={24} className="text-white" />
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-800">{adminUser.name}</p>
+                        <p className="text-xs text-gray-600">{adminUser.email}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="py-2">
+                    <Link
+                      to="/admin/profile"
+                      className="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-50 transition-colors group"
+                      onClick={() => setDesktopProfileOpen(false)}
+                    >
+                      <FiUser className="text-gray-400 group-hover:text-emerald-600" />
+                      <span className="text-gray-700 group-hover:text-emerald-600">Admin Profile</span>
+                    </Link>
+                    <Link
+                      to="/admin/settings"
+                      className="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-50 transition-colors group"
+                      onClick={() => setDesktopProfileOpen(false)}
+                    >
+                      <FiSettings className="text-gray-400 group-hover:text-emerald-600" />
+                      <span className="text-gray-700 group-hover:text-emerald-600">System Settings</span>
+                    </Link>
+                    <hr className="my-2 border-gray-100" />
+                    <button
+                      className="flex items-center space-x-3 px-4 py-2.5 w-full hover:bg-red-50 transition-colors group"
+                      onClick={logOut}
+                    >
+                      <FiLogOut className="text-gray-400 group-hover:text-red-600" />
+                      <span className="text-gray-700 group-hover:text-red-600">Log Out</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
-          <div className="md:hidden">
-            <button onClick={toggleMenu}>
+          <div className="md:hidden flex items-center space-x-3">
+            <button className="relative p-2 text-gray-600">
+              <FiBell size={20} />
+              {unreadCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+                  {unreadCount}
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              aria-label="Toggle navigation"
+            >
               {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
             </button>
           </div>
         </div>
 
-        {isOpen && (
-          <div className="md:hidden mt-4 space-y-4 px-2">
-            <ul className="flex flex-col space-y-2 text-gray-700 font-medium">
-              <li>
-                <Link to={"/adminDashBoard"}>Home</Link>
-              </li>
-              <li>
-                <Link to={"/admin/studentsManagement"}>Users</Link>
-              </li>
-              <li>
-                <Link to={""}>Courses Approvel</Link>
-              </li>
-              <li>
-                <Link to={"/admin/instructorManagement"}>Instructor</Link>
-              </li>
-              <li>
-                <Link to={"/adminRevenew"}>Revenue</Link>
-              </li>
-            </ul>
+        <div
+          className={`md:hidden transition-all duration-300 ease-in-out ${
+            isOpen ? "max-h-screen opacity-100 mt-4" : "max-h-0 opacity-0 overflow-hidden"
+          }`}
+        >
+          <div className="px-2 pb-4 space-y-1">
+            {navLinks.map((link) => {
+              const Icon = link.icon;
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={closeMenu}
+                  className={`
+                    flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-300
+                    ${isActivePath(link.path)
+                      ? "bg-emerald-50 text-emerald-600"
+                      : "text-gray-700 hover:bg-gray-50"
+                    }
+                  `}
+                >
+                  <Icon size={20} />
+                  <span className="font-medium">{link.label}</span>
+                </Link>
+              );
+            })}
 
-            <div className="flex flex-col space-y-2 relative">
-              <button
-                onClick={toggleDropdown}
-                className="text-gray-700 font-medium text-left"
-              >
-                Muhammed Ajsal
-              </button>
-
-              {dropdownOpen && (
-                <div className="mt-2 w-full bg-white border rounded-lg shadow-lg z-50">
-                  <button
-                    onClick={logOut}
-                    className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100"
-                  >
-                    Logout
-                  </button>
+            <div className="pt-4 mt-4 border-t border-gray-200">
+              <div className="flex items-center space-x-3 px-4 py-3">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-teal-600 rounded-full flex items-center justify-center shadow-lg">
+                  <FiUser size={24} className="text-white" />
                 </div>
-              )}
-            </div>
+                <div>
+                  <p className="font-semibold text-gray-800">{adminUser.name}</p>
+                  <p className="text-sm text-gray-500">Administrator</p>
+                </div>
+              </div>
 
+              <div className="mt-2 space-y-1">
+                <Link
+                  to="/admin/profile"
+                  onClick={closeMenu}
+                  className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                >
+                  <FiUser size={20} />
+                  <span>Admin Profile</span>
+                </Link>
+                <Link
+                  to="/admin/settings"
+                  onClick={closeMenu}
+                  className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                >
+                  <FiSettings size={20} />
+                  <span>System Settings</span>
+                </Link>
+                <button
+                  onClick={logOut}
+                  className="flex items-center space-x-3 px-4 py-3 w-full text-left text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                >
+                  <FiLogOut size={20} />
+                  <span>Log Out</span>
+                </button>
+              </div>
+            </div>
           </div>
-        )}
+        </div>
       </nav>
-      <ToastContainer position="top-right" autoClose={3000} />
+
+      <style jsx>{`
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-slideDown {
+          animation: slideDown 0.2s ease-out;
+        }
+      `}</style>
+
+      <ToastContainer 
+        position="top-right" 
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 }
