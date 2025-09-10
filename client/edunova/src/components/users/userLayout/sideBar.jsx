@@ -71,12 +71,6 @@ const Sidebar = () => {
       badge: null 
     },
     { 
-      label: "Messages", 
-      icon: <Mail size={20} />, 
-      path: "/messages",
-      badge: "2" 
-    },
-    { 
       label: "Notifications", 
       icon: <Bell size={20} />, 
       path: "/notifications",
@@ -96,7 +90,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex bg-gray-50">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="md:hidden fixed top-4 left-4 z-60 p-3 bg-white rounded-xl shadow-lg border border-gray-200 hover:shadow-xl transition-all duration-300"
@@ -216,7 +210,7 @@ const Sidebar = () => {
                       <User size={24} className="text-white" />
                     )}
                   </div>
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></div>
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></div>
                 </div>
                 <div className="flex-1 min-w-0 text-left">
                   <p className="text-sm font-semibold text-gray-900 truncate">{user?.name}</p>

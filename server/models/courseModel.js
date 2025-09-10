@@ -50,7 +50,7 @@ const CourseSchema = new mongoose.Schema(
     },
     students: [
       {
-        studentId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+        _id: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
         courseStartDate: { type: Date, default: Date.now }
       }
     ]

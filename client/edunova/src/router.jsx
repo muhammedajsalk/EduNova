@@ -50,6 +50,8 @@ import CourseVideoPlayer from './components/users/courseWatch'
 import MentorshipProgramCreator from './components/instructors/instructor page/instructorMentorshipCreation'
 import ScheduledStudents from './components/instructors/instructor page/enteredMentorshipStudents'
 import InstructorBooking from './components/users/mentorshipDeatils'
+import StudentChatBox from './components/users/chatbox'
+import InstructorChatBox from './components/instructors/instructor page/chatbox'
 
 function Routers() {
   const [user, setUser] = useState(null)
@@ -140,6 +142,7 @@ function Routers() {
               <Route index element={<LearningDashboard />} />
               <Route path="courses" element={<UserCourses />} />
               <Route path="courseWatching/:id" element={<CourseVideoPlayer />} />
+              <Route path="studentChat/:instructorId/:roomId" element={<StudentChatBox />} />
             </Route>
           </Route>
           <Route
@@ -149,6 +152,7 @@ function Routers() {
               <Route index element={<InstructorHome />} />
               <Route path="courses" element={<InstructorAllCourse />} />
               <Route path="createCourse" element={<CreateCourse />} />
+              <Route path="InstructorChat/:courseId" element={<InstructorChatBox />} />
               <Route path="CourseView/:id" element={<CourseViewPage />} />
               <Route path="Mentorship/scheduledStudent" element={<ScheduledStudents />} />
               <Route path="Mentorship/scheduledStudent/creation" element={<MentorshipProgramCreator />} />

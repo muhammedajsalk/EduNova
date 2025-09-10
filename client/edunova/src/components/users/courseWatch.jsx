@@ -8,11 +8,11 @@ import React, {
 } from "react";
 import axios from "axios";
 import { debounce } from "lodash";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import UserContext from "../../userContext";
-import { 
-    ThumbsUp, ThumbsDown, BookOpen, Clock, PlayCircle, 
-    CheckCircle2, ChevronLeft, ChevronRight, Award, 
+import {
+    ThumbsUp, ThumbsDown, BookOpen, Clock, PlayCircle,
+    CheckCircle2, ChevronLeft, ChevronRight, Award,
     MessageCircle, User, Sparkles, Play, Pause, Volume2
 } from 'lucide-react';
 
@@ -45,7 +45,7 @@ const CourseVideoPlayer = () => {
         const handleKeyDown = (event) => {
             if (
                 event.keyCode === 123 ||
-                (event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67)) || 
+                (event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 74 || event.keyCode === 67)) ||
                 (event.ctrlKey && event.keyCode === 85)
             ) {
                 event.preventDefault();
@@ -73,9 +73,9 @@ const CourseVideoPlayer = () => {
         } else {
             setLiked(true);
         }
-        axios.post("http://localhost:5000/api/users/course/like",{courseId:activeVideo.courseId,lectureId:activeVideo._id},{withCredentials:true})
-        .then((res)=>console.log(res.data.message))
-        .catch((err)=>console.log("Error Course Fetching"))
+        axios.post("http://localhost:5000/api/users/course/like", { courseId: activeVideo.courseId, lectureId: activeVideo._id }, { withCredentials: true })
+            .then((res) => console.log(res.data.message))
+            .catch((err) => console.log("Error Course Fetching"))
     };
 
     useEffect(() => {
@@ -122,6 +122,16 @@ const CourseVideoPlayer = () => {
             sourceRef.current = axios.CancelToken.source();
         };
     }, [id]);
+
+    const newChatCreate = () => {
+        axios.post("http://localhost:5000/api/message/chat-room", { userId: user._id, instructorId: course.instructorId?._id }, { withCredentials: true })
+            .then((res) => {
+                let chatRoomId=res.data?._id
+                navigate(`/learningDashboard/studentChat/${course.instructorId?._id}/${chatRoomId}`)
+            }
+            )
+            .catch((err) => console.log(err))
+    }
 
     useEffect(() => {
         if (!activeVideo) return;
@@ -233,7 +243,7 @@ const CourseVideoPlayer = () => {
             const delta = currentTime - prevTime;
             if (delta > 0 && delta < 2) {
                 accumulatedWatchedRef.current += delta;
-                saveWatchedTimeoutRef.current(); 
+                saveWatchedTimeoutRef.current();
                 savePositionDebouncedRef.current();
 
                 if (
@@ -463,11 +473,10 @@ const CourseVideoPlayer = () => {
                                         return (
                                             <div
                                                 key={lecture._id}
-                                                className={`group relative cursor-pointer transition-all duration-300 rounded-xl overflow-hidden ${
-                                                    isActive
+                                                className={`group relative cursor-pointer transition-all duration-300 rounded-xl overflow-hidden ${isActive
                                                         ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-xl transform scale-[1.02]"
                                                         : "bg-white hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:shadow-lg border border-gray-100 hover:border-emerald-200"
-                                                }`}
+                                                    }`}
                                                 onClick={() =>
                                                     setActiveVideo({
                                                         ...lecture,
@@ -492,9 +501,8 @@ const CourseVideoPlayer = () => {
                                                 <div className="flex items-center p-4 gap-4">
                                                     <div className={`flex-shrink-0 ${isActive ? 'text-white' : ''}`}>
                                                         {isCompleted ? (
-                                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                                                                isActive ? 'bg-white/20' : 'bg-gradient-to-r from-emerald-100 to-teal-100'
-                                                            }`}>
+                                                            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${isActive ? 'bg-white/20' : 'bg-gradient-to-r from-emerald-100 to-teal-100'
+                                                                }`}>
                                                                 <CheckCircle2 className={`w-5 h-5 ${isActive ? 'text-white' : 'text-emerald-600'}`} />
                                                             </div>
                                                         ) : isActive ? (
@@ -511,9 +519,8 @@ const CourseVideoPlayer = () => {
                                                     </div>
 
                                                     <div className="flex-1 min-w-0">
-                                                        <h4 className={`text-sm font-semibold truncate ${
-                                                            isActive ? 'text-white' : 'text-gray-900'
-                                                        }`}>
+                                                        <h4 className={`text-sm font-semibold truncate ${isActive ? 'text-white' : 'text-gray-900'
+                                                            }`}>
                                                             {lecture.title}
                                                         </h4>
                                                         {lecture.duration && (
@@ -622,11 +629,10 @@ const CourseVideoPlayer = () => {
                                 <button
                                     onClick={handleLike}
                                     aria-pressed={liked}
-                                    className={`group flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 ${
-                                        user.userLikedVideos?.includes(activeVideo?._id) || liked
+                                    className={`group flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold transition-all duration-300 ${user.userLikedVideos?.includes(activeVideo?._id) || liked
                                             ? "bg-gradient-to-r from-emerald-500 to-teal-600 text-white shadow-lg"
                                             : "bg-white border border-emerald-200 text-gray-700 hover:bg-gradient-to-r hover:from-emerald-50 hover:to-teal-50 hover:border-emerald-300"
-                                    }`}
+                                        }`}
                                     title="Like"
                                 >
                                     <ThumbsUp className="w-4 h-4" />
@@ -670,9 +676,9 @@ const CourseVideoPlayer = () => {
                                         <h3 className="text-xl font-bold text-gray-900">{course.instructorId?.name}</h3>
                                         <p className="text-gray-600 mt-1">Course Instructor</p>
                                     </div>
-                                    <button className="group flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
+                                    <button className="group flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5" onClick={()=>newChatCreate()}>
                                         <MessageCircle className="w-5 h-5" />
-                                        <span>Message</span>
+                                            <span>Message</span>
                                     </button>
                                 </div>
                             </section>
