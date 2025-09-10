@@ -4,7 +4,7 @@ const mentorshipModel = require("../models/mentorshipModel");
 const videoSessionModel = require("../models/videoSessionModel");
 
 const startSubscriptionCleanupJob = () => {
-  cron.schedule("* * * * *", async () => {
+  cron.schedule("0 0 * * *", async () => {
     const now = new Date();
 
     try {
