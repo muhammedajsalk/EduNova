@@ -25,10 +25,23 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [showProfileMenu, setShowProfileMenu] = useState(false);
-  const { user } = useContext(UserContext);
+  const { user, notificationCo, setNotificationCo } = useContext(UserContext);
   const location = useLocation();
   const navigate = useNavigate();
   const profileMenuRef = useRef();
+
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/notification/${user._id}`)
+      .then((res) => {
+        const unread = res.data.filter(n => !n.read).length;
+        setNotificationCo(unread);
+      }
+      )
+      .catch((err) => console.log(err))
+  }, [user._id])
+
+  console.log(notificationCo,notificationCo)
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -52,35 +65,35 @@ const Sidebar = () => {
   };
 
   const navItems = [
-    { 
-      label: "Dashboard", 
-      icon: <Home size={20} />, 
+    {
+      label: "Dashboard",
+      icon: <Home size={20} />,
       path: "/learningDashboard",
-      badge: null 
+      badge: null
     },
-    { 
-      label: "My Courses", 
-      icon: <BookOpen size={20} />, 
+    {
+      label: "My Courses",
+      icon: <BookOpen size={20} />,
       path: "/learningDashboard/courses",
-      badge: "3" 
+      badge: "3"
     },
-    { 
-      label: "Community", 
-      icon: <Users size={20} />, 
+    {
+      label: "Community",
+      icon: <Users size={20} />,
       path: "/community",
-      badge: null 
+      badge: null
     },
-    { 
-      label: "Notifications", 
-      icon: <Bell size={20} />, 
-      path: "/notifications",
-      badge: "5" 
+    {
+      label: "Notifications",
+      icon: <Bell size={20} />,
+      path: "/learningDashboard/notification",
+      badge: `${notificationCo}`
     },
-    { 
-      label: "Settings", 
-      icon: <Settings size={20} />, 
+    {
+      label: "Settings",
+      icon: <Settings size={20} />,
       path: "/settings",
-      badge: null 
+      badge: null
     },
   ];
 
@@ -142,23 +155,21 @@ const Sidebar = () => {
                   to={item.path}
                   onClick={() => setIsOpen(false)}
                   className={`group relative w-full flex items-center justify-between p-3 rounded-xl transition-all duration-300
-                    ${
-                      isActive
-                        ? "bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 shadow-md border border-emerald-100"
-                        : "text-gray-700 hover:bg-gray-50 hover:text-emerald-600"
+                    ${isActive
+                      ? "bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 shadow-md border border-emerald-100"
+                      : "text-gray-700 hover:bg-gray-50 hover:text-emerald-600"
                     }`}
                 >
                   <div className="flex items-center gap-3">
                     <span
-                      className={`transition-colors duration-300 ${
-                        isActive ? "text-emerald-600" : "text-gray-500 group-hover:text-emerald-600"
-                      }`}
+                      className={`transition-colors duration-300 ${isActive ? "text-emerald-600" : "text-gray-500 group-hover:text-emerald-600"
+                        }`}
                     >
                       {item.icon}
                     </span>
                     <span className="font-medium">{item.label}</span>
                   </div>
-                  
+
                   <div className="flex items-center gap-2">
                     {item.badge && (
                       <span className="bg-emerald-100 text-emerald-700 text-xs font-semibold px-2 py-1 rounded-full">
@@ -169,7 +180,7 @@ const Sidebar = () => {
                       <ChevronRight size={16} className="text-emerald-600" />
                     )}
                   </div>
-                  
+
                   {isActive && (
                     <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-500 to-teal-500 rounded-r-full"></div>
                   )}
@@ -273,8 +284,8 @@ const Sidebar = () => {
         }
       `}</style>
 
-      <ToastContainer 
-        position="top-right" 
+      <ToastContainer
+        position="top-right"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}

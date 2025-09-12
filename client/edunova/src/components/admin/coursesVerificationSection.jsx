@@ -111,7 +111,8 @@ const CourseApproval = () => {
             status: "rejected",
             rejectionReason: rejectReson,
             email: data.instructorId?.email,
-            courseTitle: data.title
+            courseTitle: data.title,
+            instructorId:data.instructorId?._id
         }, { withCredentials: true })
             .then((res) => {
                 toast.success(res.data.message)
@@ -133,7 +134,8 @@ const CourseApproval = () => {
             id: id,
             status: "approved",
             email: data.instructorId?.email,
-            courseTitle: data.title
+            courseTitle: data.title,
+            instructorId:data.instructorId?._id
         }, { withCredentials: true })
             .then((res) => {
                 toast.success(res.data.message)

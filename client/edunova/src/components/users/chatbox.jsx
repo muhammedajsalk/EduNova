@@ -1,7 +1,6 @@
-// StudentChatTest.jsx
 import React, { useEffect, useState, useRef, useContext } from "react";
 import { io } from "socket.io-client";
-import axios from "axios"; // Make sure to install axios: npm install axios
+import axios from "axios";
 import { useLocation, useParams } from "react-router-dom";
 import UserContext from "../../userContext";
 
@@ -24,8 +23,8 @@ export default function StudentChat() {
 
   const { user } = useContext(UserContext);
   console.log("user", user)
-  const currentUserId = user._id; // Current user ID for testing
-  const chatRoomId = roomId; // Chat room ID for testing
+  const currentUserId = user._id;
+  const chatRoomId = roomId;
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/admin/instructorById/${instructorId}`, { withCredentials: true })
@@ -44,7 +43,6 @@ export default function StudentChat() {
   }, [messages]);
 
   console.log("studentMessage", messages)
-  // Fetch previous messages
   const fetchPreviousMessages = async () => {
     try {
       setIsLoading(true);
@@ -52,10 +50,9 @@ export default function StudentChat() {
         withCredentials: true
       });
 
-      // Format the messages to match your component's structure
       const formattedMessages = response.data.map(msg => ({
         content: msg.content,
-        senderId: msg.senderId?._id || msg.senderId, // Handle populated or non-populated data
+        senderId: msg.senderId?._id || msg.senderId,
         timestamp: new Date(msg.createdAt).toLocaleTimeString([], {
           hour: '2-digit',
           minute: '2-digit'
@@ -70,7 +67,6 @@ export default function StudentChat() {
     }
   };
 
-  // Fetch messages on component mount
   useEffect(() => {
     fetchPreviousMessages();
   }, []);
@@ -85,7 +81,6 @@ export default function StudentChat() {
 
   useEffect(() => {
 
-    // 📩 Receive message
     socket.on("receiveMessage", (msg) => {
       if (msg.chatRoomId === chatRoomId) {
         setMessages((prev) => [...prev, {
@@ -97,7 +92,6 @@ export default function StudentChat() {
       }
     });
 
-    // 👀 Typing indicator
     socket.on("typing", ({ userId }) => {
       if (userId !== currentUserId) {
         setIsTyping(true);
@@ -105,7 +99,6 @@ export default function StudentChat() {
       }
     });
 
-    // ❌ Disconnected
     socket.on("disconnect", () => {
       console.log("❌ Disconnected");
       setIsConnected(false);
@@ -119,7 +112,6 @@ export default function StudentChat() {
     };
   }, []);
 
-  // ✉️ Send message
   const sendMessage = (e) => {
     e?.preventDefault();
     if (!input.trim()) return;
@@ -131,6 +123,8 @@ export default function StudentChat() {
       senderModel: "users",
       receiverModel: "instructor",
       content: input,
+      senderImg:user.avatar,
+      senderName:user.name
     };
 
     socket.emit("sendMessage", newMessage);
@@ -139,7 +133,6 @@ export default function StudentChat() {
   };
 
 
-  // Handle typing indicator
   const handleTyping = () => {
     socket.emit("typing", {
       chatRoomId: chatRoomId,
@@ -149,7 +142,6 @@ export default function StudentChat() {
 
   return (
     <div className="flex flex-col h-screen  mx-auto bg-gray-50">
-      {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
@@ -175,7 +167,6 @@ export default function StudentChat() {
         </div>
       </div>
 
-      {/* Messages Container */}
       <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
         {isLoading ? (
           <div className="flex items-center justify-center h-full">
@@ -227,7 +218,6 @@ export default function StudentChat() {
         )}
       </div>
 
-      {/* Input Area */}
       <div className="bg-white border-t border-gray-200 px-6 py-4">
         <form onSubmit={sendMessage} className="flex items-center space-x-3">
           <button

@@ -13,7 +13,7 @@ import UserContext from '../../userContext';
 function Login() {
     const [role, setRole] = useState("student");
     const [submiting, setSubmiting] = useState(false)
-    const {user, setUser }=useContext(UserContext)
+    const { user, setUser, notificationCo, setNotificationCo } = useContext(UserContext)
 
 
     const navigate = useNavigate()
@@ -24,31 +24,45 @@ function Login() {
         password: ""
     }
 
+    const notificationDataGet = (id) => {
+        axios.get(`http://localhost:5000/api/notification/${id}`)
+            .then((res) => {
+                const unread = res.data.filter(n => !n.read).length; // use fresh data
+                setNotificationCo(unread);
+            }
+            )
+            .catch((err) => console.log(err))
+    }
+
     function loginAccount(values) {
         if (role === "student") {
             setSubmiting(true)
             axios.post("http://localhost:5000/api/users/auth/login", values, { withCredentials: true })
                 .then((res) => {
-                    setUser({role:"user",...res.data?.data})
+                    setUser({ role: "user", ...res.data?.data })
                     toast.success(res.data.message)
+                    const userId = res.data?.data?._id
+                    notificationDataGet(userId)
                     setTimeout(() => {
                         navigate('/learningDashboard')
                     }, 2000);
                 })
                 .catch((err) => toast.error(err.response?.data?.message || err.message))
-                .finally(()=>setSubmiting(false))
+                .finally(() => setSubmiting(false))
         } else {
             setSubmiting(true)
             axios.post("http://localhost:5000/api/instructor/auth/login", values, { withCredentials: true })
                 .then((res) => {
-                    setUser({role:"instructor",...res.data?.data})
+                    setUser({ role: "instructor", ...res.data?.data })
                     toast.success(res.data.message)
+                    const userId = res.data?.data?._id
+                    notificationDataGet(userId)
                     setTimeout(() => {
                         navigate('/instructorDashBoard')
                     }, 2000);
                 })
                 .catch((err) => toast.error(err.response?.data?.message || err.message))
-                .finally(()=>setSubmiting(false))
+                .finally(() => setSubmiting(false))
         }
     }
 
@@ -99,8 +113,10 @@ function Login() {
                                     setSubmiting(true)
                                     axios.post('http://localhost:5000/api/users/auth/login', credentialResponse, { withCredentials: true })
                                         .then((res) => {
-                                            setUser({role:"user",...res.data?.data})
+                                            setUser({ role: "user", ...res.data?.data })
                                             toast.success(res.data.message)
+                                            const userId = res.data?.data?._id
+                                            notificationDataGet(userId)
                                             setTimeout(() => {
                                                 navigate('/learningDashboard')
                                             }, 2000);
@@ -109,7 +125,7 @@ function Login() {
                                             const msg = err.response?.data?.message || err.message;
                                             toast.error(msg)
                                         }
-                                        ).finally(()=>{
+                                        ).finally(() => {
                                             setSubmiting(false)
                                         })
                                 }}
@@ -212,8 +228,10 @@ function Login() {
                                     setSubmiting(true)
                                     axios.post('http://localhost:5000/api/instructor/auth/login', credentialResponse, { withCredentials: true })
                                         .then((res) => {
-                                            setUser({role:"instructor",...res.data?.data})
+                                            setUser({ role: "instructor", ...res.data?.data })
                                             toast.success(res.data.message)
+                                            const userId = res.data?.data?._id
+                                            notificationDataGet(userId)
                                             setTimeout(() => {
                                                 navigate('/instructorDashBoard')
                                             }, 2000);
@@ -222,7 +240,7 @@ function Login() {
                                             const msg = err.response?.data?.message || err.message;
                                             toast.error(msg)
                                         }
-                                        ).finally(()=>{
+                                        ).finally(() => {
                                             setSubmiting(false)
                                         })
                                 }}

@@ -1,4 +1,3 @@
-// InstructorChatInterface.jsx
 import React, { useEffect, useState, useRef, useContext, useCallback } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
@@ -18,17 +17,16 @@ export default function InstructorChatBox() {
   const [students, setStudents] = useState([]);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [loadingStudents, setLoadingStudents] = useState(true);
-  const [error, setError] = useState(null); // For error feedback
+  const [error, setError] = useState(null);
 
   const [currentChatRoomId, setCurrentChatRoomId] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
   const { courseId } = useParams();
   const { user } = useContext(UserContext);
-  const currentUserId = user?._id; // Assume user is always available; add checks if not
+  const currentUserId = user?._id;
 
 
-  // Fetch students on mount
   const fetchStudents = useCallback(async () => {
     try {
       setLoadingStudents(true);
@@ -38,7 +36,6 @@ export default function InstructorChatBox() {
       });
       const fetchedStudents = response.data?.data || [];
       setStudents(fetchedStudents);
-      // Auto-select first student if none selected
       if (fetchedStudents.length > 0 && !selectedStudent) {
         handleStudentSelect(fetchedStudents[0]);
       }
@@ -48,9 +45,8 @@ export default function InstructorChatBox() {
     } finally {
       setLoadingStudents(false);
     }
-  }, [courseId, selectedStudent]); // Dependencies for stability
+  }, [courseId, selectedStudent]);
 
-  // Scroll to bottom when messages change
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, []);
@@ -59,17 +55,14 @@ export default function InstructorChatBox() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  // Fetch students on mount
   useEffect(() => {
     fetchStudents();
   }, [fetchStudents]);
 
-  // Create or get chat room when student is selected (if not already present)
   useEffect(() => {
     if (selectedStudent && currentUserId) {
       let chatRoomId = selectedStudent.chatRoomId;
       if (!chatRoomId) {
-        // Create if missing
         axios
           .post("http://localhost:5000/api/message/chat-room", {
             userId: selectedStudent._id,
@@ -78,7 +71,6 @@ export default function InstructorChatBox() {
           .then((res) => {
             chatRoomId = res.data?._id;
             setCurrentChatRoomId(chatRoomId);
-            // Update student state with new chatRoomId
             setStudents((prev) =>
               prev.map((s) =>
                 s._id === selectedStudent._id ? { ...s, chatRoomId } : s
@@ -95,7 +87,6 @@ export default function InstructorChatBox() {
     }
   }, [selectedStudent, currentUserId]);
 
-  // Fetch previous messages when chat room changes
   const fetchPreviousMessages = useCallback(async () => {
     if (!currentChatRoomId) return;
 
@@ -130,13 +121,10 @@ export default function InstructorChatBox() {
     }
   }, [currentChatRoomId, fetchPreviousMessages]);
 
-  // Socket event handlers
 
 
-  // Inside your InstructorChatBox component...
 
   useEffect(() => {
-    // Log initial connection attempt
     console.log("Attempting to connect to socket server...");
 
     socket.on("connect", () => {
@@ -151,7 +139,6 @@ export default function InstructorChatBox() {
 
     socket.on("connect_error", (error) => {
       console.error("❌ Socket connection error:", error.message);
-      // Optionally set error state for UI feedback
       setError(`Socket connection failed: ${error.message}`);
     });
 
@@ -216,7 +203,6 @@ export default function InstructorChatBox() {
     });
 
     return () => {
-      // Clean up all listeners
       socket.off("connect");
       socket.off("disconnect");
       socket.off("connect_error");
@@ -227,9 +213,8 @@ export default function InstructorChatBox() {
       socket.off("receiveMessage");
       socket.off("typing");
     };
-  }, [currentChatRoomId, selectedStudent, currentUserId]); // Your existing dependencies
+  }, [currentChatRoomId, selectedStudent, currentUserId]);
 
-  // Join room when currentChatRoomId changes
   useEffect(() => {
     if (currentChatRoomId) {
       socket.emit("joinRoom", currentChatRoomId);
@@ -248,13 +233,14 @@ export default function InstructorChatBox() {
         senderModel: "instructor",
         receiverModel: "users",
         content: input,
+        senderImg: user.avatar,
+        senderName: user.name
       };
 
       socket.emit("sendMessage", newMessage);
       setInput("");
       inputRef.current?.focus();
 
-      // Update students list
       setStudents((prev) =>
         prev.map((student) => {
           if (student._id === selectedStudent._id) {
@@ -282,17 +268,15 @@ export default function InstructorChatBox() {
 
   const handleStudentSelect = useCallback((student) => {
     setSelectedStudent(student);
-    // Reset unread count
     setStudents((prev) =>
       prev.map((s) => (s._id === student._id ? { ...s, unreadCount: 0 } : s))
     );
-    setMessages([]); // Clear messages until new ones load
-    setCurrentChatRoomId(student.chatRoomId); // Will trigger creation if null
+    setMessages([]);
+    setCurrentChatRoomId(student.chatRoomId);
   }, []);
 
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* Students Sidebar */}
       <div className="w-80 bg-white border-r border-gray-200 flex flex-col">
         <div className="px-6 py-4 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">Students</h2>
@@ -363,7 +347,6 @@ export default function InstructorChatBox() {
         </div>
       </div>
 
-      {/* Chat Area */}
       <div className="flex-1 flex flex-col">
         {selectedStudent ? (
           <>
