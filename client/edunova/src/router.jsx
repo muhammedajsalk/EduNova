@@ -52,10 +52,24 @@ import ScheduledStudents from './components/instructors/instructor page/enteredM
 import InstructorBooking from './components/users/mentorshipDeatils'
 import StudentChatBox from './components/users/chatbox'
 import InstructorChatBox from './components/instructors/instructor page/chatbox'
+import { io } from "socket.io-client";
+import { ToastContainer, toast } from "react-toastify";
+import { useMemo } from 'react'
+import NotificationsPage from './components/users/notification'
+import { showSuperNotification } from './utilis/showSuperNotification'
+import NotificationsPageInstructor from './components/instructors/instructor page/notification'
+import NotificationsPageAdmin from './components/admin/notification'
+import { Toaster } from 'react-hot-toast'
+
+
+
 
 function Routers() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [notificationCo, setNotificationCo] = useState(null)
+  const socket = useMemo(() => io("http://localhost:5000", { withCredentials: true }), []);
+
   useEffect(() => {
     axios.get('http://localhost:5000/api/public/me', { withCredentials: true })
       .then((res) => setUser(res.data.data))
@@ -66,8 +80,31 @@ function Routers() {
         setLoading(false)
       })
   }, [])
+
+
+
+
+  useEffect(() => {
+    socket.on("notification", (data) => {
+      if (user && user._id === data.userId) {
+        showSuperNotification(data);
+        setNotificationCo(prev=>prev+1);
+      }
+    });
+
+    socket.on("connect", () => {
+      console.log("✅ Connected with ID:", socket.id);
+    });
+
+    return () => {
+      socket.off("notification");
+      socket.off("connect");
+    };
+  }, [user, socket]);
+
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, notificationCo, setNotificationCo }}>
       <Layout>
         <Routes>
           <Route element={<PublicPageAccess user={user} />}>
@@ -135,6 +172,9 @@ function Routers() {
           <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
             <Route path='/admin/courseDetails/:id' element={<CourseDetailsPage />}></Route>
           </Route>
+          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+            <Route path='/admin/notification' element={<NotificationsPageAdmin />}></Route>
+          </Route>
           <Route
             element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}
           >
@@ -143,6 +183,7 @@ function Routers() {
               <Route path="courses" element={<UserCourses />} />
               <Route path="courseWatching/:id" element={<CourseVideoPlayer />} />
               <Route path="studentChat/:instructorId/:roomId" element={<StudentChatBox />} />
+              <Route path="notification" element={<NotificationsPage />} />
             </Route>
           </Route>
           <Route
@@ -156,12 +197,15 @@ function Routers() {
               <Route path="CourseView/:id" element={<CourseViewPage />} />
               <Route path="Mentorship/scheduledStudent" element={<ScheduledStudents />} />
               <Route path="Mentorship/scheduledStudent/creation" element={<MentorshipProgramCreator />} />
+              <Route path="notification" element={<NotificationsPageInstructor />} />
             </Route>
           </Route>
 
           <Route path='/notFound' element={<NotFound404 />}></Route>
         </Routes>
       </Layout>
+      <Toaster position="top-right" />
+      <ToastContainer />
     </UserContext.Provider>
 
   )

@@ -246,7 +246,7 @@ function InstructorRegister() {
                   Profession *
                 </label>
                 <input
-                  name="name"
+                  name="profession"
                   type="text"
                   value={formik.values.profession}
                   onChange={formik.handleChange}

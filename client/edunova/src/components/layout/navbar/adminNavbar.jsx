@@ -1,17 +1,47 @@
 import React, { useState, useRef, useEffect, useContext } from "react";
 import { FiMenu, FiX, FiBell, FiUser, FiLogOut, FiSettings, FiHome, FiUsers, FiBook, FiDollarSign } from "react-icons/fi";
+import {
+  Bell,
+  Check,
+  X,
+  Search,
+  Filter,
+  Trash2,
+  Archive,
+  CheckCircle,
+  AlertCircle,
+  Info,
+  XCircle,
+  Calendar,
+  MessageSquare,
+  User,
+  ShoppingBag,
+  Settings,
+  ChevronDown,
+  MoreVertical,
+  Clock,
+  Mail,
+  Eye
+} from 'lucide-react';
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import UserContext from "../../../userContext";
+import { getIcon } from "../../../../../../server/utilis/iconMap";
+import { io } from "socket.io-client";
+const socket = io("http://localhost:5000", {
+  withCredentials: true,
+});
 
 function AdminNavbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [desktopProfileOpen, setDesktopProfileOpen] = useState(false);
   const [mobileProfileOpen, setMobileProfileOpen] = useState(false);
   const [notificationOpen, setNotificationOpen] = useState(false);
+  const [notifications, setNotification] = useState([])
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useContext(UserContext);
 
   const desktopRef = useRef();
   const mobileRef = useRef();
@@ -56,6 +86,15 @@ function AdminNavbar() {
       });
   };
 
+  const formatTime = (dateStr) => {
+    const date = new Date(dateStr);
+    const diff = (new Date() - date) / 1000;
+    if (diff < 60) return `${Math.floor(diff)}s ago`;
+    if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+    return `${Math.floor(diff / 86400)}d ago`;
+  };
+
   const navLinks = [
     { path: "/adminDashBoard", label: "Dashboard", icon: FiHome },
     { path: "/admin/studentsManagement", label: "Users", icon: FiUsers },
@@ -66,12 +105,24 @@ function AdminNavbar() {
 
   const isActivePath = (path) => location.pathname === path;
 
-  const notifications = [
-    { id: 1, title: "New instructor registration", desc: "John Doe applied as instructor", time: "1h ago", unread: true },
-    { id: 2, title: "Course approval pending", desc: "React Advanced course needs review", time: "3h ago", unread: true },
-    { id: 3, title: "Payment processed", desc: "Monthly subscription payment received", time: "5h ago", unread: false },
-    { id: 4, title: "User report", desc: "Spam report from user complaint", time: "1d ago", unread: false },
-  ];
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/notification/${user._id}`)
+      .then((res) => setNotification(res.data.slice(0, 4)))
+      .catch((err) => console.log(err))
+  }, [user._id])
+
+  useEffect(() => {
+    socket.on("notification", (data) => {
+      if (data.userId === user._id) {
+        setNotification((prev) => [...prev, data]);
+      }
+    })
+    return () => {
+      socket.off("notification");
+    };
+  }, [])
+
+
 
   const unreadCount = notifications.filter(n => n.unread).length;
 
@@ -136,25 +187,33 @@ function AdminNavbar() {
                   <div className="max-h-96 overflow-y-auto">
                     {notifications.map((notif) => (
                       <div
-                        key={notif.id}
-                        className={`px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors ${
-                          notif.unread ? "bg-emerald-50/50" : ""
-                        }`}
+                        key={notif._id}
+                        className={`px-4 py-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer transition-colors ${!notif.read ? "bg-emerald-50/50" : ""
+                          }`}
                       >
                         <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <p className="font-medium text-gray-800 text-sm">{notif.title}</p>
-                            <p className="text-gray-600 text-xs mt-1">{notif.desc}</p>
+                          <div className="flex-1 flex items-start gap-2">
+                            {(() => {
+                              const IconComp = getIcon(notif.icon);
+                              return <IconComp size={20} className="text-gray-500 mt-1" />;
+                            })()}
+                            <div>
+                              <p className="font-medium text-gray-800 text-sm">{notif.title}</p>
+                              <p className="text-gray-600 text-xs mt-1">{notif.message}</p>
+                            </div>
                           </div>
-                          <span className="text-xs text-gray-500">{notif.time}</span>
+
+                          <span className="text-xs text-gray-500">{formatTime(notif.createdAt)}</span>
                         </div>
                       </div>
                     ))}
                   </div>
                   <div className="px-4 py-3 text-center border-t border-gray-100">
-                    <button className="text-emerald-600 text-sm font-medium hover:text-emerald-700">
-                      View all notifications
-                    </button>
+                    <Link to={'/admin/notification'}>
+                      <button className="text-emerald-600 text-sm font-medium hover:text-emerald-700">
+                        View all notifications
+                      </button>
+                    </Link>
                   </div>
                 </div>
               )}
@@ -185,9 +244,8 @@ function AdminNavbar() {
                   <p className="text-xs text-gray-500">Administrator</p>
                 </div>
                 <svg
-                  className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${
-                    desktopProfileOpen ? "rotate-180" : ""
-                  }`}
+                  className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${desktopProfileOpen ? "rotate-180" : ""
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -261,9 +319,8 @@ function AdminNavbar() {
         </div>
 
         <div
-          className={`md:hidden transition-all duration-300 ease-in-out ${
-            isOpen ? "max-h-screen opacity-100 mt-4" : "max-h-0 opacity-0 overflow-hidden"
-          }`}
+          className={`md:hidden transition-all duration-300 ease-in-out ${isOpen ? "max-h-screen opacity-100 mt-4" : "max-h-0 opacity-0 overflow-hidden"
+            }`}
         >
           <div className="px-2 pb-4 space-y-1">
             {navLinks.map((link) => {
@@ -344,8 +401,8 @@ function AdminNavbar() {
         }
       `}</style>
 
-      <ToastContainer 
-        position="top-right" 
+      <ToastContainer
+        position="top-right"
         autoClose={3000}
         hideProgressBar={false}
         newestOnTop={false}
