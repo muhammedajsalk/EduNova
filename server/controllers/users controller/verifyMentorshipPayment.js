@@ -4,6 +4,7 @@ const paymentModel = require('../../models/paymentModel')
 const userModel = require('../../models/usersModel')
 const videoSessionModel = require('../../models/videoSessionModel')
 const mentorshipModel = require('../../models/mentorshipModel')
+const { sendNotification } = require('../../utilis/socketNotification')
 
 dotenv.config()
 
@@ -48,7 +49,7 @@ const verifyMentoshipPayment = async (req, res) => {
 
         await user.save()
 
-        const mentorship=await mentorshipModel.findByIdAndUpdate(
+        const mentorship = await mentorshipModel.findByIdAndUpdate(
             mentorshipId,
             {
                 $pull: { selectedTimes: selectedTimes },
@@ -62,10 +63,26 @@ const verifyMentoshipPayment = async (req, res) => {
             { new: true }
         );
 
-        if(mentorship.selectedTimes.length===0){
-            mentorship.isActive=false
+        if (mentorship.selectedTimes.length === 0) {
+            mentorship.isActive = false
             await mentorship.save()
         }
+
+        sendNotification(instructorId, {
+            userId: instructorId,
+            type: "success",
+            category: "mentorship_purchased",
+            title: `purchased mentorship`,
+            message: `${userId} is purchased your ${programName} mentorship session`,
+        })
+
+        sendNotification(process.env.ADMIN_ID, {
+            userId: process.env.ADMIN_ID,
+            type: "success",
+            category: "mentorship_purchased",
+            title: `purchased mentorship`,
+            message: `${userId} is purchased ${instructorId} ${programName} mentorship session`,
+        })
 
         res.status(200).json({
             success: true,

@@ -32,6 +32,10 @@ const subscriptionSchema = new mongoose.Schema(
     notes: {
       type: mongoose.Schema.Types.Mixed,
       default: {},
+    },
+    notificationSent:{
+      type:Boolean,
+      default:false
     }
   },
   { timestamps: true }

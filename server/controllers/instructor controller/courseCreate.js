@@ -1,4 +1,8 @@
 const CourseModel = require("../../models/courseModel");
+const dotenv = require('dotenv');
+const { sendNotification } = require("../../utilis/socketNotification");
+
+dotenv.config()
 
 async function courseCreate(req, res) {
   try {
@@ -16,15 +20,22 @@ async function courseCreate(req, res) {
           duration: lecture.duration,
         }))
       })),
-      instructorId: req.user.id 
+      instructorId: req.user.id
     });
 
     await newCourse.save();
-    res.status(201).json({ success: true, message:"you succefully created course" });
+    sendNotification(process.env.ADMIN_ID, {
+      userId: process.env.ADMIN_ID,
+      type: "info",
+      category: "course_verification",
+      title: `new course application`,
+      message: `new course verification application from ${req.user.id}`,
+    })
+    res.status(201).json({ success: true, message: "you succefully created course" });
   } catch (error) {
     console.error("Course creation error:", error);
     res.status(400).json({ success: false, error });
   }
 }
 
-module.exports=courseCreate
+module.exports = courseCreate

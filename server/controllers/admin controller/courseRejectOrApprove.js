@@ -3,25 +3,25 @@ const nodemailer = require("nodemailer");
 require('dotenv').config()
 
 const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
 });
 
 async function courseApproveOrReject(req, res) {
-    try {
-        const body = req.body
-        const course = await CourseModel.findById(body.id)
-        if (body.status === "rejected") {
-            course.status = "rejected"
-            course.rejectionReason = body.rejectionReason
-            await course.save()
-            await transporter.sendMail({
-  to: body.email,
-  subject: "Instructor Course Rejected",
-  html: `
+  try {
+    const body = req.body
+    const course = await CourseModel.findById(body.id)
+    if (body.status === "rejected") {
+      course.status = "rejected"
+      course.rejectionReason = body.rejectionReason
+      await course.save()
+      await transporter.sendMail({
+        to: body.email,
+        subject: "Instructor Course Rejected",
+        html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 30px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #fff3f3;">
       <div style="text-align: center;">
         <img src="https://media.istockphoto.com/id/949546382/vector/rejected-ink-stamp.jpg?s=612x612&w=0&k=20&c=S8MRCa7JMK7cSNvQwflyDLyMzXAZ3ng3vRw7rVP9eNU=" alt="Rejected" style="width: 100px; margin-bottom: 20px;" />
@@ -59,17 +59,24 @@ async function courseApproveOrReject(req, res) {
       </p>
     </div>
   `
-});
+      });
 
+      sendNotification(body.instructorId, {
+        userId: body.instructorId,
+        type: "error",
+        category: "course_application_rejected",
+        title: `your course verification rejected`,
+        message: `your ${course.title} course verification rejected`,
+      })
 
-            return res.status(200).json({ success: true, message: "course rejected succefully" })
-        }
-        course.status = "approved"
-        await course.save()
-        await transporter.sendMail({
-            to: body.email,
-            subject: "Your Course Has Been Approved!",
-            html: `
+      return res.status(200).json({ success: true, message: "course rejected succefully" })
+    }
+    course.status = "approved"
+    await course.save()
+    await transporter.sendMail({
+      to: body.email,
+      subject: "Your Course Has Been Approved!",
+      html: `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 30px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f3fff5;">
       <div style="text-align: center;">
         <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" alt="Approved" style="width: 100px; margin-bottom: 20px;" />
@@ -102,14 +109,21 @@ async function courseApproveOrReject(req, res) {
       </p>
     </div>
   `
-        });
+    });
 
+    sendNotification(body.instructorId, {
+        userId: body.instructorId,
+        type: "success",
+        category: "course_application_accepted",
+        title: `your course verification accepted`,
+        message: `your ${course.title} course verification accepted`,
+      })
 
-        res.status(200).json({ success: true, message: "course approved succefully" })
-    } catch (error) {
-        res.status(500).json({ success: false, message: "server side error" })
-        console.log("server side error: " + error)
-    }
+    res.status(200).json({ success: true, message: "course approved succefully" })
+  } catch (error) {
+    res.status(500).json({ success: false, message: "server side error" })
+    console.log("server side error: " + error)
+  }
 }
 
 module.exports = courseApproveOrReject

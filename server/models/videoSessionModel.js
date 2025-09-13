@@ -44,7 +44,8 @@ const videoSessionModelSchema = new mongoose.Schema({
       type:String,
       enum:["completed","upcomming","canceled"],
       default:"upcomming"
-    }
+    },
+    remindersSent: { type: [Number], default: [] } 
 }, { timestamps: true })
 
 const videoSessionModel = mongoose.model("videoSession", videoSessionModelSchema)

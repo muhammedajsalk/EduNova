@@ -2,7 +2,8 @@
 const CourseModel = require("../../models/courseModel")
 const instructorModel = require("../../models/instructorModel")
 const subscriptionModel = require("../../models/subscriptionModel")
-const userModel = require("../../models/usersModel")
+const userModel = require("../../models/usersModel");
+const { sendNotification } = require("../../utilis/socketNotification");
 
 
 
@@ -33,6 +34,14 @@ const courseEntroll = async (req, res) => {
         }
         await course.save()
         await user.save()
+
+        sendNotification(instructor._id, {
+            userId: instructor._id,
+            type: "success",
+            category: "course_enrolled",
+            title: `new user entrolled`,
+            message: `${userId} is entrolled ${course.title} course`,
+        })
         res.status(200).json({ success: true, message: "user entroll succesfully" })
     } catch (error) {
         res.status(500).json({ success: false, message: "server side error" })

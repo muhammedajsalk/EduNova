@@ -3,8 +3,11 @@ const dotenv = require('dotenv')
 const paymentModel = require('../../models/paymentModel')
 const subscriptionModel = require('../../models/subscriptionModel')
 const userModel = require('../../models/usersModel')
+const { sendNotification } = require('../../utilis/socketNotification')
 
 dotenv.config()
+
+process.env.ADMIN_ID
 
 const verifyPayment = async (req, res) => {
     try {
@@ -37,7 +40,7 @@ const verifyPayment = async (req, res) => {
         const startDate = new Date();
         const endDate = new Date(startDate.getTime() + durationInDays * 24 * 60 * 60 * 1000);
 
-        const subscription=await subscriptionModel.findOneAndUpdate(
+        const subscription = await subscriptionModel.findOneAndUpdate(
             { userId },
             {
                 planType,
@@ -45,12 +48,20 @@ const verifyPayment = async (req, res) => {
                 endDate,
                 isActive: true,
                 paymentRef: payment._id,
-                notes:payment.notes
+                notes: payment.notes
             },
             { upsert: true, new: true }
         );
 
-        await userModel.findOneAndUpdate({_id:userId},{subscriptionId:subscription._id},{ upsert: true, new: true })
+        await userModel.findOneAndUpdate({ _id: userId }, { subscriptionId: subscription._id }, { upsert: true, new: true })
+
+        sendNotification(process.env.ADMIN_ID, {
+            userId: process.env.ADMIN_ID,
+            type: "success",
+            category: "subscription_purchased",
+            title: `new user subscribed`,
+            message: `${userId} is subscribed ${planType} planType`,
+        })
 
         res.status(200).json({
             success: true,
