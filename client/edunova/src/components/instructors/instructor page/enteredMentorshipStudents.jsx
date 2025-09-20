@@ -60,31 +60,31 @@ const ScheduledStudents = () => {
     <div className="min-h-screen bg-gray-50 p-4 lg:p-6">
       <div className="max-w-7xl mx-auto ">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
-  <div className="mb-4 lg:mb-0">
-    <h1 className="text-2xl font-bold text-gray-900">Scheduled Students</h1>
-    <p className="text-gray-600 mt-1">View and manage your scheduled mentorship sessions</p>
-  </div>
+          <div className="mb-4 lg:mb-0">
+            <h1 className="text-2xl font-bold text-gray-900">Scheduled Students</h1>
+            <p className="text-gray-600 mt-1">View and manage your scheduled mentorship sessions</p>
+          </div>
 
-  <div className="flex flex-col sm:flex-row gap-3 self-start lg:self-auto">
-    <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200">
-      <Users size={20} />
-      <span className="font-medium">
-        <Link to={'/instructorDashboard/Mentorship/scheduledStudent/creation'}>
-          Create Mentorship
-        </Link>
-      </span>
-    </button>
+          <div className="flex flex-col sm:flex-row gap-3 self-start lg:self-auto">
+            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200">
+              <Users size={20} />
+              <span className="font-medium">
+                <Link to={'/instructorDashboard/Mentorship/scheduledStudent/creation'}>
+                  Create Mentorship
+                </Link>
+              </span>
+            </button>
 
-    <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200">
-      <Eye size={20} />
-      <span className="font-medium">
-        <Link to={'/instructorDashboard/Mentorship/scheduledStudent/preview'}>
-          Current Mentorship Preview
-        </Link>
-      </span>
-    </button>
-  </div>
-</div>
+            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200">
+              <Eye size={20} />
+              <span className="font-medium">
+                <Link to={'/instructorDashboard/Mentorship/scheduledStudent/preview'}>
+                  Current Mentorship Preview
+                </Link>
+              </span>
+            </button>
+          </div>
+        </div>
 
 
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
@@ -144,14 +144,16 @@ const ScheduledStudents = () => {
                     </span>
                   </div>
                   <div className="col-span-2 flex items-center gap-2">
-                    {student.status==="upcomming" && (
+                    {student.status === "upcomming" && (
                       <>
-                        <button
-                          onClick={() => handleReschedule(student.id)}
-                          className="text-emerald-600 hover:text-emerald-800 text-sm font-medium"
-                        >
-                          Start
-                        </button>
+                        <Link to={`/instructorDashboard/mentorshipVideoSection/${student._id}/${student.userId?._id}`}>
+                          <button
+                            onClick={() => handleReschedule(student.id)}
+                            className="text-emerald-600 hover:text-emerald-800 text-sm font-medium"
+                          >
+                            Start
+                          </button>
+                        </Link>
                         <button
                           onClick={() => handleCancel(student.id)}
                           className="text-red-600 hover:text-red-800 text-sm font-medium"
