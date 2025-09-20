@@ -60,6 +60,9 @@ import { showSuperNotification } from './utilis/showSuperNotification'
 import NotificationsPageInstructor from './components/instructors/instructor page/notification'
 import NotificationsPageAdmin from './components/admin/notification'
 import { Toaster } from 'react-hot-toast'
+import MentorshipVideoCallSection from './components/users/mentorshipJoinSection'
+import InstructorMentorshipVideoCallSection from './components/instructors/instructor page/instructorMentorshipVideoSection'
+import {PeerProvider} from './utilis/peer'
 
 
 
@@ -68,6 +71,8 @@ function Routers() {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
   const [notificationCo, setNotificationCo] = useState(null)
+  const [participants, setParticipants] = useState(0);
+  const [videoUserName, setVideoUserName] = useState("")
   const socket = useMemo(() => io("http://localhost:5000", { withCredentials: true }), []);
 
   useEffect(() => {
@@ -84,11 +89,17 @@ function Routers() {
 
 
 
+
   useEffect(() => {
     socket.on("notification", (data) => {
       if (user && user._id === data.userId) {
         showSuperNotification(data);
-        setNotificationCo(prev=>prev+1);
+        setNotificationCo(prev => prev + 1);
+      }
+      if (data.category === "mentorship_user_joined" && user && user._id === data.userId) {
+        setParticipants(prev => prev + 1)
+        console.log("username", data)
+        setVideoUserName(data.metadata?.userName)
       }
     });
 
@@ -104,108 +115,112 @@ function Routers() {
 
 
   return (
-    <UserContext.Provider value={{ user, setUser, notificationCo, setNotificationCo }}>
-      <Layout>
-        <Routes>
-          <Route element={<PublicPageAccess user={user} />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path='/courses' element={<CourseListing />}></Route>
-            <Route path='/courseDetails' element={<CourseDetails />}></Route>
-            <Route path='/subscription' element={<SubscriptionPage />}></Route>
-            <Route path='/findMentor' element={<FindMentorPage />}></Route>
-          </Route>
-          <Route path='/register' element={<Register />}></Route>
-          <Route path='/login' element={<Login />}></Route>
-          <Route path='/policy' element={<TermsPrivacy />}></Route>
-          <Route path='/insrtuctor/terms' element={<InstructorTerms />}></Route>
-          <Route path='/ForgotPassword/:role' element={<ForgotPassword />}></Route>
-          <Route path='/ResetPassword/:token/:role' element={<ResetPassword />}></Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user', "instructor"]} />}>
-            <Route path='/courseEntrollSection/:id' element={<CourseEntrollSection />}></Route>
-            <Route path='/findMentor/mentorsDetails/:id' element={<InstructorBooking />} />
-          </Route>
-          <Route path='/instructorRegistor' element={<InstructorRegister />}></Route>
-          <Route path='/adminLogin' element={<AdminLogin />}></Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/adminDashBoard' element={<AdminDashboard />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/adminRevenew' element={<AdminRevenew />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/courseManagement' element={<CoursesAllShow />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/instructorManagement' element={<InstructorAllShow />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/instructor_Pending_Section' element={<InstructorPendingSection />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/payment_transaction' element={<PaymentTransactionsDashboard />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/payout' element={<PayoutsDashboard />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/course_Pending_Section' element={<CoursePendingSection />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/course_verification_section/:id' element={<CourseApproval />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/instructor_verification_section/:id' element={<InstructorVerificationSection />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/instructor_details/:id' element={<InstructorDetailsPage />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/instructor_details_and_documents/:id' element={<InstructorDetailsAndDocumentsView />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/studentsManagement' element={<StudentAllShow />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/user_details/:id' element={<UserDetailsPage />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/courseDetails/:id' element={<CourseDetailsPage />}></Route>
-          </Route>
-          <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
-            <Route path='/admin/notification' element={<NotificationsPageAdmin />}></Route>
-          </Route>
-          <Route
-            element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}
-          >
-            <Route path="/learningDashboard" element={<UserDashboardLayout />}>
-              <Route index element={<LearningDashboard />} />
-              <Route path="courses" element={<UserCourses />} />
-              <Route path="courseWatching/:id" element={<CourseVideoPlayer />} />
-              <Route path="studentChat/:instructorId/:roomId" element={<StudentChatBox />} />
-              <Route path="notification" element={<NotificationsPage />} />
+    <UserContext.Provider value={{ user, setUser, notificationCo, setNotificationCo, participants, setParticipants, videoUserName, setVideoUserName }}>
+      <PeerProvider>
+        <Layout>
+          <Routes>
+            <Route element={<PublicPageAccess user={user} />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path='/courses' element={<CourseListing />}></Route>
+              <Route path='/courseDetails' element={<CourseDetails />}></Route>
+              <Route path='/subscription' element={<SubscriptionPage />}></Route>
+              <Route path='/findMentor' element={<FindMentorPage />}></Route>
             </Route>
-          </Route>
-          <Route
-            element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}
-          >
-            <Route path="/instructorDashboard" element={<DashboardLayout />}>
-              <Route index element={<InstructorHome />} />
-              <Route path="courses" element={<InstructorAllCourse />} />
-              <Route path="createCourse" element={<CreateCourse />} />
-              <Route path="InstructorChat/:courseId" element={<InstructorChatBox />} />
-              <Route path="CourseView/:id" element={<CourseViewPage />} />
-              <Route path="Mentorship/scheduledStudent" element={<ScheduledStudents />} />
-              <Route path="Mentorship/scheduledStudent/creation" element={<MentorshipProgramCreator />} />
-              <Route path="notification" element={<NotificationsPageInstructor />} />
+            <Route path='/register' element={<Register />}></Route>
+            <Route path='/login' element={<Login />}></Route>
+            <Route path='/policy' element={<TermsPrivacy />}></Route>
+            <Route path='/insrtuctor/terms' element={<InstructorTerms />}></Route>
+            <Route path='/ForgotPassword/:role' element={<ForgotPassword />}></Route>
+            <Route path='/ResetPassword/:token/:role' element={<ResetPassword />}></Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user', "instructor"]} />}>
+              <Route path='/courseEntrollSection/:id' element={<CourseEntrollSection />}></Route>
+              <Route path='/findMentor/mentorsDetails/:id' element={<InstructorBooking />} />
             </Route>
-          </Route>
+            <Route path='/instructorRegistor' element={<InstructorRegister />}></Route>
+            <Route path='/adminLogin' element={<AdminLogin />}></Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/adminDashBoard' element={<AdminDashboard />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/adminRevenew' element={<AdminRevenew />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/courseManagement' element={<CoursesAllShow />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/instructorManagement' element={<InstructorAllShow />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/instructor_Pending_Section' element={<InstructorPendingSection />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/payment_transaction' element={<PaymentTransactionsDashboard />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/payout' element={<PayoutsDashboard />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/course_Pending_Section' element={<CoursePendingSection />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/course_verification_section/:id' element={<CourseApproval />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/instructor_verification_section/:id' element={<InstructorVerificationSection />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/instructor_details/:id' element={<InstructorDetailsPage />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/instructor_details_and_documents/:id' element={<InstructorDetailsAndDocumentsView />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/studentsManagement' element={<StudentAllShow />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/user_details/:id' element={<UserDetailsPage />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/courseDetails/:id' element={<CourseDetailsPage />}></Route>
+            </Route>
+            <Route element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['admin']} />}>
+              <Route path='/admin/notification' element={<NotificationsPageAdmin />}></Route>
+            </Route>
+            <Route
+              element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}
+            >
+              <Route path="/learningDashboard" element={<UserDashboardLayout />}>
+                <Route index element={<LearningDashboard />} />
+                <Route path="courses" element={<UserCourses />} />
+                <Route path="courseWatching/:id" element={<CourseVideoPlayer />} />
+                <Route path="studentChat/:instructorId/:roomId" element={<StudentChatBox />} />
+                <Route path="notification" element={<NotificationsPage />} />
+                <Route path="mentorshipVideoSection/:id/:instructorId" element={<MentorshipVideoCallSection />} />
+              </Route>
+            </Route>
+            <Route
+              element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}
+            >
+              <Route path="/instructorDashboard" element={<DashboardLayout />}>
+                <Route index element={<InstructorHome />} />
+                <Route path="courses" element={<InstructorAllCourse />} />
+                <Route path="createCourse" element={<CreateCourse />} />
+                <Route path="InstructorChat/:courseId" element={<InstructorChatBox />} />
+                <Route path="CourseView/:id" element={<CourseViewPage />} />
+                <Route path="Mentorship/scheduledStudent" element={<ScheduledStudents />} />
+                <Route path="Mentorship/scheduledStudent/creation" element={<MentorshipProgramCreator />} />
+                <Route path="notification" element={<NotificationsPageInstructor />} />
+                <Route path="mentorshipVideoSection/:id/:userId" element={<InstructorMentorshipVideoCallSection />} />
+              </Route>
+            </Route>
 
-          <Route path='/notFound' element={<NotFound404 />}></Route>
-        </Routes>
-      </Layout>
-      <Toaster position="top-right" />
-      <ToastContainer />
+            <Route path='/notFound' element={<NotFound404 />}></Route>
+          </Routes>
+        </Layout>
+        <Toaster position="top-right" />
+        <ToastContainer />
+      </PeerProvider>
     </UserContext.Provider>
 
   )

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
-import { 
-  Clock, Users, Award, TrendingUp, Play, Calendar, Star, ChevronRight, 
-  BookOpen, Target, Zap, ArrowRight, CheckCircle, 
+import {
+  Clock, Users, Award, TrendingUp, Play, Calendar, Star, ChevronRight,
+  BookOpen, Target, Zap, ArrowRight, CheckCircle,
   Video, Trophy, Flame, Search
 } from 'lucide-react';
 import UserContext from "../../userContext";
@@ -56,7 +56,7 @@ const LearningDashboard = () => {
   const filteredCourses = coursesData.filter(course => {
     const matchesSearch = course?.course?.title?.toLowerCase().includes(searchTerm.toLowerCase());
     const progress = calculateProgress(course);
-    
+
     switch (activeTab) {
       case 'in-progress':
         return matchesSearch && progress > 0 && progress < 100;
@@ -70,7 +70,7 @@ const LearningDashboard = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-        
+
         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
           <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
             <div className="space-y-4">
@@ -137,7 +137,7 @@ const LearningDashboard = () => {
               </h2>
               <p className="text-gray-600 mt-1">Continue your learning journey</p>
             </div>
-            
+
             {/* Search and Filters */}
             <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
               <div className="relative">
@@ -150,17 +150,16 @@ const LearningDashboard = () => {
                   className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent w-full sm:w-64"
                 />
               </div>
-              
+
               <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
                 {['all', 'in-progress', 'completed'].map((tab) => (
                   <button
                     key={tab}
                     onClick={() => setActiveTab(tab)}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                      activeTab === tab
+                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === tab
                         ? 'bg-white text-emerald-600 shadow-sm'
                         : 'text-gray-600 hover:text-gray-900'
-                    }`}
+                      }`}
                   >
                     {tab.charAt(0).toUpperCase() + tab.slice(1).replace('-', ' ')}
                   </button>
@@ -182,25 +181,24 @@ const LearningDashboard = () => {
                     <div className="group bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                       {/* Course Badge */}
                       <div className="absolute top-4 left-4 z-10">
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                          progress === 100 
-                            ? 'bg-emerald-100 text-emerald-700' 
-                            : progress > 0 
+                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${progress === 100
+                            ? 'bg-emerald-100 text-emerald-700'
+                            : progress > 0
                               ? 'bg-blue-100 text-blue-700'
                               : 'bg-gray-100 text-gray-700'
-                        }`}>
+                          }`}>
                           {progress === 100 ? 'Completed' : progress > 0 ? `${progress}% Complete` : 'New'}
                         </span>
                       </div>
 
                       {/* Course Thumbnail */}
                       <div className="relative aspect-[16/9] bg-gray-100">
-                        <img 
-                          src={course?.course?.thumbnail} 
+                        <img
+                          src={course?.course?.thumbnail}
                           alt={course?.course?.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                         />
-                        
+
                         {/* Play Button */}
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
                           <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
@@ -247,7 +245,7 @@ const LearningDashboard = () => {
                               <span className="text-emerald-600 font-semibold">{progress}%</span>
                             </div>
                             <div className="w-full bg-gray-200 rounded-full h-2">
-                              <div 
+                              <div
                                 className="bg-emerald-600 h-2 rounded-full transition-all duration-500"
                                 style={{ width: `${progress}%` }}
                               ></div>
@@ -310,7 +308,7 @@ const LearningDashboard = () => {
               <p className="text-gray-600 mt-1">Connect with expert mentors</p>
             </div>
             <button className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm flex items-center gap-1">
-              View All 
+              View All
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
@@ -349,11 +347,11 @@ const LearningDashboard = () => {
                             <span>
                               {session?.selectedTimes
                                 ? new Date(session.selectedTimes).toLocaleString("en-US", {
-                                    month: "short",
-                                    day: "numeric",
-                                    hour: "numeric",
-                                    minute: "2-digit",
-                                  })
+                                  month: "short",
+                                  day: "numeric",
+                                  hour: "numeric",
+                                  minute: "2-digit",
+                                })
                                 : "Schedule pending"}
                             </span>
                           </div>
@@ -365,9 +363,11 @@ const LearningDashboard = () => {
                       </div>
                     </div>
 
-                    <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
-                      Join
-                    </button>
+                    <Link to={`/learningDashboard/mentorshipVideoSection/${session._id}/${session?.instructorId?._id}`}>
+                      <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
+                        Join
+                      </button>
+                    </Link>
                   </div>
                 </div>
               ))}
@@ -393,7 +393,7 @@ const LearningDashboard = () => {
             </h2>
             <p className="text-gray-600 mt-1">Track your progress and achievements</p>
           </div>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
@@ -430,7 +430,7 @@ const LearningDashboard = () => {
               },
             ].map((stat, idx) => {
               const IconComponent = stat.icon;
-              
+
               return (
                 <div key={idx} className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition-shadow">
                   <div className="space-y-4">
@@ -464,15 +464,15 @@ const LearningDashboard = () => {
               <Zap className="w-4 h-4" />
               Accelerate Your Learning
             </div>
-            
+
             <h3 className="text-3xl md:text-4xl font-bold">Ready to take your skills to the next level?</h3>
-            
+
             <p className="text-lg text-emerald-100 max-w-2xl mx-auto">
               Join thousands of learners who are advancing their careers with our expert-led courses and personalized mentorship.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
-              <Link 
+              <Link
                 to="/courses"
                 className="flex items-center gap-2 bg-white text-emerald-600 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
               >
