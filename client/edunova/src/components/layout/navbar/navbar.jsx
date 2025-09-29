@@ -25,7 +25,7 @@ function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   const handleLogout = () => {
-    console.log("User logged out");
+    
   };
 
   const navLinks = [

@@ -38,4 +38,4 @@ const UserDashboardLayout = () => {
   );
 };
 
-export default UserDashboardLayout;
+export default React.memo(UserDashboardLayout);

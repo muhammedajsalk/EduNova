@@ -32,7 +32,7 @@ function CourseListing() {
         setLoading(false);
       })
       .catch((err) => {
-        console.log("Error Fetching course");
+        
         setLoading(false);
       });
   }, []);

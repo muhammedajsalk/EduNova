@@ -619,4 +619,4 @@ const CreateCourse = () => {
   );
 };
 
-export default CreateCourse;
+export default React.memo(CreateCourse);

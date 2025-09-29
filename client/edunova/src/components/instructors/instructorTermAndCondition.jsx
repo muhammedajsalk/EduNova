@@ -66,4 +66,4 @@ const InstructorTerms = () => {
   );
 };
 
-export default InstructorTerms;
+export default React.memo(InstructorTerms);

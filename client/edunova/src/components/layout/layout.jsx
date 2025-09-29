@@ -8,7 +8,7 @@ import InstructorNavbar from "./navbar/instructorNavbar";
 
 
 
-export default function Layout({ children }) {
+function Layout({ children }) {
     const { user } = useContext(UserContext);
     const location = useLocation();
 
@@ -30,3 +30,5 @@ export default function Layout({ children }) {
         </>
     );
 }
+
+export default React.memo(Layout)

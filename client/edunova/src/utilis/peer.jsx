@@ -52,9 +52,9 @@ export const PeerProvider = ({ children }) => {
     try {
       if (!peer.currentRemoteDescription) {
         await peer.setRemoteDescription(new RTCSessionDescription(ans));
-        console.log("Remote answer set successfully");
+        
       } else {
-        console.log("Remote description already set, skipping...");
+        
       }
     } catch (error) {
       console.error("Error setting remote answer:", error);
@@ -76,10 +76,8 @@ export const PeerProvider = ({ children }) => {
         (sender) => sender.track && sender.track.kind === track.kind
       );
       if (existingSender) {
-        // Replace track if already exists (avoids InvalidAccessError)
         existingSender.replaceTrack(track);
       } else {
-        // Add new track if none exists yet
         peer.addTrack(track, stream);
       }
     });

@@ -292,4 +292,4 @@ const AdminRevenew = () => {
     );
 };
 
-export default AdminRevenew;
+export default React.memo(AdminRevenew);

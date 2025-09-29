@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Download, ChevronDown, User, Mail, Calendar, MapPin, CreditCard, Check } from 'lucide-react';
 
-export default function PaymentDetailsPage() {
+function PaymentDetailsPage() {
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
 
   const paymentHistory = [
@@ -236,3 +236,5 @@ export default function PaymentDetailsPage() {
     </div>
   );
 }
+
+export default React.memo(PaymentDetailsPage)

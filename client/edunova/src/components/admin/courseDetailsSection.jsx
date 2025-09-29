@@ -159,7 +159,7 @@ const CourseDetailsPage = () => {
         setIsLoading(true);
         axios.get(`http://localhost:5000/api/admin/courseById/${id}`, { withCredentials: true })
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log("Fetching issue"))
+            .catch(() => {})
             .finally(() => setIsLoading(false));
     }, [id]);
 
@@ -443,4 +443,4 @@ function formatDurationReadable(seconds) {
     }
 }
 
-export default CourseDetailsPage;
+export default React.memo(CourseDetailsPage)

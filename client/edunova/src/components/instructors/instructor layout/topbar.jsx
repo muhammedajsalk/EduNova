@@ -15,4 +15,4 @@ const Topbar = ({ setIsSidebarOpen }) => {
   );
 };
 
-export default Topbar;
+export default React.memo(Topbar);

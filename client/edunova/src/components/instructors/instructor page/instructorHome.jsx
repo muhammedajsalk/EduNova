@@ -35,7 +35,7 @@ const InstructorDashboard = () => {
   useEffect(() => {
     axios.get(`http://localhost:5000/api/instructor/course/courseByInstructorId`, { withCredentials: true })
       .then((res) => setData(res.data.data))
-      .catch((err) => console.log("Error Fetching course"))
+      .catch((err) => {})
   }, [])
 
   useEffect(() => {
@@ -46,7 +46,7 @@ const InstructorDashboard = () => {
         setTotalWatchTime(minutes);
       }
       )
-      .catch((err) => console.log("Error Fetching topWatchTime"))
+      .catch((err) => {})
   }, [])
 
   useEffect(()=>{
@@ -54,7 +54,7 @@ const InstructorDashboard = () => {
     .then((res)=>{
       setTopCourses(res.data.data)
     })
-    .catch((err)=>console.log("Error Fetching Lectures"))
+    .catch((err)=>{})
   },[])
 
 

@@ -19,10 +19,10 @@ export const SocketProvider = ({ children }) => {
       socketRef.current = io("http://localhost:5000", { withCredentials: true });
       const socket = socketRef.current;
 
-      console.log(`[SocketContext] Socket connected for user: ${user.name}`);
+      
 
       socket.on('incoming-call', (data) => {
-        console.log('[SocketContext] Global incoming call received:', data);
+        
         setIncomingCall(data);
       });
 

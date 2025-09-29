@@ -32,7 +32,7 @@ const validationSchema = Yup.object({
 
 const timeSlots = ["09:00 AM", "10:00 AM", "11:00 AM", "02:00 PM", "03:00 PM", "04:00 PM"];
 
-export default function MentorshipProgramCreator() {
+function MentorshipProgramCreator() {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -407,3 +407,5 @@ export default function MentorshipProgramCreator() {
     </div>
   );
 }
+
+export default React.memo(MentorshipProgramCreator)

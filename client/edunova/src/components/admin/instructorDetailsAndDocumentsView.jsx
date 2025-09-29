@@ -60,7 +60,7 @@ function InstructorDetailsAndDocument() {
                     <div className="md:col-span-2 space-y-4">
                         <SkillSection skills={skills} />
                         <Info label="Short Bio" value={bio || "No bio available."} />
-                        <Info label="Profestion" value={profession} />
+                        <Info label="Profession" value={profession} />
                     </div>
                 </div>
 

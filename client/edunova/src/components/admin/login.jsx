@@ -79,7 +79,7 @@ function AdminLogin() {
                   })
               }}
               onError={() => {
-                console.log("Login Failed");
+                
               }}
               theme="outline"
               size="large"

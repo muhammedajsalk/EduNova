@@ -7,8 +7,7 @@ function getCookie(name) {
   return null;
 }
 
-// Make sure this key matches the cookie you actually set on login
-const token = getCookie("accesToken"); // was 'accesTokken' (typo)
+const token = getCookie("accesToken");
 
 export const socket = io("http://localhost:5000", {
   auth: { token },

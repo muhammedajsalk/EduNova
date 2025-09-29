@@ -15,7 +15,7 @@ const CourseEntrollSection = () => {
     useEffect(() => {
         axios.get(`http://localhost:5000/api/admin/courseById/${id}`)
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log("Error Fetching Course"))
+            .catch((err) => {})
     }, [])
 
     function formatDurationReadable(seconds) {
@@ -153,4 +153,4 @@ const CourseEntrollSection = () => {
     );
 };
 
-export default CourseEntrollSection;
+export default React.memo(CourseEntrollSection)

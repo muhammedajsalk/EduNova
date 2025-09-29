@@ -265,4 +265,4 @@ const InstructorBooking = () => {
   );
 };
 
-export default InstructorBooking;
+export default React.memo(InstructorBooking)

@@ -599,4 +599,4 @@ const FindMentorPage = () => {
   );
 };
 
-export default FindMentorPage;
+export default React.memo(FindMentorPage)

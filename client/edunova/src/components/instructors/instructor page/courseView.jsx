@@ -16,7 +16,7 @@ const CourseViewPage = () => {
         setIsLoading(true);
         axios.get(`http://localhost:5000/api/admin/courseById/${id}`, { withCredentials: true })
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log("Error Fetching course"))
+            .catch((err) => {})
             .finally(() => setIsLoading(false));
     }, [id]);
 
@@ -102,7 +102,6 @@ const CourseViewPage = () => {
                 </div>
             ) : (
                 <div className="min-h-screen bg-gray-50">
-                    {/* Header Section */}
                     <div className="bg-gradient-to-r from-emerald-600 to-emerald-600 text-white">
                         <div className="p-4 md:p-8 max-w-7xl mx-auto">
                             <div className="flex justify-between items-start mb-4">
@@ -143,10 +142,8 @@ const CourseViewPage = () => {
                         </div>
                     </div>
 
-                    {/* Main Content */}
                     <div className="p-4 md:p-8 max-w-7xl mx-auto -mt-8">
                         <div className="grid md:grid-cols-3 gap-6">
-                            {/* Course Preview */}
                             <div className="md:col-span-2">
                                 <div className="bg-white rounded-xl shadow-lg overflow-hidden">
                                     <div className="aspect-video bg-gray-900 relative group cursor-pointer">
@@ -167,7 +164,6 @@ const CourseViewPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Curriculum Section */}
                                 <div className="mt-8 bg-white rounded-xl shadow-lg p-6">
                                     <div className="flex items-center justify-between mb-6">
                                         <h2 className="text-2xl font-bold">Course Curriculum</h2>
@@ -226,9 +222,7 @@ const CourseViewPage = () => {
                                 </div>
                             </div>
 
-                            {/* Sidebar */}
                             <div className="space-y-6">
-                                {/* Stats Card */}
                                 <div className="bg-white rounded-xl shadow-lg p-6">
                                     <h3 className="font-bold text-xl mb-6 flex items-center gap-2">
                                         <FaGraduationCap className="text-blue-600" />
@@ -254,7 +248,6 @@ const CourseViewPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Actions Card */}
                                 <div className="bg-white rounded-xl shadow-lg p-6">
                                     <h3 className="font-bold text-lg mb-4">Quick Actions</h3>
                                     <Link to={`/instructorDashboard/InstructorChat/${data?._id}`} className="block">
@@ -268,7 +261,6 @@ const CourseViewPage = () => {
                         </div>
                     </div>
 
-                    {/* Video Modal */}
                     {isModalOpen && (
                         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                             <div className="bg-white w-full max-w-4xl rounded-xl shadow-2xl overflow-hidden">
@@ -302,4 +294,4 @@ const CourseViewPage = () => {
     );
 };
 
-export default CourseViewPage;
+export default React.memo(CourseViewPage);

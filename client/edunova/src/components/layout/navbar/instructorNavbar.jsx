@@ -32,7 +32,7 @@ function InstructorNavbar() {
           navigate("/login")
         }, 3000);
       })
-      .catch((err)=>console.log("Error logOut"))
+      .catch((err)=>{})
     }
 
   return (

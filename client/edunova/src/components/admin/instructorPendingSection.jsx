@@ -2,7 +2,6 @@ import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-// Reusable Status Badge
 const StatusBadge = React.memo(({ status }) => (
   <span className="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full">
     {status}
@@ -13,11 +12,9 @@ function PendingSections() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 5;
 
-  // Fetch data on mount
   useEffect(() => {
     setLoading(true);
     axios
@@ -32,16 +29,13 @@ function PendingSections() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Total pages computed from data length
   const totalPages = Math.ceil(data.length / perPage);
 
-  // Paginated data slice for current page
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * perPage;
     return data.slice(startIndex, startIndex + perPage);
   }, [currentPage, data, perPage]);
 
-  // Pagination handlers
   const goToPage = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
@@ -51,7 +45,6 @@ function PendingSections() {
 
   return (
     <div className="p-4 md:p-8 bg-gray-50 min-h-screen text-gray-800">
-      {/* Topbar */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-bold">Pending Instructor Sections</h1>
       </div>
@@ -62,7 +55,6 @@ function PendingSections() {
           : `${data.length} section${data.length !== 1 ? "s" : ""} pending approval`}
       </p>
 
-      {/* Filters */}
       <div className="flex flex-wrap gap-3 mb-4">
         {["Department", "Term", "Status"].map((filter) => (
           <select
@@ -78,7 +70,6 @@ function PendingSections() {
         </button>
       </div>
 
-      {/* Table */}
       <div className="overflow-auto bg-white shadow rounded-lg">
         <table className="min-w-full text-sm text-left">
           <thead className="bg-gray-100 text-gray-700">
@@ -129,7 +120,6 @@ function PendingSections() {
         </table>
       </div>
 
-      {/* Pagination Controls */}
       {!loading && totalPages > 1 && (
         <div className="mt-4 flex justify-between items-center text-sm">
           <span>

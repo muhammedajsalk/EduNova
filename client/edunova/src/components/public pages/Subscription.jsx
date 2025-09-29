@@ -44,7 +44,7 @@ const SubscriptionPage = () => {
     useEffect(() => {
         axios.get("http://localhost:5000/api/public/me", { withCredentials: true })
             .then((res) => setData(res.data.data))
-            .catch((err) => console.log("Fetching Error"));
+            .catch((err) => {});
     }, []);
 
     const handlePayment = async (plan) => {

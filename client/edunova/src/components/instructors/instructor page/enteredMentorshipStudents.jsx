@@ -15,7 +15,7 @@ const ScheduledStudents = () => {
   useEffect(() => {
     axios.get("http://localhost:5000/api/instructor/getAllMentorship", { withCredentials: true })
       .then((res) => setMentorship(res.data?.data))
-      .catch((err) => console.log("Error Fetching all mentorship"))
+      .catch((err) => {})
   }, [])
 
 
@@ -45,15 +45,15 @@ const ScheduledStudents = () => {
   });
 
   const handleReschedule = (studentId) => {
-    console.log('Reschedule student:', studentId);
+    
   };
 
   const handleCancel = (studentId) => {
-    console.log('Cancel session for student:', studentId);
+    
   };
 
   const handleMoreActions = (studentId) => {
-    console.log('More actions for student:', studentId);
+    
   };
 
   return (
@@ -243,4 +243,4 @@ const ScheduledStudents = () => {
   );
 };
 
-export default ScheduledStudents;
+export default React.memo(ScheduledStudents)

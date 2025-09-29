@@ -46,7 +46,7 @@ const NotificationsPageAdmin = () => {
   useEffect(() => {
     axios.get(`http://localhost:5000/api/notification/${user._id}`)
       .then((res) => setNotifications(res.data))
-      .catch((err) => console.log(err))
+      .catch((err) =>{} )
   }, [user._id])
 
   useEffect(() => {
@@ -60,8 +60,8 @@ const NotificationsPageAdmin = () => {
     };
   }, [])
 
-  console.log("notification", notifications)
-  console.log("selectedNotifications", selectedNotifications)
+  
+  
 
   const categories = [
     { id: 'all', label: 'All', count: notifications.length },
@@ -121,7 +121,7 @@ const NotificationsPageAdmin = () => {
     },
   ];
 
-  console.log(showDropdown)
+  
 
 
 
@@ -154,7 +154,7 @@ const NotificationsPageAdmin = () => {
   };
 
   const deleteNotification = (id) => {
-    console.log("hello")
+    
     setNotifications(notifications.filter(n => n._id !== id));
     axios.delete(`http://localhost:5000/api/notification/${id}`).catch(console.error);
     setShowDropdown(null);
@@ -495,4 +495,4 @@ const NotificationsPageAdmin = () => {
   );
 };
 
-export default NotificationsPageAdmin;
+export default React.memo(NotificationsPageAdmin);

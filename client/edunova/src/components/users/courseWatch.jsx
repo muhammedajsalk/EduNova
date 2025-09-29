@@ -74,8 +74,8 @@ const CourseVideoPlayer = () => {
             setLiked(true);
         }
         axios.post("http://localhost:5000/api/users/course/like", { courseId: activeVideo.courseId, lectureId: activeVideo._id }, { withCredentials: true })
-            .then((res) => console.log(res.data.message))
-            .catch((err) => console.log("Error Course Fetching"))
+            .then((res) => {})
+            .catch((err) => {})
     };
 
     useEffect(() => {
@@ -130,7 +130,7 @@ const CourseVideoPlayer = () => {
                 navigate(`/learningDashboard/studentChat/${course.instructorId?._id}/${chatRoomId}`)
             }
             )
-            .catch((err) => console.log(err))
+            .catch((err) => {})
     }
 
     useEffect(() => {
@@ -690,4 +690,4 @@ const CourseVideoPlayer = () => {
     );
 };
 
-export default memo(CourseVideoPlayer);
+export default React.memo(CourseVideoPlayer);

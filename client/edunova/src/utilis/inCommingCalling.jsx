@@ -26,4 +26,4 @@ const IncomingCallToast = ({ userName, onAccept, onReject }) => {
   );
 };
 
-export default IncomingCallToast
+export default React.memo(IncomingCallToast)

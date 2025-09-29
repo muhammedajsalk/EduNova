@@ -50,7 +50,7 @@ const NotificationsPageInstructor = () => {
                 const unread = res.data.filter(n => !n.read).length;
                 setNotificationCo(unread);
             })
-            .catch((err) => console.log(err))
+            .catch((err) => {})
     }, [user._id])
 
     useEffect(() => {
@@ -64,8 +64,8 @@ const NotificationsPageInstructor = () => {
         };
     }, [])
 
-    console.log("notification", notifications)
-    console.log("selectedNotifications", selectedNotifications)
+    
+    
 
     const categories = [
         { id: 'all', label: 'All', count: notifications.length },
@@ -125,7 +125,7 @@ const NotificationsPageInstructor = () => {
         },
     ];
 
-    console.log(showDropdown)
+    
 
 
 
@@ -160,7 +160,7 @@ const NotificationsPageInstructor = () => {
     };
 
     const deleteNotification = (id) => {
-        console.log("hello")
+        
         setNotifications(notifications.filter(n => n._id !== id));
         axios.delete(`http://localhost:5000/api/notification/${id}`).catch(console.error);
         setNotificationCo(prev => prev - 1);
@@ -505,4 +505,4 @@ const NotificationsPageInstructor = () => {
     );
 };
 
-export default NotificationsPageInstructor;
+export default React.memo(NotificationsPageInstructor)

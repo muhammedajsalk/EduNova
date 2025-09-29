@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { FaSearch, FaDownload, FaChevronDown } from 'react-icons/fa';
 import axios from 'axios';
 
-export default function PayoutsDashboard() {
+function PayoutsDashboard() {
     const [selectedStatus, setSelectedStatus] = useState('All Status');
     const [selectedMethod, setSelectedMethod] = useState('All Methods');
     const [sortBy, setSortBy] = useState('Date');
@@ -241,3 +241,6 @@ export default function PayoutsDashboard() {
         </div>
     );
 }
+
+
+export default React.memo(PayoutsDashboard)

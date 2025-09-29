@@ -2,14 +2,12 @@ import axios from "axios";
 import React, { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
-// ✅ Reusable Status Badge
 const StatusBadge = ({ status }) => (
   <span className="text-xs bg-yellow-100 text-yellow-600 px-2 py-1 rounded-full">
     {status}
   </span>
 );
 
-// ✅ Skeleton Loader Row
 const SkeletonRow = () => (
   <div className="flex items-center gap-4 p-4 border-b animate-pulse">
     <div className="w-32 h-4 bg-gray-200 rounded"></div>
@@ -27,15 +25,10 @@ function CoursePendingSections() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const perPage = 5;
 
-  // Optional: You can add filtering/searching states here, e.g.
-  // const [filter, setFilter] = useState("All");
-  // const [search, setSearch] = useState("");
 
-  // Fetch data on component mount
   useEffect(() => {
     setLoading(true);
     axios
@@ -48,16 +41,13 @@ function CoursePendingSections() {
       .finally(() => setLoading(false));
   }, []);
 
-  // Calculate paginated data
   const totalPages = Math.ceil(data.length / perPage);
 
-  // Slice data for current page
   const paginatedData = useMemo(() => {
     const startIdx = (currentPage - 1) * perPage;
     return data.slice(startIdx, startIdx + perPage);
   }, [currentPage, data, perPage]);
 
-  // Handlers for pagination controls
   const goToPage = (page) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
   };
@@ -67,7 +57,6 @@ function CoursePendingSections() {
 
   return (
     <div className="p-4 md:p-8 bg-gray-50 min-h-screen text-gray-800">
-      {/* 🔹 Top Section */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-xl font-bold">Pending Courses Sections</h1>
       </div>
@@ -78,14 +67,12 @@ function CoursePendingSections() {
           : `${data.length} section${data.length !== 1 ? "s" : ""} pending approval`}
       </p>
 
-      {/* 🔹 Filters (placeholders for future functionality) */}
       <div className="flex flex-wrap gap-3 mb-4">
         {["Department", "Term", "Status"].map((filter) => (
           <select
             key={filter}
             disabled={loading}
             className="border border-gray-300 px-3 py-2 rounded text-sm bg-white disabled:opacity-50"
-            // onChange={} // Add appropriate handlers if adding filter feature
           >
             <option>{filter}</option>
           </select>
@@ -93,13 +80,11 @@ function CoursePendingSections() {
         <button
           disabled={loading}
           className="ml-auto border px-3 py-2 text-sm rounded bg-white disabled:opacity-50"
-          // onClick={} // Add sort handler if needed
         >
           Sort
         </button>
       </div>
 
-      {/* 🔹 Table Section */}
       <div className="overflow-auto bg-white shadow rounded-lg">
         <table className="min-w-full text-sm text-left">
           <thead className="bg-gray-100 text-gray-700">
@@ -158,7 +143,6 @@ function CoursePendingSections() {
         </table>
       </div>
 
-      {/* 🔹 Pagination */}
       {!loading && totalPages > 1 && (
         <div className="mt-4 flex justify-between items-center text-sm">
           <span>

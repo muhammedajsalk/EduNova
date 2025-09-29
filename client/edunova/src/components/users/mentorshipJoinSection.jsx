@@ -7,7 +7,7 @@ import { io } from 'socket.io-client';
 import { useParams } from 'react-router-dom';
 import UserContext from '../../userContext';
 import { usePeer } from '../../utilis/peer';
-import { MyVideoPreview } from '../../utilis/video';
+import MyVideoPreview  from '../../utilis/video';
 
 const MentorshipVideoCallSection = () => {
   const [isMuted, setIsMuted] = useState(false);
@@ -63,14 +63,14 @@ const MentorshipVideoCallSection = () => {
     socket.on("incoming-call", ({ from, offer }) => {
       if (from === instructorId) {
         offerRef.current = offer;
-        console.log("offered", offer)
+        
       }
     });
 
     socket.on("call-accepted", async ({ ans }) => {
       if (sentOfferRef.current) {
         await setRemoteAns(ans);
-        console.log("answered", ans)
+        
         sendStream(myStream);
       }
     });

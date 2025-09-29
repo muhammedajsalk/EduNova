@@ -50,7 +50,7 @@ const NotificationsPage = () => {
         const unread = res.data.filter(n => !n.read).length;
         setNotificationCo(unread);
       })
-      .catch((err) => console.log(err));
+      .catch((err) =>{} );
   }, [user._id]);
 
   useEffect(() => {
@@ -64,9 +64,9 @@ const NotificationsPage = () => {
     };
   }, [])
 
-  console.log("notification", notifications.length)
-  console.log("notificationCo", notificationCo)
-  console.log("selectedNotifications", selectedNotifications)
+  
+  
+  
 
   const categories = [
     { id: 'all', label: 'All', count: notifications.length },
@@ -126,7 +126,7 @@ const NotificationsPage = () => {
     },
   ];
 
-  console.log(showDropdown)
+  
 
 
 
@@ -161,11 +161,11 @@ const NotificationsPage = () => {
   };
 
   const deleteNotification = (id) => {
-    console.log("hello")
+    
     setNotifications(notifications.filter(n => n._id !== id));
     axios.delete(`http://localhost:5000/api/notification/${id}`).catch(console.error);
     setNotificationCo(prev => prev - 1);
-    console.log("clciking time", notificationCo)
+    
     setShowDropdown(null);
   };
 
@@ -506,4 +506,4 @@ const NotificationsPage = () => {
   );
 };
 
-export default NotificationsPage;
+export default React.memo(NotificationsPage)

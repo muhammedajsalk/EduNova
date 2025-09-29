@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {FaSearch, FaDownload, FaChevronDown, FaEye } from 'react-icons/fa';
 
-export default function PaymentTransactionsDashboard() {
+function PaymentTransactionsDashboard() {
   const [selectedStatus, setSelectedStatus] = useState('All Status');
   const [selectedMethod, setSelectedMethod] = useState('All Methods');
   const [selectedAmount, setSelectedAmount] = useState('All Amounts');
@@ -324,3 +324,5 @@ export default function PaymentTransactionsDashboard() {
     </div>
   );
 }
+
+export default React.memo(PaymentTransactionsDashboard)

@@ -8,7 +8,7 @@ const socket = io("http://localhost:5000", {
   withCredentials: true,
 });
 
-export default function InstructorChatBox() {
+function InstructorChatBox() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isConnected, setIsConnected] = useState(false);
@@ -125,15 +125,15 @@ export default function InstructorChatBox() {
 
 
   useEffect(() => {
-    console.log("Attempting to connect to socket server...");
+    
 
     socket.on("connect", () => {
-      console.log("✅ Socket connected! Socket ID:", socket.id);
+      
       setIsConnected(true);
     });
 
     socket.on("disconnect", (reason) => {
-      console.log("❌ Socket disconnected. Reason:", reason);
+      
       setIsConnected(false);
     });
 
@@ -143,12 +143,12 @@ export default function InstructorChatBox() {
     });
 
     socket.on("reconnect", (attemptNumber) => {
-      console.log("🔄 Socket reconnected after", attemptNumber, "attempts");
+      
       setIsConnected(true);
     });
 
     socket.on("reconnect_attempt", (attemptNumber) => {
-      console.log("🔄 Attempting reconnection (attempt:", attemptNumber, ")");
+      
     });
 
     socket.on("reconnect_error", (error) => {
@@ -457,3 +457,5 @@ export default function InstructorChatBox() {
     </div>
   );
 }
+
+export default React.memo(InstructorChatBox)

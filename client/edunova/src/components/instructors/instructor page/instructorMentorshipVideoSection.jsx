@@ -7,7 +7,7 @@ import { io } from 'socket.io-client';
 import { useParams } from 'react-router-dom';
 import UserContext from '../../../userContext';
 import { usePeer } from '../../../utilis/peer';
-import { MyVideoPreview } from '../../../utilis/video';
+import  MyVideoPreview  from '../../../utilis/video';
 
 const InstructorMentorshipVideoCallSection = () => {
   const [isMuted, setIsMuted] = useState(false);
@@ -19,7 +19,7 @@ const InstructorMentorshipVideoCallSection = () => {
   const [myStream, setMyStream] = useState(null);
   const [remoteUserId, setRemoteUserId] = useState()
 
-  const { id: mentorshipId, userId } = useParams(); // userId is the mentee
+  const { id: mentorshipId, userId } = useParams();
   const { user, participants, setParticipants, videoUserName } = useContext(UserContext);
 
   const socketRef = useRef(null);
@@ -28,7 +28,6 @@ const InstructorMentorshipVideoCallSection = () => {
 
   const {peer, createOffer, createAnswer, setRemoteAns, sendStream, remoteStream } = usePeer();
 
-  // Call timer
   useEffect(() => {
     if (!isInCall) {
       setCallDuration(0);
@@ -38,7 +37,6 @@ const InstructorMentorshipVideoCallSection = () => {
     return () => clearInterval(i);
   }, [isInCall]);
 
-  // Capture local video/audio
   useEffect(() => {
     navigator.mediaDevices.getUserMedia({ audio: true, video: true }).then(setMyStream);
   }, []);
@@ -56,7 +54,6 @@ const InstructorMentorshipVideoCallSection = () => {
     }
   }, [])
 
-  // Setup socket only once
   useEffect(() => {
     socketRef.current = io("http://localhost:5000", { withCredentials: true });
     const socket = socketRef.current;
@@ -66,14 +63,14 @@ const InstructorMentorshipVideoCallSection = () => {
     socket.on("incoming-call", ({ from, offer }) => {
       if (from === userId) {
         offerRef.current = offer;
-        console.log("offered", offer)
+        
       }
     });
 
     socket.on("call-accepted", async ({ ans }) => {
       if (sentOfferRef.current) {
         await setRemoteAns(ans);
-        console.log("answered", ans)
+        
         sendStream(myStream);
       }
     });
@@ -87,7 +84,6 @@ const InstructorMentorshipVideoCallSection = () => {
     const socket = socketRef.current;
 
     if (!offerRef.current) {
-      // instructor initiates the offer
       const offer = await createOffer();
       sentOfferRef.current = true;
       socket.emit("user-is-calling", {
@@ -101,7 +97,6 @@ const InstructorMentorshipVideoCallSection = () => {
       setRemoteUserId(userId)
       socket.emit("video-room", { mentorshipId, userId: user._id, role: "instructor" });
     } else {
-      // if mentee already called, instructor answers
       const ans = await createAnswer(offerRef.current);
       socket.emit("call-accepted", { userId: user._id, ans });
       setRemoteUserId(userId)
@@ -121,7 +116,6 @@ const InstructorMentorshipVideoCallSection = () => {
 
   return (
     <div className="h-screen bg-slate-900 flex flex-col overflow-hidden">
-      {/* Header */}
       <div className="bg-slate-800 border-b border-slate-700 px-6 py-3 flex-shrink-0 flex justify-between items-center">
         <h1>you are connected {remoteUserId}</h1>
         <div className="flex items-center gap-4">
@@ -150,7 +144,6 @@ const InstructorMentorshipVideoCallSection = () => {
         </div>
       </div>
 
-      {/* Main */}
       <div className="flex-1 relative bg-black overflow-hidden">
         {!isInCall ? (
           <div className="h-full flex items-center justify-center bg-gradient-to-br from-slate-900 to-slate-800">
@@ -188,12 +181,10 @@ const InstructorMentorshipVideoCallSection = () => {
               </div>
             </div>
 
-            {/* Instructor Small Preview */}
             <div className="absolute bottom-24 right-6 w-72 h-48 bg-slate-800 rounded-lg shadow-2xl overflow-hidden border-2 border-slate-600">
               <MyVideoPreview myStream={myStream} isVideoOff={isVideoOff} />
             </div>
 
-            {/* Controls */}
             <div className="absolute bottom-0 left-0 right-0 bg-slate-900/95 border-t border-slate-700">
               <div className="flex items-center justify-between px-6 py-4">
                 <span className="text-sm text-slate-400 font-mono">{formatDuration(callDuration)}</span>

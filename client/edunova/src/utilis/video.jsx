@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 
-export const MyVideoPreview = ({ myStream, isVideoOff }) => {
+ const MyVideoPreview = ({ myStream, isVideoOff }) => {
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -18,3 +18,5 @@ export const MyVideoPreview = ({ myStream, isVideoOff }) => {
     />
   );
 };
+
+export default React.memo(MyVideoPreview)

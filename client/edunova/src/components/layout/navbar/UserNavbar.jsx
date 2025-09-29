@@ -46,7 +46,7 @@ function UserNavbar() {
       })
       .catch((err) => {
         toast.error("Error logging out");
-        console.log("Error logOut", err);
+        
       });
   };
 

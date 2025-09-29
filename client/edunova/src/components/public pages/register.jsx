@@ -124,7 +124,7 @@ function Register() {
                     .finally(()=>setSubmiting(false))
                 }}
                 onError={() => {
-                  console.log("Login Failed");
+                  
                 }}
               />
             </div>

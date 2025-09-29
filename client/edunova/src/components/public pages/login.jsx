@@ -27,11 +27,11 @@ function Login() {
     const notificationDataGet = (id) => {
         axios.get(`http://localhost:5000/api/notification/${id}`)
             .then((res) => {
-                const unread = res.data.filter(n => !n.read).length; // use fresh data
+                const unread = res.data.filter(n => !n.read).length;
                 setNotificationCo(unread);
             }
             )
-            .catch((err) => console.log(err))
+            .catch((err) => {})
     }
 
     function loginAccount(values) {
@@ -130,7 +130,7 @@ function Login() {
                                         })
                                 }}
                                 onError={() => {
-                                    console.log("Login Failed");
+                                    
                                 }}
                             />
                         </div>
@@ -245,7 +245,7 @@ function Login() {
                                         })
                                 }}
                                 onError={() => {
-                                    console.log("Login Failed");
+                                    
                                 }}
                             />
                         </div>

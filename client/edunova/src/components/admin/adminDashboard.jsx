@@ -290,7 +290,7 @@ function AdminDashboard() {
         setLoading(false);
       })
       .catch((err) => {
-        console.log("Fetching issue", err);
+        
         setLoading(false);
       });
   }, []);

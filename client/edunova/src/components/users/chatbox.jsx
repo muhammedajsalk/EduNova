@@ -8,7 +8,7 @@ const socket = io("http://localhost:5000", {
   withCredentials: true,
 });
 
-export default function StudentChat() {
+function StudentChat() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [isConnected, setIsConnected] = useState(false);
@@ -22,17 +22,17 @@ export default function StudentChat() {
 
 
   const { user } = useContext(UserContext);
-  console.log("user", user)
+  
   const currentUserId = user._id;
   const chatRoomId = roomId;
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/admin/instructorById/${instructorId}`, { withCredentials: true })
       .then((res) => setInstructor(res.data?.data))
-      .catch((err) => console.log(err))
+      .catch((err) => {})
   }, [])
 
-  console.log("instructor data", instructor)
+  
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -42,7 +42,7 @@ export default function StudentChat() {
     scrollToBottom();
   }, [messages]);
 
-  console.log("studentMessage", messages)
+  
   const fetchPreviousMessages = async () => {
     try {
       setIsLoading(true);
@@ -73,7 +73,7 @@ export default function StudentChat() {
 
   useEffect(() => {
     socket.on("connect", () => {
-      console.log("✅ Connected with ID:", socket.id);
+      
       setIsConnected(true);
       socket.emit("joinRoom", chatRoomId);
     });
@@ -100,7 +100,7 @@ export default function StudentChat() {
     });
 
     socket.on("disconnect", () => {
-      console.log("❌ Disconnected");
+      
       setIsConnected(false);
     });
 
@@ -254,3 +254,5 @@ export default function StudentChat() {
     </div>
   );
 }
+
+export default React.memo(StudentChat)

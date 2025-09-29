@@ -169,7 +169,7 @@ function StudentsManagement() {
         setLoading(false);
       })
       .catch((err) => {
-        console.log("Error Fetching users");
+        
         setLoading(false);
       });
   }, []);

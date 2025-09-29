@@ -26,7 +26,7 @@ const LearningDashboard = () => {
         setLoading(false);
       })
       .catch(err => {
-        console.log("Error Fetching User");
+        
         setLoading(false);
       });
   }, [user?._id]);
@@ -34,7 +34,7 @@ const LearningDashboard = () => {
   useEffect(() => {
     axios.get(`http://localhost:5000/api/users/getUserAllMentorship`, { withCredentials: true })
       .then((res) => setMentorshipData(res?.data?.data || []))
-      .catch(err => console.log("Error Fetching Mentorship"));
+      .catch(err => {});
   }, []);
 
   const SkeletonCard = () => (

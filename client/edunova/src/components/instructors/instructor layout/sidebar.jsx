@@ -45,7 +45,7 @@ const InstructorSidebar = () => {
         setNotificationCo(unread);
       }
       )
-      .catch((err) => console.log(err))
+      .catch((err) => {})
   }, [user._id])
 
   const logOut = async () => {
@@ -301,4 +301,4 @@ const InstructorSidebar = () => {
   );
 };
 
-export default InstructorSidebar;
+export default React.memo(InstructorSidebar)

@@ -82,7 +82,7 @@ function AdminNavbar() {
       })
       .catch((err) => {
         toast.error("Error logging out");
-        console.log("Error Logout", err);
+        
       });
   };
 
@@ -108,7 +108,7 @@ function AdminNavbar() {
   useEffect(() => {
     axios.get(`http://localhost:5000/api/notification/${user._id}`)
       .then((res) => setNotification(res.data.slice(0, 4)))
-      .catch((err) => console.log(err))
+      .catch((err) => {})
   }, [user._id])
 
   useEffect(() => {
