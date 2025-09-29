@@ -47,7 +47,6 @@ function CourseListing() {
 
   const priceFilters = [
     { id: "all", name: "All Prices" },
-    { id: "free", name: "Free" },
     { id: "paid", name: "Paid" },
   ];
 
@@ -142,8 +141,6 @@ function CourseListing() {
                 >
                   <option value="popular">Most Popular</option>
                   <option value="newest">Newest First</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
                 </select>
 
                 <div className="flex items-center gap-2 bg-gray-50 p-1 rounded-xl">
@@ -183,109 +180,11 @@ function CourseListing() {
                   <BookOpen className="w-4 h-4 text-emerald-500" />
                   <span><strong>{filteredCourses.length}</strong> courses found</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Users className="w-4 h-4 text-emerald-500" />
-                  <span><strong>50K+</strong> students enrolled</span>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <Star className="w-4 h-4 text-yellow-500" />
-                  <span><strong>4.8</strong> average rating</span>
-                </div>
               </div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <aside className={`${
-              showFilters ? "block" : "hidden md:block"
-            } md:col-span-1`}>
-              <div className="bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-emerald-100 p-6 sticky top-4">
-                <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                  <Filter className="w-5 h-5 text-emerald-600" />
-                  Filters
-                </h3>
-
-                <div className="mb-8">
-                  <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-4">Categories</h4>
-                  <div className="space-y-2">
-                    {categories.map((category) => {
-                      const Icon = category.icon;
-                      return (
-                        <button
-                          key={category.id}
-                          onClick={() => setSelectedCategory(category.id)}
-                          className={`w-full flex items-center justify-between p-3 rounded-xl transition-all ${
-                            selectedCategory === category.id
-                              ? "bg-gradient-to-r from-emerald-50 to-teal-50 border border-emerald-200 text-emerald-700"
-                              : "hover:bg-gray-50 text-gray-700"
-                          }`}
-                        >
-                          <div className="flex items-center gap-3">
-                            <Icon className="w-4 h-4" />
-                            <span className="text-sm font-medium">{category.name}</span>
-                          </div>
-                          <span className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-                            {category.count}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="mb-8">
-                  <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-4">Price</h4>
-                  <div className="space-y-2">
-                    {priceFilters.map((filter) => (
-                      <label
-                        key={filter.id}
-                        className="flex items-center gap-3 cursor-pointer group"
-                      >
-                        <input
-                          type="radio"
-                          name="price"
-                          value={filter.id}
-                          checked={priceRange === filter.id}
-                          onChange={(e) => setPriceRange(e.target.value)}
-                          className="w-4 h-4 text-emerald-600 focus:ring-emerald-500"
-                        />
-                        <span className="text-sm text-gray-700 group-hover:text-emerald-600 transition-colors">
-                          {filter.name}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="mb-8">
-                  <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wider mb-4">Rating</h4>
-                  <div className="space-y-2">
-                    {[4.5, 4.0, 3.5, 3.0].map((rating) => (
-                      <label key={rating} className="flex items-center gap-3 cursor-pointer group">
-                        <input type="checkbox" className="w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500" />
-                        <div className="flex items-center gap-1">
-                          <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                          <span className="text-sm text-gray-700 group-hover:text-emerald-600 transition-colors">
-                            {rating} & above
-                          </span>
-                        </div>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => {
-                    setSelectedCategory("all");
-                    setPriceRange("all");
-                    setSearchTerm("");
-                  }}
-                  className="w-full py-3 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-700 rounded-xl font-semibold hover:from-gray-200 hover:to-gray-300 transition-all"
-                >
-                  Clear All Filters
-                </button>
-              </div>
-            </aside>
 
             <section className="md:col-span-3">
               {loading ? (
@@ -352,10 +251,6 @@ function CourseListing() {
                           <span className="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded">
                             {course.category || "Development"}
                           </span>
-                          <div className="flex items-center gap-1 text-xs text-gray-500">
-                            <Clock className="w-3 h-3" />
-                            <span>6h 30m</span>
-                          </div>
                         </div>
 
                         <h4 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-emerald-600 transition-colors">
@@ -367,42 +262,8 @@ function CourseListing() {
                           {course.instructorId?.name || "Expert Instructor"}
                         </p>
 
-                        <div className="flex items-center gap-4 mb-4">
-                          <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                            <span className="text-sm font-semibold text-gray-700">4.5</span>
-                            <span className="text-xs text-gray-500">(2.3k)</span>
-                          </div>
-                          <div className="flex items-center gap-1 text-xs text-gray-500">
-                            <Users className="w-3 h-3" />
-                            <span>12,543 students</span>
-                          </div>
-                        </div>
-
-                        {user?.enrolledCourses?.includes(course._id) && (
-                          <div className="mb-4">
-                            <div className="flex items-center justify-between text-xs mb-1">
-                              <span className="text-gray-600">Progress</span>
-                              <span className="font-semibold text-emerald-600">60%</span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2">
-                              <div className="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full" style={{ width: "60%" }}></div>
-                            </div>
-                          </div>
-                        )}
-
                         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
                           <div>
-                            {course.price ? (
-                              <div className="flex items-center gap-2">
-                                <span className="text-2xl font-bold text-gray-900">${course.price}</span>
-                                {course.originalPrice && (
-                                  <span className="text-sm text-gray-500 line-through">${course.originalPrice}</span>
-                                )}
-                              </div>
-                            ) : (
-                              <span className="text-2xl font-bold text-emerald-600">Free</span>
-                            )}
                           </div>
                           
                           <Link to={`/courseEntrollSection/${course._id}`}>

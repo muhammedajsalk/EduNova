@@ -6,6 +6,9 @@ async function getTopRatedCourses(req, res) {
     const limit = 10;
 
     const topCourses = await CourseModel.aggregate([
+      // ✅ Only approved courses
+      { $match: { status: "approved" } },
+
       { $unwind: "$curriculum" },
       { $unwind: "$curriculum.lectures" },
 

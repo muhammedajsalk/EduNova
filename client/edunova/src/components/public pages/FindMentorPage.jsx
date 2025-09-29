@@ -340,28 +340,6 @@ const FindMentorPage = () => {
           {/* Expanded Filters */}
           {showFilters && (
             <div className="mt-6 pt-6 border-t border-gray-100 space-y-6">
-              {/* Expertise Filter */}
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-3">Expertise Areas</h4>
-                <div className="flex flex-wrap gap-2">
-                  {expertiseCategories.map((expertise) => (
-                    <button
-                      key={expertise}
-                      onClick={() => toggleExpertise(expertise)}
-                      className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
-                        selectedExpertise.includes(expertise)
-                          ? "bg-emerald-100 text-emerald-700 border-2 border-emerald-300"
-                          : "bg-gray-100 text-gray-700 hover:bg-gray-200 border-2 border-transparent"
-                      }`}
-                    >
-                      {expertise}
-                      {selectedExpertise.includes(expertise) && (
-                        <X className="w-3 h-3 ml-2 inline" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
 
               {/* Price Range Filter */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

@@ -13,7 +13,6 @@ function HomePage() {
         <HeroSection />
         <HomeCourses/>
         <StatsAndHowItWorks/>
-        <MentorSection/>
         <CommunitySection/>
         <Footer/>
       </main>

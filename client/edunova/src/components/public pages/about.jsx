@@ -126,56 +126,6 @@ const AboutPage = () => {
           </div>
         </section>
 
-        {/* Team Section */}
-        <section className="py-20 px-6 md:px-20 max-w-7xl mx-auto">
-          <div className="text-center mb-14">
-            <span className="inline-block px-4 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium mb-4">
-              Leadership
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Meet the Core Team</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-              The passionate individuals driving our mission forward
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Ayesha Rahman",
-                role: "Founder & CEO",
-                img: "https://i.pravatar.cc/300?img=11",
-                bio: "Visionary leader with 15+ years in EdTech"
-              },
-              {
-                name: "Rohan Mehta",
-                role: "Chief Technology Officer",
-                img: "https://i.pravatar.cc/300?img=12",
-                bio: "Tech innovator building scalable learning solutions"
-              },
-              {
-                name: "Nisha Kapoor",
-                role: "Head of Learning Experience",
-                img: "https://i.pravatar.cc/300?img=13",
-                bio: "Expert in curriculum design and pedagogy"
-              }
-            ].map((member, idx) => (
-              <div key={idx} className="group text-center">
-                <div className="relative inline-block mb-6">
-                  <div className="absolute inset-0 bg-gradient-to-br from-emerald-400 to-teal-400 rounded-full blur-xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                  <img 
-                    className="relative w-32 h-32 rounded-full border-4 border-white shadow-xl" 
-                    src={member.img} 
-                    alt={member.name} 
-                  />
-                </div>
-                <h4 className="font-bold text-xl mb-1">{member.name}</h4>
-                <p className="text-emerald-600 font-medium mb-2">{member.role}</p>
-                <p className="text-gray-600 text-sm">{member.bio}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* Culture Gallery */}
         <section className="bg-gradient-to-b from-white to-gray-50 py-20 px-6 md:px-20">
           <div className="max-w-7xl mx-auto">
