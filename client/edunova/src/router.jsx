@@ -63,6 +63,8 @@ import { Toaster } from 'react-hot-toast'
 import MentorshipVideoCallSection from './components/users/mentorshipJoinSection'
 import InstructorMentorshipVideoCallSection from './components/instructors/instructor page/instructorMentorshipVideoSection'
 import {PeerProvider} from './utilis/peer'
+import ComingSoonPage from './utilis/commingSoon'
+import ErrorFixingPage from './utilis/errorFixing'
 
 
 
@@ -196,7 +198,10 @@ function Routers() {
                 <Route path="courseWatching/:id" element={<CourseVideoPlayer />} />
                 <Route path="studentChat/:instructorId/:roomId" element={<StudentChatBox />} />
                 <Route path="notification" element={<NotificationsPage />} />
-                <Route path="mentorshipVideoSection/:id/:instructorId" element={<MentorshipVideoCallSection />} />
+                <Route path="community" element={<ComingSoonPage/>} />
+                <Route path="setting" element={<ComingSoonPage/>} />
+                <Route path="profile" element={<ComingSoonPage/>} />
+                <Route path="mentorshipVideoSection/:id/:instructorId" element={<ErrorFixingPage />} />
               </Route>
             </Route>
             <Route

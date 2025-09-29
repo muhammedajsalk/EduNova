@@ -50,7 +50,7 @@ const NotificationsPage = () => {
         const unread = res.data.filter(n => !n.read).length;
         setNotificationCo(unread);
       })
-      .catch((err) =>{} );
+      .catch((err) => { });
   }, [user._id]);
 
   useEffect(() => {
@@ -64,9 +64,9 @@ const NotificationsPage = () => {
     };
   }, [])
 
-  
-  
-  
+
+
+
 
   const categories = [
     { id: 'all', label: 'All', count: notifications.length },
@@ -126,7 +126,7 @@ const NotificationsPage = () => {
     },
   ];
 
-  
+
 
 
 
@@ -161,11 +161,11 @@ const NotificationsPage = () => {
   };
 
   const deleteNotification = (id) => {
-    
+
     setNotifications(notifications.filter(n => n._id !== id));
     axios.delete(`http://localhost:5000/api/notification/${id}`).catch(console.error);
     setNotificationCo(prev => prev - 1);
-    
+
     setShowDropdown(null);
   };
 
@@ -247,20 +247,21 @@ const NotificationsPage = () => {
       <div className="bg-white border-b border-gray-200 sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="py-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-4">
-                <Bell className="w-8 h-8 text-emerald-600" />
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sm:gap-0">
+              <div className="flex items-start sm:items-center space-x-4">
+                <Bell className="w-8 h-8 text-emerald-600 flex-shrink-0" />
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
+                  <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Notifications</h1>
                   <p className="text-sm text-gray-500 mt-1">
-                    You have {notifications.filter(n => !n.read).length} unread notifications
+                    You have {notifications.filter((n) => !n.read).length} unread notifications
                   </p>
                 </div>
               </div>
-              <div className="flex items-center space-x-3">
+
+              <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-3">
                 <button
                   onClick={markAllAsRead}
-                  className="px-4 py-2 text-sm font-medium text-emerald-600 bg-white border border-emerald-600 rounded-lg hover:bg-emerald-50 transition-colors"
+                  className="w-full sm:w-auto flex items-center justify-center px-4 py-2 text-sm font-medium text-emerald-600 bg-white border border-emerald-600 rounded-lg hover:bg-emerald-50 transition-colors"
                 >
                   <Check className="w-4 h-4 inline mr-2" />
                   Mark all as read
@@ -270,6 +271,7 @@ const NotificationsPage = () => {
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       </div>

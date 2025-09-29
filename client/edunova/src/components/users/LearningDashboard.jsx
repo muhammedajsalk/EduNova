@@ -26,7 +26,7 @@ const LearningDashboard = () => {
         setLoading(false);
       })
       .catch(err => {
-        
+
         setLoading(false);
       });
   }, [user?._id]);
@@ -34,7 +34,7 @@ const LearningDashboard = () => {
   useEffect(() => {
     axios.get(`http://localhost:5000/api/users/getUserAllMentorship`, { withCredentials: true })
       .then((res) => setMentorshipData(res?.data?.data || []))
-      .catch(err => {});
+      .catch(err => { });
   }, []);
 
   const SkeletonCard = () => (
@@ -71,59 +71,29 @@ const LearningDashboard = () => {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
 
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6">
-            <div className="space-y-4">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">
-                  Welcome back, {user?.name || 'Learner'}
-                </h1>
-                <p className="text-gray-600 mt-1">Ready to continue your learning journey?</p>
-              </div>
-
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                {[
-                  { icon: Flame, value: "15", label: "Day Streak", color: "bg-orange-100 text-orange-600" },
-                  { icon: Trophy, value: "5", label: "Level", color: "bg-yellow-100 text-yellow-600" },
-                  { icon: Target, value: "3", label: "Goals", color: "bg-emerald-100 text-emerald-600" },
-                  { icon: Award, value: "12", label: "Certificates", color: "bg-blue-100 text-blue-600" },
-                ].map((stat, idx) => (
-                  <div key={idx} className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-200">
-                    <div className={`w-10 h-10 ${stat.color} rounded-lg flex items-center justify-center`}>
-                      <stat.icon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="text-xl font-bold text-gray-900">{stat.value}</p>
-                      <p className="text-sm text-gray-600">{stat.label}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+        <div className="bg-white rounded-xl p-4 sm:p-6 lg:p-6 shadow-sm border border-gray-200">
+          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 lg:gap-6">
+            <div className="space-y-2 sm:space-y-4">
+              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">
+                Welcome back, {user?.name || 'Learner'}
+              </h1>
+              <p className="text-gray-600 text-sm sm:text-base">
+                Ready to continue your learning journey?
+              </p>
             </div>
 
-            <div className="flex gap-3">
-              <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg border border-gray-200 hover:bg-gray-200 transition-colors">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 w-full sm:w-auto">
+              <button className="flex justify-center items-center gap-2 w-full sm:w-auto px-4 py-2 bg-gray-100 text-gray-700 rounded-lg border border-gray-200 hover:bg-gray-200 transition-colors text-sm sm:text-base">
                 <Calendar className="w-4 h-4" />
                 Schedule
               </button>
-              <button className="flex items-center gap-2 px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors">
-                <Play className="w-4 h-4" />
-                Continue Learning
-              </button>
+              <Link to={'/learningDashboard/courses'} className="w-full sm:w-auto">
+                <button className="flex justify-center items-center gap-2 w-full sm:w-auto px-6 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors text-sm sm:text-base">
+                  <Play className="w-4 h-4" />
+                  Continue Learning
+                </button>
+              </Link>
             </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Target className="w-5 h-5 text-emerald-600" />
-              Today's Learning Goals
-            </h3>
-            <span className="text-sm text-gray-600">3 of 5 completed</span>
-          </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <div className="bg-emerald-600 h-2 rounded-full transition-all duration-500" style={{ width: '60%' }}></div>
           </div>
         </div>
 
@@ -150,21 +120,6 @@ const LearningDashboard = () => {
                   className="pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent w-full sm:w-64"
                 />
               </div>
-
-              <div className="flex gap-1 bg-gray-100 p-1 rounded-lg">
-                {['all', 'in-progress', 'completed'].map((tab) => (
-                  <button
-                    key={tab}
-                    onClick={() => setActiveTab(tab)}
-                    className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${activeTab === tab
-                        ? 'bg-white text-emerald-600 shadow-sm'
-                        : 'text-gray-600 hover:text-gray-900'
-                      }`}
-                  >
-                    {tab.charAt(0).toUpperCase() + tab.slice(1).replace('-', ' ')}
-                  </button>
-                ))}
-              </div>
             </div>
           </div>
 
@@ -181,14 +136,7 @@ const LearningDashboard = () => {
                     <div className="group bg-white rounded-xl overflow-hidden border border-gray-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                       {/* Course Badge */}
                       <div className="absolute top-4 left-4 z-10">
-                        <span className={`px-3 py-1 rounded-full text-xs font-semibold ${progress === 100
-                            ? 'bg-emerald-100 text-emerald-700'
-                            : progress > 0
-                              ? 'bg-blue-100 text-blue-700'
-                              : 'bg-gray-100 text-gray-700'
-                          }`}>
-                          {progress === 100 ? 'Completed' : progress > 0 ? `${progress}% Complete` : 'New'}
-                        </span>
+
                       </div>
 
                       {/* Course Thumbnail */}
@@ -205,54 +153,14 @@ const LearningDashboard = () => {
                             <Play className="w-5 h-5 text-emerald-600 ml-0.5" fill="currentColor" />
                           </div>
                         </div>
-
-                        {/* Course Stats */}
-                        <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="flex items-center gap-3 text-white text-sm">
-                            <div className="flex items-center gap-1 bg-black/50 rounded-full px-2 py-1">
-                              <Video className="w-3 h-3" />
-                              <span>12</span>
-                            </div>
-                            <div className="flex items-center gap-1 bg-black/50 rounded-full px-2 py-1">
-                              <Clock className="w-3 h-3" />
-                              <span>3h 45m</span>
-                            </div>
-                          </div>
-                        </div>
                       </div>
 
                       <div className="p-6 space-y-4">
                         {/* Course Info */}
-                        <div className="flex items-center justify-between">
-                          <span className="px-2 py-1 bg-emerald-100 text-emerald-700 text-xs font-semibold rounded">
-                            Development
-                          </span>
-                          <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                            <span className="text-sm text-gray-600">4.9</span>
-                          </div>
-                        </div>
 
                         <h3 className="font-semibold text-lg text-gray-900 group-hover:text-emerald-600 transition-colors line-clamp-2">
                           {course?.course?.title}
                         </h3>
-
-                        {/* Progress Bar */}
-                        {progress > 0 && (
-                          <div className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span className="text-gray-600">Progress</span>
-                              <span className="text-emerald-600 font-semibold">{progress}%</span>
-                            </div>
-                            <div className="w-full bg-gray-200 rounded-full h-2">
-                              <div
-                                className="bg-emerald-600 h-2 rounded-full transition-all duration-500"
-                                style={{ width: `${progress}%` }}
-                              ></div>
-                            </div>
-                          </div>
-                        )}
-
                         {/* Action Button */}
                         <button className="w-full flex items-center justify-center gap-2 py-2 bg-emerald-50 text-emerald-600 rounded-lg font-semibold hover:bg-emerald-100 transition-colors">
                           {progress > 0 ? 'Continue' : 'Start'} Learning
@@ -299,31 +207,34 @@ const LearningDashboard = () => {
 
         {/* Mentor Sessions */}
         <section className="space-y-6">
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-                <Users className="w-6 h-6 text-emerald-600" />
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 flex items-center gap-2 sm:gap-3">
+                <Users className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-600" />
                 Upcoming Sessions
               </h2>
-              <p className="text-gray-600 mt-1">Connect with expert mentors</p>
+              <p className="text-gray-600 mt-1 text-sm sm:text-base">Connect with expert mentors</p>
             </div>
-            <button className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm flex items-center gap-1">
+            <button className="text-emerald-600 hover:text-emerald-700 font-semibold text-sm flex items-center gap-1 self-start sm:self-auto">
               View All
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
 
           {mentorshipData.length > 0 ? (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {mentorshipData.slice(0, 2).map((session, idx) => (
-                <div key={idx} className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition-shadow">
-                  <div className="flex items-start justify-between gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+              {mentorshipData.slice(0, 3).map((session, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 hover:shadow-lg transition-shadow"
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
                     <div className="flex items-start gap-4 flex-1">
-                      <div className="relative">
+                      <div className="relative shrink-0">
                         <img
                           src={session.instructorId?.avatar || "https://via.placeholder.com/150"}
                           alt={session.instructorId?.name}
-                          className="w-12 h-12 rounded-full border-2 border-gray-200"
+                          className="w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-gray-200 object-cover"
                         />
                         <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-white"></div>
                       </div>
@@ -338,10 +249,14 @@ const LearningDashboard = () => {
                           </span>
                         </div>
 
-                        <h4 className="font-semibold text-gray-900">{session?.programName}</h4>
-                        <p className="text-gray-600 text-sm">with {session.instructorId?.name}</p>
+                        <h4 className="font-semibold text-gray-900 text-sm sm:text-base">
+                          {session?.programName}
+                        </h4>
+                        <p className="text-gray-600 text-xs sm:text-sm">
+                          with {session.instructorId?.name}
+                        </p>
 
-                        <div className="flex items-center gap-4 text-sm text-gray-500">
+                        <div className="flex flex-wrap items-center gap-4 text-xs sm:text-sm text-gray-500">
                           <div className="flex items-center gap-1">
                             <Calendar className="w-4 h-4" />
                             <span>
@@ -363,8 +278,10 @@ const LearningDashboard = () => {
                       </div>
                     </div>
 
-                    <Link to={`/learningDashboard/mentorshipVideoSection/${session._id}/${session?.instructorId?._id}`}>
-                      <button className="bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
+                    <Link
+                      to={`/learningDashboard/mentorshipVideoSection/${session._id}/${session?.instructorId?._id}`}
+                    >
+                      <button className="w-full sm:w-auto bg-emerald-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
                         Join
                       </button>
                     </Link>
@@ -373,89 +290,21 @@ const LearningDashboard = () => {
               ))}
             </div>
           ) : (
-            <div className="bg-emerald-50 rounded-xl p-8 text-center border border-emerald-100">
-              <Users className="w-12 h-12 text-emerald-600 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No Upcoming Sessions</h3>
-              <p className="text-gray-600 mb-4">Schedule a mentorship session to get personalized guidance</p>
-              <button className="px-4 py-2 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
-                Browse Mentors
-              </button>
+            <div className="bg-emerald-50 rounded-xl p-6 sm:p-8 text-center border border-emerald-100">
+              <Users className="w-10 h-10 sm:w-12 sm:h-12 text-emerald-600 mx-auto mb-4" />
+              <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-2">No Upcoming Sessions</h3>
+              <p className="text-gray-600 mb-4 text-sm sm:text-base">
+                Schedule a mentorship session to get personalized guidance
+              </p>
+              <Link to={"/findMentor"}>
+                <button className="w-full sm:w-auto px-4 py-2 bg-emerald-600 text-white rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
+                  Browse Mentors
+                </button>
+              </Link>
             </div>
           )}
         </section>
 
-        {/* Statistics */}
-        <section className="space-y-6">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-3">
-              <TrendingUp className="w-6 h-6 text-emerald-600" />
-              Learning Statistics
-            </h2>
-            <p className="text-gray-600 mt-1">Track your progress and achievements</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                label: "Study Time",
-                value: "48.5",
-                unit: "hours this month",
-                change: "+12%",
-                icon: Clock,
-                color: "bg-emerald-100 text-emerald-600",
-              },
-              {
-                label: "Completed",
-                value: "12",
-                unit: "courses finished",
-                change: "+3",
-                icon: Award,
-                color: "bg-blue-100 text-blue-600",
-              },
-              {
-                label: "Certificates",
-                value: "8",
-                unit: "earned",
-                change: "+2",
-                icon: Star,
-                color: "bg-purple-100 text-purple-600",
-              },
-              {
-                label: "Study Streak",
-                value: "15",
-                unit: "days in a row",
-                change: "+5",
-                icon: Flame,
-                color: "bg-orange-100 text-orange-600",
-              },
-            ].map((stat, idx) => {
-              const IconComponent = stat.icon;
-
-              return (
-                <div key={idx} className="bg-white p-6 rounded-xl border border-gray-200 hover:shadow-lg transition-shadow">
-                  <div className="space-y-4">
-                    <div className="flex items-start justify-between">
-                      <div className={`w-12 h-12 ${stat.color} rounded-lg flex items-center justify-center`}>
-                        <IconComponent className="w-6 h-6" />
-                      </div>
-                      <span className="text-xs font-semibold px-2 py-1 bg-emerald-100 text-emerald-700 rounded-full">
-                        {stat.change}
-                      </span>
-                    </div>
-
-                    <div>
-                      <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
-                      <p className="text-sm text-gray-600 mt-1">{stat.unit}</p>
-                      <p className="text-xs text-gray-500 uppercase tracking-wide font-semibold mt-2">
-                        {stat.label}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
 
         {/* CTA Section */}
         <div className="bg-emerald-600 rounded-xl p-8 lg:p-12 text-center text-white">
@@ -479,10 +328,12 @@ const LearningDashboard = () => {
                 Explore Courses
                 <ArrowRight className="w-4 h-4" />
               </Link>
-              <button className="flex items-center gap-2 bg-emerald-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-400 transition-colors">
-                <Calendar className="w-4 h-4" />
-                Schedule Mentorship
-              </button>
+              <Link to={'/findMentor'}>
+                <button className="flex items-center gap-2 bg-emerald-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-emerald-400 transition-colors">
+                  <Calendar className="w-4 h-4" />
+                  Schedule Mentorship
+                </button>
+              </Link>
             </div>
           </div>
         </div>

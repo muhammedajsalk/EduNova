@@ -75,12 +75,12 @@ const Sidebar = () => {
       label: "My Courses",
       icon: <BookOpen size={20} />,
       path: "/learningDashboard/courses",
-      badge: "3"
+      badge: null
     },
     {
       label: "Community",
       icon: <Users size={20} />,
-      path: "/community",
+      path: "/learningDashboard/community",
       badge: null
     },
     {
@@ -92,7 +92,7 @@ const Sidebar = () => {
     {
       label: "Settings",
       icon: <Settings size={20} />,
-      path: "/settings",
+      path: "/learningDashboard/setting",
       badge: null
     },
   ];
@@ -238,7 +238,7 @@ const Sidebar = () => {
                   </div>
                   <div className="py-2">
                     <Link
-                      to="/profile"
+                      to="/learningDashboard/profile"
                       className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 transition-colors"
                       onClick={() => setShowProfileMenu(false)}
                     >
@@ -246,7 +246,7 @@ const Sidebar = () => {
                       View Profile
                     </Link>
                     <Link
-                      to="/settings"
+                      to="/learningDashboard/setting"
                       className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 transition-colors"
                       onClick={() => setShowProfileMenu(false)}
                     >

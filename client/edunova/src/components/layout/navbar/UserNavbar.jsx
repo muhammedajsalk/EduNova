@@ -105,18 +105,6 @@ function UserNavbar() {
 
           <div className="hidden md:flex items-center space-x-3">
             <div className="relative" ref={notificationRef}>
-              <button
-                onClick={() => setNotificationOpen(!notificationOpen)}
-                className="relative p-2 text-gray-600 hover:text-emerald-600 hover:bg-gray-50 rounded-lg transition-all duration-300"
-                aria-label="Notifications"
-              >
-                <FiBell size={20} />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
 
               {notificationOpen && (
                 <div className="absolute right-0 top-12 w-80 bg-white border border-gray-200 rounded-2xl shadow-2xl overflow-hidden animate-slideDown">
@@ -235,14 +223,6 @@ function UserNavbar() {
           </div>
 
           <div className="md:hidden flex items-center space-x-3">
-            <button className="relative p-2 text-gray-600">
-              <FiBell size={20} />
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                  {unreadCount}
-                </span>
-              )}
-            </button>
 
             <button
               onClick={() => setIsOpen(!isOpen)}

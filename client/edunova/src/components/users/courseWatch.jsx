@@ -434,21 +434,7 @@ const CourseVideoPlayer = () => {
                                         <PlayCircle className="w-3 h-3" />
                                         <span>{videoList.length} lectures</span>
                                     </div>
-                                    <div className="flex items-center gap-1 text-xs text-gray-500">
-                                        <Clock className="w-3 h-3" />
-                                        <span>6h 30m total</span>
-                                    </div>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div className="mt-4 bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-4">
-                            <div className="flex items-center justify-between mb-2">
-                                <span className="text-sm font-semibold text-gray-700">Course Progress</span>
-                                <span className="text-sm font-bold text-emerald-600">75%</span>
-                            </div>
-                            <div className="w-full bg-white/80 rounded-full h-2.5 overflow-hidden">
-                                <div className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 rounded-full transition-all duration-500" style={{ width: '75%' }}></div>
                             </div>
                         </div>
                     </div>

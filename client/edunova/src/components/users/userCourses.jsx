@@ -123,62 +123,81 @@ const UserCourseGrid = () => {
   }, []);
 
   const CourseCard = useCallback(
-    ({ course, isListView = false }) => {
-      const c = course.course || {};
-      return (
+  ({ course, isListView = false }) => {
+    const c = course.course || {};
+
+    return (
+      <div
+        className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
+          isListView ? "flex flex-col sm:flex-row gap-4" : ""
+        }`}
+      >
         <div
-          className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
-            isListView ? "flex" : ""
+          className={`relative ${
+            isListView
+              ? "w-full sm:w-80 flex-shrink-0 h-48 sm:h-48"
+              : "w-full h-48 sm:h-56"
           }`}
         >
-          <div className={`relative ${isListView ? "w-80 flex-shrink-0" : "aspect-video"}`}>
-            <img
-              src={c.thumbnail}
-              alt={c.title}
-              className={`w-full object-cover group-hover:scale-105 transition-transform duration-300 ${
-                isListView ? "h-full" : "h-48"
-              }`}
-              loading="lazy"
-              onError={(e) =>
-                (e.target.src = "https://via.placeholder.com/400x250?text=Image+Not+Found")
-              }
-            />
-          </div>
+          <img
+            src={c.thumbnail}
+            alt={c.title}
+            className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 rounded-t-lg sm:rounded-l-lg sm:rounded-r-none"
+            loading="lazy"
+            onError={(e) =>
+              (e.target.src =
+                "https://via.placeholder.com/400x250?text=Image+Not+Found")
+            }
+          />
+        </div>
 
-          <div className={`p-6 ${isListView ? "flex-1" : ""}`}>
+        <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between">
+          <div>
             <div className="flex items-center gap-2 mb-2">
               <BookOpen className="w-4 h-4 text-emerald-600" />
-              <span className="text-sm text-emerald-600 font-medium">{c.category}</span>
+              <span className="text-sm sm:text-base text-emerald-600 font-medium">
+                {c.category}
+              </span>
             </div>
 
-            <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors">
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600 transition-colors line-clamp-2">
               {c.title}
             </h3>
 
-            <p className="text-gray-600 text-sm mb-4 line-clamp-2">{c.description}</p>
+            <p className="text-gray-600 text-sm sm:text-base mb-4 line-clamp-3">
+              {c.description}
+            </p>
 
-            <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+            <div className="flex items-center gap-4 mb-4 text-sm sm:text-base text-gray-500">
               <div className="flex items-center gap-1">
                 <Calendar className="w-4 h-4" />
-                {course.courseStartDate ? new Date(course.courseStartDate).toLocaleDateString() : "N/A"}
+                <span>
+                  {course.courseStartDate
+                    ? new Date(course.courseStartDate).toLocaleDateString()
+                    : "N/A"}
+                </span>
               </div>
             </div>
+          </div>
 
-            <div className="flex items-center justify-between">
+          <div className="mt-auto">
+            <Link to={`/learningDashboard/courseWatching/${c._id}`}>
               <button
-                className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+                className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center gap-2 text-sm sm:text-base"
                 aria-label={`View course ${c.title}`}
               >
                 <Eye className="w-4 h-4" />
-                <Link to={`/learningDashboard/courseWatching/${c._id}`}>View Course</Link>
+                View Course
               </button>
-            </div>
+            </Link>
           </div>
         </div>
-      );
-    },
-    []
-  );
+      </div>
+    );
+  },
+  []
+);
+
 
   const Pagination = () => {
     const { totalPages } = paginationData;
@@ -319,8 +338,6 @@ const UserCourseGrid = () => {
               <option value="oldest">Oldest First</option>
               <option value="popular">Most Popular</option>
               <option value="rating">Highest Rated</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
             </select>
 
             <div
