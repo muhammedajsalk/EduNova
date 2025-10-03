@@ -1,7 +1,7 @@
 const CourseModel = require("../../models/courseModel");
 const nodemailer = require("nodemailer");
 require('dotenv').config()
-
+const { sendNotification } = require("../../utilis/socketNotification");
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {

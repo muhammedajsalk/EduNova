@@ -62,9 +62,11 @@ import NotificationsPageAdmin from './components/admin/notification'
 import { Toaster } from 'react-hot-toast'
 import MentorshipVideoCallSection from './components/users/mentorshipJoinSection'
 import InstructorMentorshipVideoCallSection from './components/instructors/instructor page/instructorMentorshipVideoSection'
-import {PeerProvider} from './utilis/peer'
+import { PeerProvider } from './utilis/peer'
 import ComingSoonPage from './utilis/commingSoon'
 import ErrorFixingPage from './utilis/errorFixing'
+import { UserProfile } from './components/users/profile'
+import { InstructorProfile } from './components/instructors/instructor page/instructorProfile'
 
 
 
@@ -193,21 +195,23 @@ function Routers() {
               element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['user']} />}
             >
               <Route path="/learningDashboard" element={<UserDashboardLayout />}>
+                <Route path="profile" element={<UserProfile />} />
                 <Route index element={<LearningDashboard />} />
                 <Route path="courses" element={<UserCourses />} />
                 <Route path="courseWatching/:id" element={<CourseVideoPlayer />} />
                 <Route path="studentChat/:instructorId/:roomId" element={<StudentChatBox />} />
                 <Route path="notification" element={<NotificationsPage />} />
-                <Route path="community" element={<ComingSoonPage/>} />
-                <Route path="setting" element={<ComingSoonPage/>} />
-                <Route path="profile" element={<ComingSoonPage/>} />
+                <Route path="community" element={<ComingSoonPage />} />
+                <Route path="setting" element={<ComingSoonPage />} />
                 <Route path="mentorshipVideoSection/:id/:instructorId" element={<ErrorFixingPage />} />
               </Route>
             </Route>
             <Route
               element={<RoleProtectedRoute user={user} loading={loading} allowedRoles={['instructor']} />}
             >
+
               <Route path="/instructorDashboard" element={<DashboardLayout />}>
+                <Route path="profile" element={<InstructorProfile />} />
                 <Route index element={<InstructorHome />} />
                 <Route path="courses" element={<InstructorAllCourse />} />
                 <Route path="createCourse" element={<CreateCourse />} />
@@ -216,7 +220,11 @@ function Routers() {
                 <Route path="Mentorship/scheduledStudent" element={<ScheduledStudents />} />
                 <Route path="Mentorship/scheduledStudent/creation" element={<MentorshipProgramCreator />} />
                 <Route path="notification" element={<NotificationsPageInstructor />} />
-                <Route path="mentorshipVideoSection/:id/:userId" element={<InstructorMentorshipVideoCallSection />} />
+                <Route path="analytics" element={<ComingSoonPage />} />
+                <Route path="mentorshipVideoSection/:id/:userId" element={<ErrorFixingPage />} />
+                <Route path="earnings" element={<ComingSoonPage />} />
+                <Route path="setting" element={<ComingSoonPage />} />
+                <Route path="profile" element={<ComingSoonPage />} />
               </Route>
             </Route>
 

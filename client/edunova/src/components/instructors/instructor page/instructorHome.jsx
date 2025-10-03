@@ -29,14 +29,19 @@ const InstructorDashboard = () => {
   const [timeRange, setTimeRange] = useState('3months');
   const [data, setData] = useState([])
   const [totalWatchTime, setTotalWatchTime] = useState(null)
-  const [topCourses,setTopCourses]=useState([])
+  const [topCourses, setTopCourses] = useState([])
   const { user } = useContext(UserContext);
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/instructor/course/courseByInstructorId`, { withCredentials: true })
-      .then((res) => setData(res.data.data))
-      .catch((err) => {})
-  }, [])
+      .then((res) => {
+        const approvedCourses = res.data.data.filter(course => course.status === 'approved');
+        setData(approvedCourses);
+      })
+      .catch((err) => {
+      });
+  }, []);
+
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/instructor/course/totalWatchTime`, { withCredentials: true })
@@ -46,17 +51,16 @@ const InstructorDashboard = () => {
         setTotalWatchTime(minutes);
       }
       )
-      .catch((err) => {})
+      .catch((err) => { })
   }, [])
 
-  useEffect(()=>{
-    axios.get(`http://localhost:5000/api/instructor/topLectures/${user?._id}`,{withCredentials:true})
-    .then((res)=>{
-      setTopCourses(res.data.data)
-    })
-    .catch((err)=>{})
-  },[])
-
+  useEffect(() => {
+    axios.get(`http://localhost:5000/api/instructor/topLectures/${user?._id}`, { withCredentials: true })
+      .then((res) => {
+        setTopCourses(res.data.data)
+      })
+      .catch((err) => { })
+  }, [])
 
 
   const stats = [
@@ -111,43 +115,6 @@ const InstructorDashboard = () => {
     { month: 'Jun', revenue: 12458, students: 145 },
   ];
 
-  const activities = [
-    {
-      message: 'New enrollment in "Advanced Web Development"',
-      time: "2 hours ago",
-      type: "enrollment",
-      icon: Users,
-      color: "text-blue-500"
-    },
-    {
-      message: 'New comment on "Python Basics"',
-      time: "4 hours ago",
-      type: "comment",
-      icon: MessageCircle,
-      color: "text-green-500"
-    },
-    {
-      message: 'Student completed "UI/UX Design Fundamentals"',
-      time: "6 hours ago",
-      type: "completion",
-      icon: Award,
-      color: "text-purple-500"
-    },
-    {
-      message: 'Course "React Hooks" reached 1000 students',
-      time: "1 day ago",
-      type: "milestone",
-      icon: Target,
-      color: "text-orange-500"
-    },
-    {
-      message: 'New 5-star review received',
-      time: "2 days ago",
-      type: "review",
-      icon: Star,
-      color: "text-yellow-500"
-    }
-  ];
 
   const StatCard = ({ stat }) => {
 
@@ -193,10 +160,6 @@ const InstructorDashboard = () => {
             </div>
           </div>
           <div className="flex items-center space-x-3">
-            <button className="p-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow relative">
-              <Bell className="w-5 h-5 text-gray-600" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full text-white text-xs flex items-center justify-center">3</span>
-            </button>
             <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg font-medium hover:shadow-md transition-all duration-300">
               <Link to={'/instructorDashboard/createCourse'}>
                 Create Course
@@ -224,8 +187,8 @@ const InstructorDashboard = () => {
                     key={period}
                     onClick={() => setTimeRange(period)}
                     className={`px-3 py-1 text-sm rounded-md font-medium transition-all ${timeRange === period
-                        ? 'bg-blue-500 text-white shadow-sm'
-                        : 'text-gray-600 hover:bg-gray-100'
+                      ? 'bg-blue-500 text-white shadow-sm'
+                      : 'text-gray-600 hover:bg-gray-100'
                       }`}
                   >
                     {period === '1month' ? '1M' : period === '3months' ? '3M' : '6M'}
@@ -286,57 +249,33 @@ const InstructorDashboard = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg sm:text-xl font-bold text-gray-900">Recent Activity</h2>
-              <button className="text-blue-600 hover:text-blue-700 text-sm font-medium flex items-center">
-                View All
-                <ChevronRight className="w-4 h-4 ml-1" />
-              </button>
-            </div>
-            <div className="space-y-3">
-              {activities.map((activity, index) => {
-                const IconComponent = activity.icon;
-                return (
-                  <div key={index} className="flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors">
-                    <div className={`p-2 rounded-lg bg-gray-100`}>
-                      <IconComponent className={`w-4 h-4 ${activity.color}`} />
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">{activity.message}</p>
-                      <p className="text-xs text-gray-500 flex items-center mt-1">
-                        <Clock className="w-3 h-3 mr-1" />
-                        {activity.time}
-                      </p>
-                    </div>
-                    <button className="p-1 hover:bg-gray-200 rounded">
-                      <MoreVertical className="w-4 h-4 text-gray-400" />
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
+        <div className="grid grid-cols-1 lg:grid-cols-1">
           <div className="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100">
             <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3 mb-4">
               <button className="p-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:shadow-md transition-all duration-300">
-                <PlayCircle className="w-5 h-5 mb-1" />
-                <span className="text-sm font-medium">Create Course</span>
+                <Link to={'/instructorDashboard/createCourse'}>
+                  <PlayCircle className="w-5 h-5 mb-1" />
+                  <span className="text-sm font-medium">Create Course</span>
+                </Link>
               </button>
               <button className="p-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:shadow-md transition-all duration-300">
-                <BarChart3 className="w-5 h-5 mb-1" />
-                <span className="text-sm font-medium">View Analytics</span>
+                <Link to={'/instructorDashboard/analytics'}>
+                  <BarChart3 className="w-5 h-5 mb-1" />
+                  <span className="text-sm font-medium">View Analytics</span>
+                </Link>
               </button>
               <button className="p-3 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-lg hover:shadow-md transition-all duration-300">
-                <MessageCircle className="w-5 h-5 mb-1" />
-                <span className="text-sm font-medium">Messages</span>
+                <Link to={'/instructorDashboard/courses'}>
+                  <MessageCircle className="w-5 h-5 mb-1" />
+                  <span className="text-sm font-medium">Messages</span>
+                </Link>
               </button>
               <button className="p-3 bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-lg hover:shadow-md transition-all duration-300">
-                <Activity className="w-5 h-5 mb-1" />
-                <span className="text-sm font-medium">Live Sessions</span>
+                <Link to={'/instructorDashboard/Mentorship/scheduledStudent'}>
+                  <Activity className="w-5 h-5 mb-1" />
+                  <span className="text-sm font-medium">Live Sessions</span>
+                </Link>
               </button>
             </div>
 

@@ -173,6 +173,12 @@ const ComingSoonPage = () => {
           <p className="text-xl md:text-2xl text-gray-700 mb-2 font-semibold">
             Your Learning Journey Begins Here
           </p>
+
+          {/* 👇 Added line here */}
+          <p className="text-lg text-emerald-700 font-medium mb-6 animate-pulse">
+            We’re currently working on it 🚀
+          </p>
+
           <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
             We're crafting an amazing educational experience just for you. Get ready to unlock your potential!
           </p>

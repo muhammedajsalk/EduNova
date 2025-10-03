@@ -193,7 +193,7 @@ function UserNavbar() {
                       <span className="text-gray-700 group-hover:text-emerald-600">Learning Dashboard</span>
                     </Link>
                     <Link
-                      to="/profile"
+                      to="/learningDashboard/profile"
                       className="flex items-center space-x-3 px-4 py-2.5 hover:bg-emerald-50 transition-colors group"
                       onClick={() => setDesktopProfileOpen(false)}
                     >
@@ -284,7 +284,7 @@ function UserNavbar() {
                   <span>Learning Dashboard</span>
                 </Link>
                 <Link
-                  to="/profile"
+                  to="/learningDashboard/profile"
                   onClick={closeMenu}
                   className="flex items-center space-x-3 px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
                 >

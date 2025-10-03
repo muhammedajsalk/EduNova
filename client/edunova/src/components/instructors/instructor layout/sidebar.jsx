@@ -69,19 +69,13 @@ const InstructorSidebar = () => {
       label: "My Courses",
       icon: <BookOpen size={20} />,
       path: "/instructorDashboard/courses",
-      badge: "5"
-    },
-    {
-      label: "Student Messages",
-      icon: <Users size={20} />,
-      path: "/instructorDashboard/student_message",
-      badge: "3"
+      badge: null
     },
     {
       label: "Mentor Section",
       icon: <Activity size={20} />,
       path: "/instructorDashboard/Mentorship/scheduledStudent",
-      badge: "2"
+      badge: null
     },
     {
       label: "Earnings",
@@ -98,7 +92,7 @@ const InstructorSidebar = () => {
     {
       label: "Settings",
       icon: <Settings size={20} />,
-      path: "/instructorDashboard/settings",
+      path: "/instructorDashboard/setting",
       badge: null
     },
   ];
@@ -247,7 +241,7 @@ const InstructorSidebar = () => {
                       View Profile
                     </Link>
                     <Link
-                      to="/instructorDashboard/settings"
+                      to="/instructorDashboard/setting"
                       className="flex items-center gap-3 px-4 py-2 text-sm text-gray-700 hover:bg-emerald-50 transition-colors"
                       onClick={() => setShowProfileMenu(false)}
                     >

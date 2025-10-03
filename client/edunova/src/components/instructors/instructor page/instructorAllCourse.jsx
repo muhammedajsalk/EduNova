@@ -179,63 +179,77 @@ const CourseGrid = () => {
   );
 
   const CourseCard = ({ course, isListView = false }) => (
-    <div
-      className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
-        isListView ? "flex" : ""
-      }`}
-    >
-      <div className={`relative ${isListView ? "w-80 flex-shrink-0" : "aspect-video"}`}>
-        <img
-          src={course.thumbnail}
-          alt={course.title}
-          className={`w-full object-cover group-hover:scale-105 transition-transform duration-300 ${
-            isListView ? "h-full" : "h-48"
-          }`}
-          loading="lazy"
-          onError={e => (e.target.src = "https://via.placeholder.com/400x250?text=Image+Not+Found")}
-        />
+  <div
+    className={`bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden group ${
+      isListView ? "flex" : ""
+    }`}
+  >
+    <div className={`relative ${isListView ? "w-80 flex-shrink-0" : "aspect-video"}`}>
+      <img
+        src={course.thumbnail}
+        alt={course.title}
+        className={`w-full object-cover group-hover:scale-105 transition-transform duration-300 ${
+          isListView ? "h-full" : "h-48"
+        }`}
+        loading="lazy"
+        onError={e => (e.target.src = "https://via.placeholder.com/400x250?text=Image+Not+Found")}
+      />
+    </div>
+
+    <div className={`p-6 ${isListView ? "flex-1" : ""}`}>
+      {/* Category and Status */}
+      <div className="flex items-center gap-2 mb-2">
+        <BookOpen className="w-4 h-4 text-indigo-600" />
+        <span className="text-sm text-indigo-600 font-medium">{course.category}</span>
+        {course.status && (
+          <span
+            className={`ml-2 px-2 py-1 rounded-full text-xs font-semibold ${
+              course.status === "approved"
+                ? "bg-green-100 text-green-800"
+                : course.status === "pending"
+                ? "bg-yellow-100 text-yellow-800"
+                : "bg-gray-100 text-gray-800"
+            }`}
+          >
+            {course.status.charAt(0).toUpperCase() + course.status.slice(1)}
+          </span>
+        )}
       </div>
 
-      <div className={`p-6 ${isListView ? "flex-1" : ""}`}>
-        <div className="flex items-center gap-2 mb-2">
-          <BookOpen className="w-4 h-4 text-indigo-600" />
-          <span className="text-sm text-indigo-600 font-medium">{course.category}</span>
+      <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
+        {course.title}
+      </h3>
+
+      <p className="text-gray-600 text-sm mb-4 line-clamp-2">{course.description}</p>
+
+      <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
+        <div className="flex items-center gap-1">
+          <Users className="w-4 h-4" />
+          {course.students?.length} students
+        </div>
+        <div className="flex items-center gap-1">
+          <Calendar className="w-4 h-4" />
+          {new Date(course.createdAt).toLocaleDateString()}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          {/* Add extra actions here if needed */}
         </div>
 
-        <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
-          {course.title}
-        </h3>
-
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">{course.description}</p>
-
-        <div className="flex items-center gap-4 mb-4 text-sm text-gray-500">
-          <div className="flex items-center gap-1">
-            <Users className="w-4 h-4" />
-            {course.students?.length} students
-          </div>
-          <div className="flex items-center gap-1">
-            <Calendar className="w-4 h-4" />
-            {new Date(course.createdAt).toLocaleDateString()}
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-          </div>
-
-          <button
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
-            aria-label={`View course ${course.title}`}
-          >
-            <Eye className="w-4 h-4" />
-            <Link to={`/instructorDashBoard/CourseView/${course._id}`}>
-                View Course
-            </Link>
-          </button>
-        </div>
+        <button
+          className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center gap-2"
+          aria-label={`View course ${course.title}`}
+        >
+          <Eye className="w-4 h-4" />
+          <Link to={`/instructorDashBoard/CourseView/${course._id}`}>View Course</Link>
+        </button>
       </div>
     </div>
-  );
+  </div>
+);
+
 
   const Pagination = () => {
     const { totalPages } = paginationData;
@@ -383,9 +397,6 @@ const CourseGrid = () => {
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
               <option value="popular">Most Popular</option>
-              <option value="rating">Highest Rated</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
             </select>
 
             <div

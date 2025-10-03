@@ -17,7 +17,7 @@ const topCoursesByInstructor = async (req, res) => {
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
     const pipeline = [
-      { $match: { instructorId: new mongoose.Types.ObjectId(id) } },
+      { $match: { instructorId: new mongoose.Types.ObjectId(id),status:"approved" } },
 
       { $unwind: "$curriculum" },
       { $unwind: "$curriculum.lectures" },
