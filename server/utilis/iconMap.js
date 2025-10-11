@@ -1,21 +1,3 @@
-import {
-  Bell,
-  ShoppingBag,
-  MessageSquare,
-  AlertCircle,
-  XCircle,
-  Settings,
-  User,
-  CheckCircle,
-  Calendar,
-  Mail,
-  Clock,
-  Heart,
-  Info,
-  GraduationCap,
-  UserCheck,
-} from "lucide-react";
-
 export const ICONS_MAP = {
   bell: Bell,
   shoppingbag: ShoppingBag,
