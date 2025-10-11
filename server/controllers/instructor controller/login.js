@@ -23,8 +23,8 @@ async function login(req, res) {
                 const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id, role: "instructor" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
                 res.cookie("accesTokken", accesTokken, {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === "production" ? true : false,
-                    sameSite: 'none',
+                    secure: process.env.NODE_ENV === "production",
+                    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
                     maxAge: 60 * 60 * 1000
                 })
                 return res.status(200).json({ success: true, message: "instructor succefully logged" ,data:isEmailIsAvailable})
@@ -40,8 +40,8 @@ async function login(req, res) {
         const accesTokken = await jwt.sign({ id: instructor._id, role: "instructor" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production" ? true : false,
-            sameSite: 'none',
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
             maxAge: 60 * 60 * 1000
         })
         res.status(200).json({ success: true, message: "instructor succefully logged" ,data:instructor})
