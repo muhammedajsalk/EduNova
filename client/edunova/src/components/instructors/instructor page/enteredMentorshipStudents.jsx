@@ -14,7 +14,11 @@ const ScheduledStudents = () => {
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/instructor/getAllMentorship", { withCredentials: true })
-      .then((res) => setMentorship(res.data?.data))
+      .then((res) => {
+        setMentorship(res.data?.data)
+        console.log(res.data)
+      }
+      )
       .catch((err) => {})
   }, [])
 
@@ -78,7 +82,7 @@ const ScheduledStudents = () => {
             <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-lg flex items-center gap-2 transition-colors duration-200">
               <Eye size={20} />
               <span className="font-medium">
-                <Link to={'/instructorDashboard/Mentorship/scheduledStudent/preview'}>
+                <Link to={'/instructorDashboard/mentorship/previous'}>
                   Current Mentorship Preview
                 </Link>
               </span>

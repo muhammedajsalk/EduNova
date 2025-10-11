@@ -121,13 +121,6 @@ const CourseViewPage = () => {
                                     </p>
                                     <div className="flex flex-wrap items-center gap-6 text-sm">
                                         <div className="flex items-center gap-2">
-                                            <div className="flex items-center">
-                                                {[...Array(5)].map((_, i) => (
-                                                    <FaStar key={i} className={i < 4 ? "text-yellow-400" : "text-gray-400"} />
-                                                ))}
-                                            </div>
-                                            <span className="font-semibold">4.8</span>
-                                            <span className="text-blue-100">(1,234 reviews)</span>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <FaUsers />

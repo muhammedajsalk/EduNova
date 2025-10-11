@@ -149,7 +149,7 @@ const InstructorBooking = () => {
   const days = getDaysInMonth(currentMonth);
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 mt-16">
+    <div className="min-h-screen bg-gray-50 p-4 mt-25">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         <div className="lg:col-span-2 space-y-6">

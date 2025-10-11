@@ -31,7 +31,7 @@ function Login() {
                 setNotificationCo(unread);
             }
             )
-            .catch((err) => {})
+            .catch((err) => { })
     }
 
     function loginAccount(values) {
@@ -114,7 +114,16 @@ function Login() {
                                     axios.post('http://localhost:5000/api/users/auth/login', credentialResponse, { withCredentials: true })
                                         .then((res) => {
                                             setUser({ role: "user", ...res.data?.data })
-                                            toast.success(res.data.message)
+                                            toast.success(res.data.message, {
+                                                position: "top-right",
+                                                autoClose: 3000, // closes after 3 seconds
+                                                hideProgressBar: false,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                                theme: "light",
+                                            })
                                             const userId = res.data?.data?._id
                                             notificationDataGet(userId)
                                             setTimeout(() => {
@@ -130,7 +139,7 @@ function Login() {
                                         })
                                 }}
                                 onError={() => {
-                                    
+
                                 }}
                             />
                         </div>
@@ -245,7 +254,7 @@ function Login() {
                                         })
                                 }}
                                 onError={() => {
-                                    
+
                                 }}
                             />
                         </div>

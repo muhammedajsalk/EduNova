@@ -16,7 +16,7 @@ const instructorSchema = new mongoose.Schema({
     },
 
     avatar: {
-        type: String, 
+        type: String,
     },
 
     bio: {
@@ -25,7 +25,7 @@ const instructorSchema = new mongoose.Schema({
     },
 
     skills: {
-        type: [String], 
+        type: [String],
     },
 
     myCourses: [{
@@ -61,13 +61,13 @@ const instructorSchema = new mongoose.Schema({
         degreeCertificate: { type: String },
         experienceLetter: { type: String },
         idProof: { type: String },
-        certification:{type:String}
-        
+        certification: { type: String }
+
     },
 
     verificationStatus: {
         type: String,
-        enum: ["pending", "approved", "rejected","default"],
+        enum: ["pending", "approved", "rejected", "default"],
         default: "default",
     },
 
@@ -89,8 +89,8 @@ const instructorSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Admin",
     },
-    otp:{
-        type:String
+    otp: {
+        type: String
     },
     otpExpiry: {
         type: Date
@@ -107,28 +107,37 @@ const instructorSchema = new mongoose.Schema({
         type: String,
         default: "instructor"
     },
-    isActive:{
-        type:Boolean,
-        default:false
+    isActive: {
+        type: Boolean,
+        default: false
     },
-    students:{
-        type:Number,
-        default:0
+    students: {
+        type: Number,
+        default: 0
     },
-    company_revenue:{
-        type:Number,
-        default:0
+    company_revenue: {
+        type: Number,
+        default: 0
     },
-    profession:{
-        type:String
+    profession: {
+        type: String
     },
-    watchingHours:{
-        type:Number,
-        default:0
-    }
+    watchingHours: {
+        type: Number,
+        default: 0
+    },
+    payoutMethods: [{
+        methodType: { type: String, enum: ['bank', 'upi'], required: true },
+        accountHolderName: String, // For bank
+        accountNumber: String,     // For bank
+        ifsc: String,              // For bank
+        bankName: String,          // For bank
+        upiId: String,             // For UPI
+        isDefault: { type: Boolean, default: false }
+    }]
 }, {
     timestamps: true,
 });
 
-const instructorModel=mongoose.model("instructor", instructorSchema);
+const instructorModel = mongoose.model("instructor", instructorSchema);
 module.exports = instructorModel

@@ -160,7 +160,7 @@ const InstructorMentorshipVideoCallSection = () => {
               <p className="text-slate-400 mb-8">Click below when you’re ready to connect with your student.</p>
               <button
                 onClick={joinVideoCall}
-                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg flex items-center gap-2"
+                className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-8 rounded-lg flex items-center gap-2 mx-33"
               >
                 <Phone className="w-5 h-5" /> Start Call
               </button>

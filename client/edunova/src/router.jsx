@@ -67,6 +67,8 @@ import ComingSoonPage from './utilis/commingSoon'
 import ErrorFixingPage from './utilis/errorFixing'
 import { UserProfile } from './components/users/profile'
 import { InstructorProfile } from './components/instructors/instructor page/instructorProfile'
+import MentorshipPreview from './components/instructors/instructor page/mentorshipPrevius'
+import InstructorEarningsPage from './components/instructors/instructor page/earning'
 
 
 
@@ -221,10 +223,11 @@ function Routers() {
                 <Route path="Mentorship/scheduledStudent/creation" element={<MentorshipProgramCreator />} />
                 <Route path="notification" element={<NotificationsPageInstructor />} />
                 <Route path="analytics" element={<ComingSoonPage />} />
-                <Route path="mentorshipVideoSection/:id/:userId" element={<ErrorFixingPage />} />
-                <Route path="earnings" element={<ComingSoonPage />} />
+                <Route path="mentorshipVideoSection/:id/:userId" element={<InstructorMentorshipVideoCallSection />} />
+                <Route path="earnings" element={<InstructorEarningsPage />} />
                 <Route path="setting" element={<ComingSoonPage />} />
                 <Route path="profile" element={<ComingSoonPage />} />
+                <Route path="mentorship/previous" element={<MentorshipPreview />} />
               </Route>
             </Route>
 

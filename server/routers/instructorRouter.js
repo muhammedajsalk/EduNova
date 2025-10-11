@@ -18,6 +18,8 @@ const instructorTotalWatch = require('../controllers/instructor controller/instr
 const topLecturesByInstructor = require('../controllers/instructor controller/topLectureInstructorById')
 const createMentorShip = require('../controllers/instructor controller/createMentorShip')
 const getAllMentorship = require('../controllers/instructor controller/getAllMentorship')
+const mentorshipById = require('../controllers/instructor controller/mentorshipById')
+const { getEarningsSummary, getTransactions } = require('../controllers/instructor controller/earnings')
 
 
 router.post('/auth/register', [instructorRegisterLimiter,upload.fields([
@@ -43,4 +45,8 @@ router.get("/course/totalWatchTime",jwtAuth,instructorTotalWatch)
 router.get("/topLectures/:id",jwtAuth,topLecturesByInstructor)
 router.post("/createMentorShip",jwtAuth,createMentorShip)
 router.get("/getAllMentorship",jwtAuth,getAllMentorship)
+router.get("/getMentorshipById/:id",jwtAuth,mentorshipById)
+router.get('/summary', getEarningsSummary)
+router.get('/transactions', jwtAuth, getTransactions);
+
 module.exports = router
