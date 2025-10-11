@@ -223,7 +223,7 @@ function Routers() {
                 <Route path="Mentorship/scheduledStudent/creation" element={<MentorshipProgramCreator />} />
                 <Route path="notification" element={<NotificationsPageInstructor />} />
                 <Route path="analytics" element={<ComingSoonPage />} />
-                <Route path="mentorshipVideoSection/:id/:userId" element={<InstructorMentorshipVideoCallSection />} />
+                <Route path="mentorshipVideoSection/:id/:userId" element={<ErrorFixingPage />} />
                 <Route path="earnings" element={<InstructorEarningsPage />} />
                 <Route path="setting" element={<ComingSoonPage />} />
                 <Route path="profile" element={<ComingSoonPage />} />
