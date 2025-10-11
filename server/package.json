@@ -1,10 +1,10 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "MERN Backend Server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "keywords": [],
@@ -25,8 +25,10 @@
     "multer-storage-cloudinary": "^4.0.0",
     "node-cron": "^4.2.1",
     "nodemailer": "^7.0.3",
-    "nodemon": "^3.1.10",
     "razorpay": "^2.9.6",
     "socket.io": "^4.8.1"
+  },
+  "engines": {
+    "node": ">=18.x"
   }
 }
