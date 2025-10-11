@@ -23,7 +23,7 @@ async function login(req, res) {
                 const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id, role: "instructor" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
                 res.cookie("accesTokken", accesTokken, {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
+                    secure: true,
                     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
                     maxAge: 60 * 60 * 1000
                 })
@@ -40,7 +40,7 @@ async function login(req, res) {
         const accesTokken = await jwt.sign({ id: instructor._id, role: "instructor" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
             sameSite: "none",
             maxAge: 60 * 60 * 1000
         })

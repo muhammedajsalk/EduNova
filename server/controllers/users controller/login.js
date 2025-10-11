@@ -23,8 +23,8 @@ async function login(req, res) {
                 const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id, role: isEmailIsAvailable.role }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
                 res.cookie("accesTokken", accesTokken, {
                     httpOnly: true,
-                    secure: process.env.NODE_ENV === "production",
-                    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                    secure: true,
+                    sameSite: "none",
                     maxAge: 60 * 60 * 1000
                 })
                 isEmailIsAvailable.provider = "google"
@@ -58,8 +58,8 @@ async function login(req, res) {
 
             res.cookie("accesTokken", accesTokken, {
                 httpOnly: true,
-                secure: process.env.NODE_ENV === "production",
-                sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+                secure: true,
+                sameSite:"none",
                 maxAge: 60 * 60 * 1000
             })
 
@@ -83,7 +83,7 @@ async function login(req, res) {
         const accesTokken = await jwt.sign({ id: user._id,role:"user" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
+            secure: true,
             sameSite: "none",
             maxAge: 60 * 60 * 1000
         })
