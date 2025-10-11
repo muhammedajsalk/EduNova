@@ -283,7 +283,7 @@ function AdminDashboard() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("http://localhost:5000/api/admin/topLectures")
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/topLectures`)
       .then((res) => {
         setTopWatched(res.data.data[0]?.topWatched || []);
         setTopLiked(res.data.data[0]?.topLiked || []);

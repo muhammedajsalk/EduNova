@@ -4,7 +4,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import UserContext from "../../../userContext";
 
-const socket = io("http://localhost:5000", {
+const socket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
   withCredentials: true,
 });
 
@@ -31,7 +31,7 @@ function InstructorChatBox() {
     try {
       setLoadingStudents(true);
       setError(null);
-      const response = await axios.get(`http://localhost:5000/api/message/course/${courseId}/${currentChatRoomId}`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/message/course/${courseId}/${currentChatRoomId}`, {
         withCredentials: true,
       });
       const fetchedStudents = response.data?.data || [];
@@ -64,7 +64,7 @@ function InstructorChatBox() {
       let chatRoomId = selectedStudent.chatRoomId;
       if (!chatRoomId) {
         axios
-          .post("http://localhost:5000/api/message/chat-room", {
+          .post(`${import.meta.env.VITE_API_BASE_URL}/api/message/chat-room`, {
             userId: selectedStudent._id,
             instructorId: currentUserId,
           })
@@ -94,7 +94,7 @@ function InstructorChatBox() {
       setIsLoading(true);
       setError(null);
       const response = await axios.get(
-        `http://localhost:5000/api/message/chat-room/${currentChatRoomId}/messages`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/message/chat-room/${currentChatRoomId}/messages`,
         { withCredentials: true }
       );
       const formattedMessages = response.data.map((msg) => ({

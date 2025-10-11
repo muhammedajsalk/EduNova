@@ -254,7 +254,7 @@ function InstructorsManagement() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/admin/AllInstructor", { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/AllInstructor`, { withCredentials: true })
       .then((res) => setInstructors(res.data.data))
       .catch(() => setInstructors([]))
       .finally(() => setLoading(false));

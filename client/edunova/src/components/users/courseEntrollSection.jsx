@@ -13,7 +13,7 @@ const CourseEntrollSection = () => {
     const { user } = useContext(UserContext);
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/admin/courseById/${id}`)
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/courseById/${id}`)
             .then((res) => setData(res.data.data))
             .catch((err) => {})
     }, [])
@@ -33,7 +33,7 @@ const CourseEntrollSection = () => {
     }
 
     function entrollCourse(){
-        axios.post(`http://localhost:5000/api/users/course/entroll/${id}`,{},{ withCredentials: true })
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/course/entroll/${id}`,{},{ withCredentials: true })
         .then((res)=>toast.success(res.data.message))
         .catch((err)=>toast.error(err.response?.data?.message || err.message))
     }

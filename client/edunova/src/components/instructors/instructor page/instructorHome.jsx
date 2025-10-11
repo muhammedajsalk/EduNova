@@ -33,7 +33,7 @@ const InstructorDashboard = () => {
   const { user } = useContext(UserContext);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/instructor/course/courseByInstructorId`, { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/course/courseByInstructorId`, { withCredentials: true })
       .then((res) => {
         const approvedCourses = res.data.data.filter(course => course.status === 'approved');
         setData(approvedCourses);
@@ -44,7 +44,7 @@ const InstructorDashboard = () => {
 
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/instructor/course/totalWatchTime`, { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/course/totalWatchTime`, { withCredentials: true })
       .then((res) => {
         const seconds = res?.data?.data?.[0]?.totalWatchTime || 0;
         const minutes = (seconds / 60).toFixed(2);
@@ -55,7 +55,7 @@ const InstructorDashboard = () => {
   }, [])
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/instructor/topLectures/${user?._id}`, { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/topLectures/${user?._id}`, { withCredentials: true })
       .then((res) => {
         setTopCourses(res.data.data)
       })

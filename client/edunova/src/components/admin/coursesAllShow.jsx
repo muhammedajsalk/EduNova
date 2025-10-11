@@ -212,7 +212,7 @@ function CoursesManagement() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/admin/allCourses", { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/allCourses`, { withCredentials: true })
       .then((res) => setCourses(res.data.data))
       .catch((err) => console.error("Fetching issue"))
       .finally(() => setLoading(false));

@@ -40,7 +40,7 @@ const CourseApproval = () => {
 
     useEffect(() => {
         setLoading(true);
-        axios.get(`http://localhost:5000/api/admin/courseById/${id}`,{withCredentials: true})
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/courseById/${id}`,{withCredentials: true})
             .then((res) => {
                 setData(res.data.data)
                 setLoading(false)

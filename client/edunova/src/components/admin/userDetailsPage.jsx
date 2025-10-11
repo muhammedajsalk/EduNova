@@ -142,7 +142,7 @@ function UserProfile() {
   const fetchUserData = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/admin/userById/${id}`, 
+        `${import.meta.env.VITE_API_BASE_URL}/api/admin/userById/${id}`, 
         { withCredentials: true }
       );
       setData(response.data.data);
@@ -182,7 +182,7 @@ function UserProfile() {
     try {
       const newStatus = !data.isActive;
       await axios.post(
-        `http://localhost:5000/api/admin/userBlockAndUnblock/${id}`,
+        `${import.meta.env.VITE_API_BASE_URL}/api/admin/userBlockAndUnblock/${id}`,
         { isActive: newStatus },
         { withCredentials: true }
       );

@@ -93,7 +93,7 @@ function InstructorRegister() {
 
       try {
         const response = await axios.post(
-          'http://localhost:5000/api/instructor/auth/register',
+          `${import.meta.env.VITE_API_BASE_URL}/api/instructor/auth/register`,
           formData,
           {
             headers: {
@@ -141,7 +141,7 @@ function InstructorRegister() {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/users/auth/otpSent',
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/auth/otpSent`,
         {
           email: formik.values.email,
           role: "instructor"
@@ -167,7 +167,7 @@ function InstructorRegister() {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/instructor/auth/emailVerify',
+        `${import.meta.env.VITE_API_BASE_URL}/api/instructor/auth/emailVerify`,
         {
           email: formik.values.email,
           role: "instructor",

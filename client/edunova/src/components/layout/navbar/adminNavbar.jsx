@@ -29,7 +29,7 @@ import { toast, ToastContainer } from "react-toastify";
 import UserContext from "../../../userContext";
 import { getIcon } from "../../../../../../server/utilis/iconMap";
 import { io } from "socket.io-client";
-const socket = io("http://localhost:5000", {
+const socket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
   withCredentials: true,
 });
 
@@ -73,7 +73,7 @@ function AdminNavbar() {
 
   const logOut = () => {
     axios
-      .post("http://localhost:5000/api/users/logout", {}, { withCredentials: true })
+      .post(`${import.meta.env.VITE_API_BASE_URL}/api/users/logout`, {}, { withCredentials: true })
       .then((res) => {
         toast.success("Logged out successfully");
         setTimeout(() => {
@@ -106,7 +106,7 @@ function AdminNavbar() {
   const isActivePath = (path) => location.pathname === path;
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/notification/${user._id}`)
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/notification/${user._id}`)
       .then((res) => setNotification(res.data.slice(0, 4)))
       .catch((err) => {})
   }, [user._id])

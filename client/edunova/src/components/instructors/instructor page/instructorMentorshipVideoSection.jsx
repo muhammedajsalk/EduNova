@@ -55,7 +55,7 @@ const InstructorMentorshipVideoCallSection = () => {
   }, [])
 
   useEffect(() => {
-    socketRef.current = io("http://localhost:5000", { withCredentials: true });
+    socketRef.current = io(`${import.meta.env.VITE_API_BASE_URL}`, { withCredentials: true });
     const socket = socketRef.current;
 
     if (mentorshipId) socket.emit("join-lobby", mentorshipId);

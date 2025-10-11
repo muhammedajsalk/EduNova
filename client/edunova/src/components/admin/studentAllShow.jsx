@@ -163,7 +163,7 @@ function StudentsManagement() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/admin/AllUsers", { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/AllUsers`, { withCredentials: true })
       .then((res) => {
         setUsers(res.data.data);
         setLoading(false);

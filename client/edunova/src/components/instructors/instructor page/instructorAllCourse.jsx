@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
-const API_ENDPOINT = "http://localhost:5000/api/instructor/course/courseByInstructorId";
+const API_ENDPOINT = `${import.meta.env.VITE_API_BASE_URL}/api/instructor/course/courseByInstructorId`;
 
 const COURSES_PER_PAGE_GRID = 9;
 const COURSES_PER_PAGE_LIST = 6;

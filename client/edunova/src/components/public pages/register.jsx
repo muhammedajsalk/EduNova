@@ -26,7 +26,7 @@ function Register() {
       alert("Please confirm your email by entering the 6-digit OTP.");
     }
     setSubmiting(true)
-    axios.post("http://localhost:5000/api/users/auth/register", { ...values, role: "user" }, { withCredentials: true })
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth/register`, { ...values, role: "user" }, { withCredentials: true })
       .then((res) => {
         toast.success(res.data.message)
         setTimeout(() => {
@@ -52,7 +52,7 @@ function Register() {
     e.preventDefault()
     if (!values.email) return toast.warning("Enter your email first");
     setSendingOtp(true);
-    axios.post("http://localhost:5000/api/users/auth/otpSent", { email: values.email, role: "user" })
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth/otpSent`, { email: values.email, role: "user" })
       .then((res) => {
         setOtpInput(true)
         toast.success(res.data.message)
@@ -108,7 +108,7 @@ function Register() {
               <GoogleLogin
                 onSuccess={(credentialResponse) => {
                   setSubmiting(true)
-                  axios.post('http://localhost:5000/api/users/auth/register', credentialResponse, { withCredentials: true })
+                  axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth/register`, credentialResponse, { withCredentials: true })
                     .then((res) => {
                       toast.success(res.data.message)
                       setTimeout(() => {

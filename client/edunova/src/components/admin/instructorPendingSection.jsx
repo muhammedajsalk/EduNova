@@ -18,7 +18,7 @@ function PendingSections() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/admin/instructorPending", {
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorPending`, {
         withCredentials: true,
       })
       .then((res) => setData(res.data.data))

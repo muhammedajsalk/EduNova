@@ -72,7 +72,7 @@ const InstructorEarningsPage = () => {
   const { user } = useContext(UserContext)
 
   useEffect(()=>{
-     axios.get('http://localhost:5000/api/instructor/summary',{instructor:{id:user._id}},{withCredentials:true})
+     axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/summary`,{instructor:{id:user._id}},{withCredentials:true})
      .then(res=>{ 
         console.log(res.data)
      })

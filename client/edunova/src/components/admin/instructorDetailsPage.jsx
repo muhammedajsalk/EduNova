@@ -27,7 +27,7 @@ function InstructorDetailsPage() {
     
     useEffect(() => {
         setLoading(true)
-        axios.get(`http://localhost:5000/api/admin/instructorById/${id}`, { withCredentials: true })
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorById/${id}`, { withCredentials: true })
             .then((res) => {
                 setData(res.data.data)
                 setLoading(false)
@@ -39,25 +39,25 @@ function InstructorDetailsPage() {
     }, [id])
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/api/admin/instructorCourses/${id}`)
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorCourses/${id}`)
             .then((res) => setCourse(res.data.data))
             .catch((err) =>{} )
     }, [id])
 
     function blockAndUnblock() {
         if (data.isActive) {
-            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: false }, { withCredentials: true })
+            axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: false }, { withCredentials: true })
                 .then((res) => {
-                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`, { withCredentials: true })
+                    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorById/${id}`, { withCredentials: true })
                         .then((res) => setData(res.data.data))
                         .catch((err) =>{} )
                     toast.success(res.data.message)
                 })
                 .catch((err) => toast.error(err.response?.data?.message || err.message))
         } else {
-            axios.post(`http://localhost:5000/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: true }, { withCredentials: true })
+            axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorBlockAndUnBlock/${id}`, { isActive: true }, { withCredentials: true })
                 .then((res) => {
-                    axios.get(`http://localhost:5000/api/admin/instructorById/${id}`, { withCredentials: true })
+                    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorById/${id}`, { withCredentials: true })
                         .then((res) => setData(res.data.data))
                         .catch((err) =>{} )
                     toast.success(res.data.message)

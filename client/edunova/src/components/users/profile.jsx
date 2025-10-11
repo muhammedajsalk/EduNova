@@ -22,7 +22,7 @@ export const UserProfile = () => {
         setError(null);
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/admin/userById/${user._id}`,
+            `${import.meta.env.VITE_API_BASE_URL}/api/admin/userById/${user._id}`,
             { withCredentials: true }
           );
 

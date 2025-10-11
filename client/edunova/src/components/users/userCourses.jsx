@@ -24,7 +24,7 @@ const UserCourseGrid = () => {
   const { user } = useContext(UserContext);
 
   const API_ENDPOINT = useMemo(
-    () => `http://localhost:5000/api/admin/userById/${user?._id}`,
+    () => `${import.meta.env.VITE_API_BASE_URL}/api/admin/userById/${user?._id}`,
     [user?._id]
   );
 

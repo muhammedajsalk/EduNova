@@ -79,10 +79,10 @@ function Routers() {
   const [notificationCo, setNotificationCo] = useState(null)
   const [participants, setParticipants] = useState(0);
   const [videoUserName, setVideoUserName] = useState("")
-  const socket = useMemo(() => io("http://localhost:5000", { withCredentials: true }), []);
+  const socket = useMemo(() => io(`${import.meta.env.VITE_API_BASE_URL}`, { withCredentials: true }), []);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/public/me', { withCredentials: true })
+    axios.get('https://edunova-o6jf.onrender.com/api/public/me', { withCredentials: true })
       .then((res) => setUser(res.data.data))
       .catch((err) => {
         setUser(null)

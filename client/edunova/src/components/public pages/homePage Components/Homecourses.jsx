@@ -7,7 +7,7 @@ function HomeCourses() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/public/topRatedCourse")
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/public/topRatedCourse`)
       .then((res) => setCourses(res.data.data || []))
       .catch((err) => console.error("Error fetching courses:", err));
   }, []);

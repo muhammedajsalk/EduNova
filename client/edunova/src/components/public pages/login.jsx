@@ -25,7 +25,7 @@ function Login() {
     }
 
     const notificationDataGet = (id) => {
-        axios.get(`http://localhost:5000/api/notification/${id}`)
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/notification/${id}`)
             .then((res) => {
                 const unread = res.data.filter(n => !n.read).length;
                 setNotificationCo(unread);
@@ -37,7 +37,7 @@ function Login() {
     function loginAccount(values) {
         if (role === "student") {
             setSubmiting(true)
-            axios.post("http://localhost:5000/api/users/auth/login", values, { withCredentials: true })
+            axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth/login`, values, { withCredentials: true })
                 .then((res) => {
                     setUser({ role: "user", ...res.data?.data })
                     toast.success(res.data.message)
@@ -51,7 +51,7 @@ function Login() {
                 .finally(() => setSubmiting(false))
         } else {
             setSubmiting(true)
-            axios.post("http://localhost:5000/api/instructor/auth/login", values, { withCredentials: true })
+            axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/auth/login`, values, { withCredentials: true })
                 .then((res) => {
                     setUser({ role: "instructor", ...res.data?.data })
                     toast.success(res.data.message)
@@ -111,7 +111,7 @@ function Login() {
                             <GoogleLogin
                                 onSuccess={(credentialResponse) => {
                                     setSubmiting(true)
-                                    axios.post('http://localhost:5000/api/users/auth/login', credentialResponse, { withCredentials: true })
+                                    axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth/login`, credentialResponse, { withCredentials: true })
                                         .then((res) => {
                                             setUser({ role: "user", ...res.data?.data })
                                             toast.success(res.data.message, {
@@ -235,7 +235,7 @@ function Login() {
                             <GoogleLogin
                                 onSuccess={(credentialResponse) => {
                                     setSubmiting(true)
-                                    axios.post('http://localhost:5000/api/instructor/auth/login', credentialResponse, { withCredentials: true })
+                                    axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/auth/login`, credentialResponse, { withCredentials: true })
                                         .then((res) => {
                                             setUser({ role: "instructor", ...res.data?.data })
                                             toast.success(res.data.message)

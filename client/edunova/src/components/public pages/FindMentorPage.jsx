@@ -50,7 +50,7 @@ const FindMentorPage = () => {
   useEffect(() => {
     setIsLoading(true);
     axios
-      .get("http://localhost:5000/api/public/allMentorShip")
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/public/allMentorShip`)
       .then((res) => {
         setMentorsData(res.data?.data || []);
         setIsLoading(false);

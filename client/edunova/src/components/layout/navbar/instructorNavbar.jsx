@@ -25,7 +25,7 @@ function InstructorNavbar() {
   }, []);
 
   const logOut=()=>{
-      axios.post("http://localhost:5000/api/users/logout",{},{withCredentials:true})
+      axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/logout`,{},{withCredentials:true})
       .then((res)=>{
         toast.success("logOut Successfully")
         setTimeout(() => {

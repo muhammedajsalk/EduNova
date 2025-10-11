@@ -42,7 +42,7 @@ const SubscriptionPage = () => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        axios.get("http://localhost:5000/api/public/me", { withCredentials: true })
+        axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/public/me`, { withCredentials: true })
             .then((res) => setData(res.data.data))
             .catch((err) => {});
     }, []);
@@ -56,7 +56,7 @@ const SubscriptionPage = () => {
 
         try {
             const res = await axios.post(
-                "http://localhost:5000/api/users/payment/purchaseSubscription",
+                `${import.meta.env.VITE_API_BASE_URL}/api/users/payment/purchaseSubscription`,
                 {
                     amount: amountMap[plan],
                     courseId: plan + "-" + billingCycle,
@@ -77,7 +77,7 @@ const SubscriptionPage = () => {
                 handler: async function (response) {
                     try {
                         const verifyRes = await axios.post(
-                            "http://localhost:5000/api/users/payment/verifyPayment",
+                            `${import.meta.env.VITE_API_BASE_URL}/api/users/payment/verifyPayment`,
                             {
                                 razorpay_payment_id: response?.razorpay_payment_id,
                                 razorpay_order_id: response?.razorpay_order_id,

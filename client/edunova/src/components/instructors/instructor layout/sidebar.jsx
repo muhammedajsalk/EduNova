@@ -39,7 +39,7 @@ const InstructorSidebar = () => {
   }, []);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/notification/${user._id}`)
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/notification/${user._id}`)
       .then((res) => {
         const unread = res.data.filter(n => !n.read).length;
         setNotificationCo(unread);
@@ -50,7 +50,7 @@ const InstructorSidebar = () => {
 
   const logOut = async () => {
     try {
-      await axios.post("http://localhost:5000/api/users/logout", {}, { withCredentials: true });
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/logout`, {}, { withCredentials: true });
       toast.success("Logged out successfully");
       setTimeout(() => navigate("/login"), 1500);
     } catch (err) {

@@ -17,7 +17,7 @@ function AdminLogin() {
 
   function loginAccount() {
     setSubmiting(true)
-    axios.post("http://localhost:5000/api/admin/auth/login", { email, password }, { withCredentials: true })
+    axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/admin/auth/login`, { email, password }, { withCredentials: true })
       .then((res) => {
         setUser({role:"admin"})
         toast.success(res.data.message)
@@ -62,7 +62,7 @@ function AdminLogin() {
             <GoogleLogin
               onSuccess={(credentialResponse) => {
                 setSubmiting(true)
-                axios.post('http://localhost:5000/api/admin/auth/login', credentialResponse, { withCredentials: true })
+                axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/admin/auth/login`, credentialResponse, { withCredentials: true })
                   .then((res) => {
                     setUser({role:"admin"})
                     toast.success(res.data.message)

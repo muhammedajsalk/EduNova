@@ -20,7 +20,7 @@ const LearningDashboard = () => {
 
   useEffect(() => {
     setLoading(true);
-    axios.get(`http://localhost:5000/api/admin/userById/${user?._id}`, { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/userById/${user?._id}`, { withCredentials: true })
       .then((res) => {
         setCoursesData(res?.data?.data?.enrolledCourses || []);
         setLoading(false);
@@ -32,7 +32,7 @@ const LearningDashboard = () => {
   }, [user?._id]);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/users/getUserAllMentorship`, { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/getUserAllMentorship`, { withCredentials: true })
       .then((res) => setMentorshipData(res?.data?.data || []))
       .catch(err => { });
   }, []);

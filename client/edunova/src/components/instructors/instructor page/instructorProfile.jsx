@@ -31,7 +31,7 @@ export const InstructorProfile = () => {
         const fetchInstructorData = async () => {
             try {
                 setLoading(true);
-                const response = await axios.get(`http://localhost:5000/api/admin/instructorById/${user._id}`, { withCredentials: true });
+                const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorById/${user._id}`, { withCredentials: true });
                 setInstructorData(response.data.data);
             } catch (err) {
                 const errorMessage = err.response?.data?.message || err.message || 'Failed to fetch instructor data.';

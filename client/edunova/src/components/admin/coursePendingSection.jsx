@@ -32,7 +32,7 @@ function CoursePendingSections() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get("http://localhost:5000/api/admin/coursePending", { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/coursePending`, { withCredentials: true })
       .then((res) => setData(res.data.data))
       .catch((err) => {
         console.error("Fetching Issue");

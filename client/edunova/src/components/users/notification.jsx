@@ -30,7 +30,7 @@ import UserContext from '../../userContext';
 import { getIcon } from '../../../../../server/utilis/iconMap';
 import { useMemo } from 'react';
 
-const socket = io("http://localhost:5000", {
+const socket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
   withCredentials: true,
 });
 
@@ -44,7 +44,7 @@ const NotificationsPage = () => {
   const { user, notificationCo, setNotificationCo } = useContext(UserContext);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/notification/${user._id}`)
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/notification/${user._id}`)
       .then((res) => {
         setNotifications(res.data);
         const unread = res.data.filter(n => !n.read).length;
@@ -150,20 +150,20 @@ const NotificationsPage = () => {
     setNotifications(notifications.map(n =>
       n._id === id ? { ...n, read: true } : n
     ));
-    axios.patch(`http://localhost:5000/api/notification/read/${id}`).catch(console.error);
+    axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/notification/read/${id}`).catch(console.error);
     setNotificationCo(prev => prev - 1);
   };
 
   const markAllAsRead = () => {
     setNotifications(notifications.map(n => ({ ...n, read: true })));
-    axios.patch(`http://localhost:5000/api/notification/read-all/${user._id}`).catch(console.error);
+    axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/notification/read-all/${user._id}`).catch(console.error);
     setNotificationCo(0);
   };
 
   const deleteNotification = (id) => {
 
     setNotifications(notifications.filter(n => n._id !== id));
-    axios.delete(`http://localhost:5000/api/notification/${id}`).catch(console.error);
+    axios.delete(`${import.meta.env.VITE_API_BASE_URL}/api/notification/${id}`).catch(console.error);
     setNotificationCo(prev => prev - 1);
 
     setShowDropdown(null);
@@ -171,7 +171,7 @@ const NotificationsPage = () => {
 
   const archiveNotification = (id) => {
     setNotifications(notifications.filter(n => n._id !== id));
-    axios.patch(`http://localhost:5000/api/notification/archive/${id}`).catch(console.error);
+    axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/notification/archive/${id}`).catch(console.error);
     setNotificationCo(prev => prev - 1)
     setShowDropdown(null);
   };
@@ -198,7 +198,7 @@ const NotificationsPage = () => {
         prev.filter((n) => !selectedNotifications.includes(n._id))
       );
 
-      await axios.post(`http://localhost:5000/api/notification/bulk-delete`, {
+      await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/notification/bulk-delete`, {
         ids: selectedNotifications,
       });
 

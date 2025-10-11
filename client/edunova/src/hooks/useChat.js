@@ -11,7 +11,7 @@ export default function useChat(roomId) {
     const fetchMessages = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5000/api/message/chat-room/${roomId}/messages`,
+          `https://edunova-o6jf.onrender.com/api/message/chat-room/${roomId}/messages`,
           { withCredentials: true }
         );
         setMessages(res.data);

@@ -12,7 +12,7 @@ function InstructorDetailsAndDocument() {
     useEffect(() => {
         const fetchInstructor = async () => {
             try {
-                const res = await axios.get(`http://localhost:5000/api/admin/instructorById/${id}`,{withCredentials: true});
+                const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorById/${id}`,{withCredentials: true});
                 setData(res.data?.data);
             } catch (error) {
                 console.error("Error fetching instructor:", error);

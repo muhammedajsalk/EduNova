@@ -9,7 +9,7 @@ function getCookie(name) {
 
 const token = getCookie("accesToken");
 
-export const socket = io("http://localhost:5000", {
+export const socket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
   auth: { token },
   transports: ["websocket"],
   autoConnect: !!token,

@@ -26,7 +26,7 @@ function CourseListing() {
 
   useEffect(() => {
     setLoading(true);
-    axios.get("http://localhost:5000/api/admin/allCourses")
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/allCourses`)
       .then((res) => {
         setCourseData(res.data.data);
         setLoading(false);

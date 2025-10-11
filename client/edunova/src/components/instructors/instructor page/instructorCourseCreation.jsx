@@ -94,7 +94,7 @@ const CreateCourse = () => {
     formData.append("image", file);
 
     const res = await axios.post(
-      "http://localhost:5000/api/instructor/course/thumbnailUploading",
+      `${import.meta.env.VITE_API_BASE_URL}/api/instructor/course/thumbnailUploading`,
       formData,
       {
         withCredentials: true,
@@ -117,7 +117,7 @@ const CreateCourse = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/instructor/course/videoUploading",
+        `${import.meta.env.VITE_API_BASE_URL}/api/instructor/course/videoUploading`,
         formData,
         {
           withCredentials: true,
@@ -151,7 +151,7 @@ const CreateCourse = () => {
       }
 
       await axios.post(
-        "http://localhost:5000/api/instructor/course/courseCreate",
+        `${import.meta.env.VITE_API_BASE_URL}/api/instructor/course/courseCreate`,
         { payload },
         { withCredentials: true }
       );

@@ -11,7 +11,7 @@ function ForgotPassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setForgetLink(true)
-        axios.post("http://localhost:5000/api/users/auth/forgetPassword", { email ,role})
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth/forgetPassword`, { email ,role})
             .then((res) => toast.success("sent a reset link in your email"))
             .catch((err) => {
                 toast.error(err.response?.data?.message || err.message)

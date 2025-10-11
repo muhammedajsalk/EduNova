@@ -4,7 +4,7 @@ import axios from "axios";
 import { useLocation, useParams } from "react-router-dom";
 import UserContext from "../../userContext";
 
-const socket = io("http://localhost:5000", {
+const socket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
   withCredentials: true,
 });
 
@@ -27,7 +27,7 @@ function StudentChat() {
   const chatRoomId = roomId;
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/admin/instructorById/${instructorId}`, { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/admin/instructorById/${instructorId}`, { withCredentials: true })
       .then((res) => setInstructor(res.data?.data))
       .catch((err) => {})
   }, [])
@@ -46,7 +46,7 @@ function StudentChat() {
   const fetchPreviousMessages = async () => {
     try {
       setIsLoading(true);
-      const response = await axios.get(`http://localhost:5000/api/message/chat-room/${roomId}/messages`, {
+      const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/message/chat-room/${roomId}/messages`, {
         withCredentials: true
       });
 

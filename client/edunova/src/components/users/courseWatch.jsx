@@ -73,7 +73,7 @@ const CourseVideoPlayer = () => {
         } else {
             setLiked(true);
         }
-        axios.post("http://localhost:5000/api/users/course/like", { courseId: activeVideo.courseId, lectureId: activeVideo._id }, { withCredentials: true })
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/course/like`, { courseId: activeVideo.courseId, lectureId: activeVideo._id }, { withCredentials: true })
             .then((res) => {})
             .catch((err) => {})
     };
@@ -85,7 +85,7 @@ const CourseVideoPlayer = () => {
         const fetchCourse = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5000/api/admin/courseById/${id}`,
+                    `${import.meta.env.VITE_API_BASE_URL}/api/admin/courseById/${id}`,
                     { cancelToken: sourceRef.current.token, withCredentials: true }
                 );
                 const courseData = response?.data?.data;
@@ -124,7 +124,7 @@ const CourseVideoPlayer = () => {
     }, [id]);
 
     const newChatCreate = () => {
-        axios.post("http://localhost:5000/api/message/chat-room", { userId: user._id, instructorId: course.instructorId?._id }, { withCredentials: true })
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/message/chat-room`, { userId: user._id, instructorId: course.instructorId?._id }, { withCredentials: true })
             .then((res) => {
                 let chatRoomId=res.data?._id
                 navigate(`/learningDashboard/studentChat/${course.instructorId?._id}/${chatRoomId}`)
@@ -146,7 +146,7 @@ const CourseVideoPlayer = () => {
         const fetchSecureUrl = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5000/api/users/course/${activeVideo.courseId}/${encodeURIComponent(
+                    `${import.meta.env.VITE_API_BASE_URL}/api/users/course/${activeVideo.courseId}/${encodeURIComponent(
                         activeVideo.title
                     )}`,
                     { cancelToken: sourceRef.current.token, withCredentials: true }
@@ -188,7 +188,7 @@ const CourseVideoPlayer = () => {
                 const updateWatchTime = async () => {
                     try {
                         await axios.post(
-                            `http://localhost:5000/api/users/course/updateWatchTime`,
+                            `${import.meta.env.VITE_API_BASE_URL}/api/users/course/updateWatchTime`,
                             {
                                 courseId: activeVideo.courseId,
                                 lectureId: activeVideo._id,

@@ -13,7 +13,7 @@ const ScheduledStudents = () => {
   const [mentorship, setMentorship] = useState([])
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/instructor/getAllMentorship", { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/getAllMentorship`, { withCredentials: true })
       .then((res) => {
         setMentorship(res.data?.data)
         console.log(res.data)
