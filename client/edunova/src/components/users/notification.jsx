@@ -27,7 +27,7 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import { useContext } from 'react';
 import UserContext from '../../userContext';
-import { getIcon } from '../../../../../server/utilis/iconMap';
+import { getIcon } from '../../utilis/iconMap';
 import { useMemo } from 'react';
 
 const socket = io(`${import.meta.env.VITE_API_BASE_URL}`, {

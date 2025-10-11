@@ -28,7 +28,7 @@ import { io } from 'socket.io-client';
 import { useContext } from 'react';
 import { useMemo } from 'react';
 import UserContext from '../../../userContext';
-import { getIcon } from '../../../../../../server/utilis/iconMap';
+import { getIcon } from '../../../utilis/iconMap';
 
 const socket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
     withCredentials: true,

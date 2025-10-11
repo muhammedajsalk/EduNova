@@ -27,7 +27,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import UserContext from "../../../userContext";
-import { getIcon } from "../../../../../../server/utilis/iconMap";
+import { getIcon } from "../../../utilis/iconMap";
 import { io } from "socket.io-client";
 const socket = io(`${import.meta.env.VITE_API_BASE_URL}`, {
   withCredentials: true,
