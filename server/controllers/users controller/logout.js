@@ -3,7 +3,7 @@ const logOut=async (req,res)=>{
         res.clearCookie('accesTokken', {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            sameSite: "none",
         });
         res.status(200).json({ message: 'Logged out successfully' });
     } catch (error) {

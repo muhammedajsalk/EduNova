@@ -84,7 +84,7 @@ async function login(req, res) {
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+            sameSite: "none",
             maxAge: 60 * 60 * 1000
         })
         res.status(200).json({
