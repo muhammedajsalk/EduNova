@@ -197,7 +197,7 @@ const ErrorFixingPage = () => {
                                 </button>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <Link to={'/learningDashboard'}>
+                                    <Link to={'/'}>
                                         <button className="flex items-center justify-center py-3 px-6 border-2 border-emerald-200 text-emerald-600 rounded-xl hover:bg-emerald-50 hover:border-emerald-300 transition-all duration-300 group">
                                             <Home className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform duration-300" />
                                             Go Home
