@@ -242,10 +242,10 @@ const InstructorBooking = () => {
             </span>
           </div>
           <div className="flex justify-between text-sm mb-2">
-            <span>Session Rate</span><span>${instructor.amount}.00</span>
+            <span>Session Rate</span><span>₹{instructor.amount}.00</span>
           </div>
           <div className="flex justify-between text-lg font-semibold mb-4">
-            <span>Total</span><span className="text-emerald-600">${instructor.amount}.00</span>
+            <span>Total</span><span className="text-emerald-600">₹{instructor.amount}.00</span>
           </div>
 
           <button

@@ -347,7 +347,7 @@ const FindMentorPage = () => {
                   <h4 className="font-semibold text-gray-900 mb-3">
                     Price Range
                     <span className="ml-2 text-sm font-normal text-gray-600">
-                      ${priceRange[0]} - ${priceRange[1]}/hour
+                      ₹{priceRange[0]} - ₹{priceRange[1]}/hour
                     </span>
                   </h4>
                   <div className="flex gap-3">
@@ -507,7 +507,7 @@ const FindMentorPage = () => {
                           <span className="text-gray-500 text-xs">Starting from</span>
                           <div className="flex items-baseline gap-1">
                             <span className="text-3xl font-bold text-gray-900">
-                              ${mentor.amount}
+                              ₹{mentor.amount}
                             </span>
                             <span className="text-gray-500 text-sm">/hour</span>
                           </div>
