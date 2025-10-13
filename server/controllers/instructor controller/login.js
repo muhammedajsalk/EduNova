@@ -5,7 +5,7 @@ require('dotenv').config()
 const { OAuth2Client } = require('google-auth-library')
 
 async function login(req, res) {
-    try {z
+    try {
         const body = req.body
         if (body.credential) {
             const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
