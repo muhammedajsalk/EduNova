@@ -45,23 +45,6 @@ const CourseEntrollSection = () => {
                         <h1 className="text-3xl font-bold text-gray-900 mb-2">
                             {data.title}
                         </h1>
-                        <p className="text-gray-600 mb-3">
-                            ⭐ 4.8 (8,263 ratings) • 48,000 students enrolled • Last updated
-                            January 2024
-                        </p>
-                        <p className="text-gray-700 mb-4">Created by David Mitchell</p>
-
-                        <div className="flex gap-2 flex-wrap mb-4">
-                            <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm font-semibold">
-                                Bestseller
-                            </span>
-                            <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
-                                New
-                            </span>
-                            <span className="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-sm font-semibold">
-                                Top Rated
-                            </span>
-                        </div>
                     </div>
 
                     <div className="bg-white shadow-lg rounded-lg p-5 w-full lg:w-1/3">
@@ -70,23 +53,14 @@ const CourseEntrollSection = () => {
                                 <button className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition" onClick={()=>entrollCourse()}>
                                     Enroll Now
                                 </button>
-                                <button className="w-full border border-gray-300 py-3 mt-3 rounded-lg font-semibold hover:bg-gray-100 transition">
-                                    Try for Free
-                                </button>
                             </>
                         )}
-                        <ul className="mt-4 text-gray-600 text-sm space-y-2">
-                            <li>✔ 45 hours of video</li>
-                            <li>✔ 72 downloadable resources</li>
-                            <li>✔ Certificate of completion</li>
-                            <li>✔ Lifetime access</li>
-                        </ul>
                     </div>
                 </div>
 
                 <div className="mt-6">
                     <img
-                        src="https://jaro-website.s3.ap-south-1.amazonaws.com/2024/08/programming-background-with-person-working-with-codes-computer_23-2150010125.jpg"
+                        src={data?.thumbnail}
                         alt="Course Preview"
                         className="w-full rounded-lg"
                     />
