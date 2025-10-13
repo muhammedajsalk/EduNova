@@ -24,21 +24,21 @@ async function userRegister(req, res) {
 
         const isEmailIsAvailable = await userModel.findOne({ email: email })
         if (isEmailIsAvailable) {
-            const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id ,role:isEmailIsAvailable.role}, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
+            const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id, role: isEmailIsAvailable.role }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
             res.cookie("accesTokken", accesTokken, {
                 httpOnly: true,
-                secure: false,
-                sameSite: 'strict',
+                secure: true,
+                sameSite: "none",
                 maxAge: 60 * 60 * 1000
             })
-            isEmailIsAvailable.provider="google"
-            isEmailIsAvailable.name=name
-            isEmailIsAvailable.googleId=sub
-            isEmailIsAvailable.isVerified=true
-            isEmailIsAvailable.isActive=true
-            isEmailIsAvailable.otp=null
-            isEmailIsAvailable.otpExpiry=null
-            isEmailIsAvailable.avatar=picture
+            isEmailIsAvailable.provider = "google"
+            isEmailIsAvailable.name = name
+            isEmailIsAvailable.googleId = sub
+            isEmailIsAvailable.isVerified = true
+            isEmailIsAvailable.isActive = true
+            isEmailIsAvailable.otp = null
+            isEmailIsAvailable.otpExpiry = null
+            isEmailIsAvailable.avatar = picture
 
             await isEmailIsAvailable.save()
             return res.status(200).json({
@@ -53,17 +53,17 @@ async function userRegister(req, res) {
             avatar: picture,
             provider: "google",
             googleId: sub,
-            isVerified:true,
-            isActive:true
+            isVerified: true,
+            isActive: true
         })
         const saved = await newUser.save()
 
-        const accesTokken = await jwt.sign({ id: newUser._id,role:newUser.role }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
+        const accesTokken = await jwt.sign({ id: newUser._id, role: newUser.role }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
 
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,
-            secure: false,
-            sameSite: 'strict',
+            secure: true,
+            sameSite: "none",
             maxAge: 60 * 60 * 1000
         })
 
