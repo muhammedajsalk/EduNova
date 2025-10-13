@@ -28,6 +28,7 @@ app.use(cors({ origin: "https://edunovas.vercel.app", credentials: true }));
 
 startCronJobs()
 
+app.set('trust proxy', 1);
 app.use(apiLimiterGlobally);
 app.use('/api/users', usersRouter);
 app.use('/api/instructor', instructorRouter);

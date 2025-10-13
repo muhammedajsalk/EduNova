@@ -1,11 +1,20 @@
 const rateLimit = require('express-rate-limit');
 
 const apiLimiterGlobally = rateLimit({
-  windowMs: 15 * 60 * 1000, 
+  windowMs: 15 * 60 * 1000,
   max: 300,
-  message: "Too many requests from this IP, please try again later.",
+  message: "Too many requests. Please try again later.",
   standardHeaders: true,
-  legacyHeaders: false, 
+  legacyHeaders: false,
+  keyGenerator: (req) => {
+    return req.user?.id || req.body.email || req.ip;
+  },
+  handler: (req, res) => {
+    res.status(429).json({
+      success: false,
+      message: "Too many requests. Please try again later.",
+    });
+  },
 });
 
-module.exports=apiLimiterGlobally
+module.exports = apiLimiterGlobally;
