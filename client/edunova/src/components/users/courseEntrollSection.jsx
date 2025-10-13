@@ -45,6 +45,17 @@ const CourseEntrollSection = () => {
                         <h1 className="text-3xl font-bold text-gray-900 mb-2">
                             {data.title}
                         </h1>
+                        <div className="flex gap-2 flex-wrap mb-4">
+                            <span className="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm font-semibold">
+                                Bestseller
+                            </span>
+                            <span className="bg-green-100 text-green-600 px-3 py-1 rounded-full text-sm font-semibold">
+                                New
+                            </span>
+                            <span className="bg-emerald-100 text-emerald-600 px-3 py-1 rounded-full text-sm font-semibold">
+                                Top Rated
+                            </span>
+                        </div>
                     </div>
 
                     <div className="bg-white shadow-lg rounded-lg p-5 w-full lg:w-1/3">
@@ -55,12 +66,15 @@ const CourseEntrollSection = () => {
                                 </button>
                             </>
                         )}
+                        <ul className="mt-4 text-gray-600 text-sm space-y-2">
+                            <li>✔ Lifetime access</li>
+                        </ul>
                     </div>
                 </div>
 
                 <div className="mt-6">
                     <img
-                        src={data?.thumbnail}
+                         src={data?.thumbnail}
                         alt="Course Preview"
                         className="w-full rounded-lg"
                     />
