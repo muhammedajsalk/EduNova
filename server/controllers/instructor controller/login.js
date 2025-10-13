@@ -25,7 +25,7 @@ async function login(req, res) {
                     httpOnly: true,
                     secure: true,
                     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-                    maxAge: 60 * 60 * 1000
+                    maxAge: 24 * 60 * 60 * 1000 
                 })
                 return res.status(200).json({ success: true, message: "instructor succefully logged" ,data:isEmailIsAvailable})
             }
@@ -42,7 +42,7 @@ async function login(req, res) {
             httpOnly: true,
             secure: true,
             sameSite: "none",
-            maxAge: 60 * 60 * 1000
+            maxAge: 24 * 60 * 60 * 1000 
         })
         res.status(200).json({ success: true, message: "instructor succefully logged" ,data:instructor})
     } catch (error) {
