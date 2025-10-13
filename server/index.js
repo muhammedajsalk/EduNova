@@ -24,11 +24,12 @@ connectDb();
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 app.use(cookieParser());
+app.set('trust proxy', 1);
 app.use(cors({ origin: "https://edunovas.vercel.app", credentials: true }));
 
 startCronJobs()
 
-app.set('trust proxy', 1);
+
 app.use(apiLimiterGlobally);
 app.use('/api/users', usersRouter);
 app.use('/api/instructor', instructorRouter);
