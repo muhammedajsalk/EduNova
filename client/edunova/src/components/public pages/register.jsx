@@ -5,12 +5,16 @@ import { useFormik } from 'formik'
 import { registerSceama } from '../../../schema/schema';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import UserContext from '../../userContext';
 
 function Register() {
   const [role, setRole] = useState("Student");
   const [otpInput, setOtpInput] = useState(false)
   const [sendingOtp, setSendingOtp] = useState(false);
   const [submiting,setSubmiting]=useState(false)
+  const { user, setUser, notificationCo, setNotificationCo } = useContext(UserContext)
+      
 
   const navigate = useNavigate()
 
@@ -111,6 +115,7 @@ function Register() {
                   axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth/register`, credentialResponse, { withCredentials: true })
                     .then((res) => {
                       toast.success(res.data.message)
+                      setUser({ role: "user", ...res.data?.data })
                       setTimeout(() => {
                         navigate('/learningDashboard')
                       }, 2000);

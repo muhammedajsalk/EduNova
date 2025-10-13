@@ -43,7 +43,8 @@ async function userRegister(req, res) {
             await isEmailIsAvailable.save()
             return res.status(200).json({
                 success: true,
-                message: "user loged succefully"
+                message: "user loged succefully",
+                data: isEmailIsAvailable,
             })
         }
 
