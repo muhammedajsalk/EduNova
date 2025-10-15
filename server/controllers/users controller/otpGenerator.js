@@ -1,19 +1,14 @@
 const instructorModel = require('../../models/instructorModel');
 const userModel = require('../../models/usersModel')
 const nodemailer = require("nodemailer");
+import sgTransport from 'nodemailer-sendgrid';
 require('dotenv').config()
 
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // Use STARTTLS
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-    logger: true, // Enable logging
-    debug: true, // Detailed SMTP logs
-});
+const transporter = nodemailer.createTransport(
+  sgTransport({
+    apiKey: process.env.SENDGRID_API_KEY,
+  })
+);
 
 async function otpSent(req, res, next) {
     try {
