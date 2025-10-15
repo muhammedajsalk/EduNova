@@ -74,10 +74,10 @@ const InstructorEarningsPage = () => {
   useEffect(()=>{
      axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/summary`,{instructor:{id:user._id}},{withCredentials:true})
      .then(res=>{ 
-        console.log(res.data)
+        
      })
      .catch((err)=>{
-        console.log(err)
+        
      })
   },[])
 

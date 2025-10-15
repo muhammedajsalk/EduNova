@@ -40,12 +40,23 @@ function Login() {
             axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth/login`, values, { withCredentials: true })
                 .then((res) => {
                     setUser({ role: "user", ...res.data?.data })
-                    toast.success(res.data.message)
                     const userId = res.data?.data?._id
                     notificationDataGet(userId)
-                    setTimeout(() => {
-                        navigate('/learningDashboard')
-                    }, 2000);
+                    toast.success(res.data.message, {
+                        position: "top-right",
+                        autoClose: 2000, // 2 seconds
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        onClose: () => {
+                            // navigate after toast disappears
+                            navigate("/learningDashboard");
+                        },
+                    });
+
                 })
                 .catch((err) => toast.error(err.response?.data?.message || err.message))
                 .finally(() => setSubmiting(false))
@@ -54,12 +65,22 @@ function Login() {
             axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/auth/login`, values, { withCredentials: true })
                 .then((res) => {
                     setUser({ role: "instructor", ...res.data?.data })
-                    toast.success(res.data.message)
                     const userId = res.data?.data?._id
                     notificationDataGet(userId)
-                    setTimeout(() => {
-                        navigate('/instructorDashBoard')
-                    }, 2000);
+                    toast.success(res.data.message, {
+                        position: "top-right",
+                        autoClose: 2000, // 2 seconds
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "light",
+                        onClose: () => {
+                            // navigate after toast disappears
+                            navigate("/instructorDashBoard");
+                        },
+                    });
                 })
                 .catch((err) => toast.error(err.response?.data?.message || err.message))
                 .finally(() => setSubmiting(false))
@@ -114,21 +135,23 @@ function Login() {
                                     axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/auth/login`, credentialResponse, { withCredentials: true })
                                         .then((res) => {
                                             setUser({ role: "user", ...res.data?.data })
+                                            const userId = res.data?.data?._id
+                                            notificationDataGet(userId)
                                             toast.success(res.data.message, {
                                                 position: "top-right",
-                                                autoClose: 3000, // closes after 3 seconds
+                                                autoClose: 2000, // 2 seconds
                                                 hideProgressBar: false,
                                                 closeOnClick: true,
                                                 pauseOnHover: true,
                                                 draggable: true,
                                                 progress: undefined,
                                                 theme: "light",
-                                            })
-                                            const userId = res.data?.data?._id
-                                            notificationDataGet(userId)
-                                            setTimeout(() => {
-                                                navigate('/learningDashboard')
-                                            }, 2000);
+                                                onClose: () => {
+                                                    // navigate after toast disappears
+                                                    navigate("/learningDashboard");
+                                                },
+                                            });
+
                                         })
                                         .catch((err) => {
                                             const msg = err.response?.data?.message || err.message;
@@ -238,12 +261,22 @@ function Login() {
                                     axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/auth/login`, credentialResponse, { withCredentials: true })
                                         .then((res) => {
                                             setUser({ role: "instructor", ...res.data?.data })
-                                            toast.success(res.data.message)
                                             const userId = res.data?.data?._id
                                             notificationDataGet(userId)
-                                            setTimeout(() => {
-                                                navigate('/instructorDashBoard')
-                                            }, 2000);
+                                            toast.success(res.data.message, {
+                                                position: "top-right",
+                                                autoClose: 2000, // 2 seconds
+                                                hideProgressBar: false,
+                                                closeOnClick: true,
+                                                pauseOnHover: true,
+                                                draggable: true,
+                                                progress: undefined,
+                                                theme: "light",
+                                                onClose: () => {
+                                                    // navigate after toast disappears
+                                                    navigate("/instructorDashBoard");
+                                                },
+                                            });
                                         })
                                         .catch((err) => {
                                             const msg = err.response?.data?.message || err.message;

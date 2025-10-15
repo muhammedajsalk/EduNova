@@ -56,7 +56,6 @@ const FindMentorPage = () => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.error("Failed to fetch mentors:", err);
         setMentorsData([]);
         setIsLoading(false);
       });

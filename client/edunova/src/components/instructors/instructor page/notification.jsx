@@ -204,7 +204,7 @@ const NotificationsPageInstructor = () => {
 
             setSelectedNotifications([]);
         } catch (err) {
-            console.error("Error deleting selected notifications:", err);
+            
         }
     };
 

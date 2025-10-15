@@ -49,7 +49,6 @@ const CourseGrid = () => {
         setCourses(res.data.data || []);
         setError(null);
       } catch (err) {
-        console.error("Failed to fetch courses:");
         setError("Failed to load courses. Please try again.");
       } finally {
         setLoading(false);

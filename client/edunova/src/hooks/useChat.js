@@ -16,7 +16,7 @@ export default function useChat(roomId) {
         );
         setMessages(res.data);
       } catch (err) {
-        console.error("Error fetching messages:", err);
+        
       }
     };
     fetchMessages();

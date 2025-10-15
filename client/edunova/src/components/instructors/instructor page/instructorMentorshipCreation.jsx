@@ -116,7 +116,7 @@ function MentorshipProgramCreator() {
     try {
       await saveSelectedDate(day);
     } catch (error) {
-      console.error("Error saving date");
+
     }
   };
 

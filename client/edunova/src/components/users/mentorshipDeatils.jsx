@@ -38,9 +38,7 @@ const InstructorBooking = () => {
         });
       }
     } catch (err) {
-      console.error(
-        "Error fetching instructor details:"
-      );
+
     }
   };
 

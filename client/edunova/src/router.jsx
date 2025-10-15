@@ -234,8 +234,6 @@ function Routers() {
             <Route path='/notFound' element={<NotFound404 />}></Route>
           </Routes>
         </Layout>
-        <Toaster position="top-right" />
-        <ToastContainer />
       </PeerProvider>
     </UserContext.Provider>
 

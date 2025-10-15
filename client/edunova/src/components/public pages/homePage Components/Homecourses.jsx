@@ -9,7 +9,7 @@ function HomeCourses() {
     axios
       .get(`${import.meta.env.VITE_API_BASE_URL}/api/public/topRatedCourse`)
       .then((res) => setCourses(res.data.data || []))
-      .catch((err) => console.error("Error fetching courses:", err));
+      .catch((err) => {});
   }, []);
 
   return (

@@ -40,7 +40,6 @@ function InstructorChatBox() {
         handleStudentSelect(fetchedStudents[0]);
       }
     } catch (error) {
-      console.error("Error fetching students:", error);
       setError("Failed to load students. Please try again.");
     } finally {
       setLoadingStudents(false);
@@ -78,7 +77,6 @@ function InstructorChatBox() {
             );
           })
           .catch((err) => {
-            console.error("Error creating chat room:", err);
             setError("Failed to create chat room.");
           });
       } else {
@@ -107,7 +105,6 @@ function InstructorChatBox() {
       }));
       setMessages(formattedMessages);
     } catch (error) {
-      console.error("Error fetching messages:", error);
       setMessages([]);
       setError("Failed to load messages. Please try again.");
     } finally {
@@ -138,7 +135,6 @@ function InstructorChatBox() {
     });
 
     socket.on("connect_error", (error) => {
-      console.error("❌ Socket connection error:", error.message);
       setError(`Socket connection failed: ${error.message}`);
     });
 
@@ -152,11 +148,9 @@ function InstructorChatBox() {
     });
 
     socket.on("reconnect_error", (error) => {
-      console.error("❌ Reconnection error:", error.message);
     });
 
     socket.on("reconnect_failed", () => {
-      console.error("❌ Reconnection failed after all attempts");
       setError("Unable to reconnect to the server. Please check your connection.");
     });
 

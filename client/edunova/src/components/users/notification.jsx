@@ -205,7 +205,7 @@ const NotificationsPage = () => {
       setNotificationCo(prev => prev - 1)
       setSelectedNotifications([]);
     } catch (err) {
-      console.error("Error deleting selected notifications:", err);
+      
     }
   };
 

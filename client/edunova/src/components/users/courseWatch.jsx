@@ -108,7 +108,6 @@ const CourseVideoPlayer = () => {
             } catch (err) {
                 if (!axios.isCancel(err)) {
                     setError("Failed to load course. Please try again.");
-                    console.error("Fetch course error");
                 }
             } finally {
                 setLoading(false);
@@ -162,7 +161,6 @@ const CourseVideoPlayer = () => {
             } catch (err) {
                 if (!axios.isCancel(err)) {
                     setError("Failed to load video. Please try again.");
-                    console.error("Fetch video URL error");
                 }
             }
         };
@@ -198,7 +196,6 @@ const CourseVideoPlayer = () => {
                         );
                     } catch (err) {
                         if (!axios.isCancel(err)) {
-                            console.error("Error updating watch time");
                         }
                     }
                 };
@@ -291,7 +288,6 @@ const CourseVideoPlayer = () => {
 
     const handleVideoError = useCallback((e) => {
         setError("Video playback failed. Please try again.");
-        console.error("Playback error:");
     }, []);
 
     const getLectureProgress = useCallback((lecture) => {

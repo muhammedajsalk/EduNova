@@ -61,7 +61,6 @@ function StudentChat() {
 
       setMessages(formattedMessages);
     } catch (error) {
-      console.error("Error fetching messages:", error);
     } finally {
       setIsLoading(false);
     }

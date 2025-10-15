@@ -23,7 +23,6 @@ const MentorshipPreview = () => {
                     withCredentials: true,
                 }
             );
-            console.log(response.data.data);
             setMentorship(response.data.data);
             setError(null);
         } catch (err) {

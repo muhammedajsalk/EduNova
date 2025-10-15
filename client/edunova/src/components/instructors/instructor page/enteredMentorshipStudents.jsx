@@ -16,7 +16,6 @@ const ScheduledStudents = () => {
     axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/instructor/getAllMentorship`, { withCredentials: true })
       .then((res) => {
         setMentorship(res.data?.data)
-        console.log(res.data)
       }
       )
       .catch((err) => {})

@@ -159,7 +159,6 @@ const CreateCourse = () => {
       localStorage.removeItem("courseDraft");
       toast.success("Course created successfully! 🎉");
     } catch (error) {
-      console.error("Error uploading course", error);
       toast.error("Failed to create course");
     }
   };
