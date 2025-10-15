@@ -6,9 +6,11 @@ import UserContext from "../../userContext";
 import { useContext } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import MultiRingLoader from "../../utilis/spinner";
+import LoadingButton from "../../utilis/loadingButton";
 
 const CourseEntrollSection = () => {
     const [loading, setLoading] = useState(true);
+    const [buyLoading, setBuyLoading] = useState(false)
     const { id } = useParams()
 
     const [data, setData] = useState([])
@@ -36,9 +38,11 @@ const CourseEntrollSection = () => {
     }
 
     function entrollCourse() {
+        setBuyLoading(true)
         axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/users/course/entroll/${id}`, {}, { withCredentials: true })
             .then((res) => toast.success(res.data.message))
             .catch((err) => toast.error(err.response?.data?.message || err.message))
+            .finally(()=>setBuyLoading(false))
     }
 
     if (loading) return <MultiRingLoader />;
@@ -67,9 +71,13 @@ const CourseEntrollSection = () => {
                     <div className="bg-white shadow-lg rounded-lg p-5 w-full lg:w-1/3">
                         {user.role === "user" && (
                             <>
-                                <button className="w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition" onClick={() => entrollCourse()}>
+                                <LoadingButton
+                                    loading={buyLoading}
+                                    onClick={() => entrollCourse()}
+                                    className={`w-full bg-emerald-600 text-white py-3 rounded-lg font-semibold hover:bg-emerald-700 transition`}
+                                >
                                     Enroll Now
-                                </button>
+                                </LoadingButton>
                             </>
                         )}
                         <ul className="mt-4 text-gray-600 text-sm space-y-2">

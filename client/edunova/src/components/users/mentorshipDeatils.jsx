@@ -3,12 +3,16 @@ import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
+import MultiRingLoader from "../../utilis/spinner";
+import LoadingButton from "../../utilis/loadingButton";
 
 const InstructorBooking = () => {
   const [instructor, setInstructor] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTime, setSelectedTime] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [buyLoading, setBuyLoading] = useState(false)
 
   const { id: instructorId } = useParams();
 
@@ -39,6 +43,8 @@ const InstructorBooking = () => {
       }
     } catch (err) {
 
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -48,6 +54,7 @@ const InstructorBooking = () => {
   }, [instructorId]);
 
   const handlePayment = async (plan) => {
+    setBuyLoading(true)
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/api/users/mentorShip/buy`,
@@ -75,7 +82,7 @@ const InstructorBooking = () => {
                 razorpay_payment_id: response?.razorpay_payment_id,
                 razorpay_order_id: response?.razorpay_order_id,
                 razorpay_signature: response?.razorpay_signature,
-                instructorId:instructor.instructorId,
+                instructorId: instructor.instructorId,
                 mentorshipId: instructor._id,
                 selectedDate: selectedDate,
                 selectedTimes: selectedTime,
@@ -86,8 +93,8 @@ const InstructorBooking = () => {
             );
             toast.success("Payment successful! Access granted.");
             fetchInstructor();
-    setSelectedDate(null);
-    setSelectedTime(null);
+            setSelectedDate(null);
+            setSelectedTime(null);
           } catch (err) {
             const message = err?.response?.data?.message || err?.message || "Something went wrong during payment.";
             toast.error(message)
@@ -108,6 +115,8 @@ const InstructorBooking = () => {
     } catch (err) {
       const message = err?.response?.data?.message || err?.message || "Something went wrong during payment.";
       toast.warning(message)
+    }finally{
+      setBuyLoading(false)
     }
   };
 
@@ -133,6 +142,8 @@ const InstructorBooking = () => {
         dateObj.getFullYear() === currentMonth.getFullYear()
       );
     });
+
+  if (loading) return <MultiRingLoader />;
 
   if (!instructor || !currentMonth) {
     return <div className="p-4">Loading instructor details...</div>;
@@ -246,16 +257,18 @@ const InstructorBooking = () => {
             <span>Total</span><span className="text-emerald-600">₹{instructor.amount}.00</span>
           </div>
 
-          <button
+          <LoadingButton
+            loading={buyLoading} 
             disabled={!selectedDate || !selectedTime}
-            className={`w-full py-3 rounded-lg ${selectedDate && selectedTime
-              ? "bg-emerald-500 text-white hover:bg-emerald-600"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
             onClick={() => handlePayment()}
+            className={`w-full py-3 rounded-lg text-white ${selectedDate && selectedTime
+                ? "bg-emerald-500 hover:bg-emerald-600"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+              }`}
           >
             Book Session
-          </button>
+          </LoadingButton>
+
         </div>
       </div>
       <ToastContainer position="top-right" autoClose={3000} />
