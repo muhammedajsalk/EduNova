@@ -2,13 +2,10 @@ const instructorModel = require('../../models/instructorModel');
 const userModel = require('../../models/usersModel')
 const nodemailer = require("nodemailer");
 const sgTransport = require('nodemailer-sendgrid');
+const sgMail = require('@sendgrid/mail');
 require('dotenv').config()
 
-const transporter = nodemailer.createTransport(
-  sgTransport({
-    apiKey: process.env.SENDGRID_API_KEY,
-  })
-);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 async function otpSent(req, res, next) {
     try {
@@ -37,25 +34,25 @@ async function otpSent(req, res, next) {
             user.otpExpiry = otpExpiry;
             await user.save();
         }
-        await transporter.sendMail({
-            from:process.env.EMAIL_USER,
+
+        const msg = {
             to: email,
+            from: process.env.EMAIL_USER, // verified sender in SendGrid
             subject: "Your OTP Code - Do Not Share",
             html: `
-    <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-      <h2 style="color: #333;">Email Verification Code</h2>
-      <p>Use the OTP below to verify your email address. This code is valid for <strong>5 minutes</strong>.</p>
-      
-      <div style="text-align: center; margin: 20px 0;">
-        <span style="font-size: 28px; font-weight: bold; color: #4CAF50;">${otp}</span>
-      </div>
+        <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+          <h2 style="color: #333;">Email Verification Code</h2>
+          <p>Use the OTP below to verify your email address. This code is valid for <strong>5 minutes</strong>.</p>
+          <div style="text-align: center; margin: 20px 0;">
+            <span style="font-size: 28px; font-weight: bold; color: #4CAF50;">${otp}</span>
+          </div>
+          <p style="color: #d9534f;"><strong>Do not share this code with anyone.</strong></p>
+          <p>Thank you,<br/>EduNova Support Team</p>
+        </div>
+      `
+        };
 
-      <p style="color: #d9534f;"><strong>Do not share this code with anyone.</strong> If you did not request this, please ignore the email.</p>
-      
-      <p>Thank you,<br/>EduNova Support Team</p>
-    </div>
-  `
-        });
+        await sgMail.send(msg);
 
 
         res.json({ message: "OTP sent to email." });
