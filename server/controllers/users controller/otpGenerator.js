@@ -1,7 +1,7 @@
 const instructorModel = require('../../models/instructorModel');
 const userModel = require('../../models/usersModel')
 const nodemailer = require("nodemailer");
-import sgTransport from 'nodemailer-sendgrid';
+const sgTransport = require('nodemailer-sendgrid');
 require('dotenv').config()
 
 const transporter = nodemailer.createTransport(
