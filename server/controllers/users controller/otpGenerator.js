@@ -38,6 +38,7 @@ async function otpSent(req, res, next) {
             await user.save();
         }
         await transporter.sendMail({
+            from:process.env.EMAIL_USER,
             to: email,
             subject: "Your OTP Code - Do Not Share",
             html: `
