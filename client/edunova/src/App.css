@@ -1,0 +1,140 @@
+/* Add these to your global CSS file */
+
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+  to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+}
+
+@keyframes morph {
+  0%, 100% { border-radius: 50%; }
+  25% { border-radius: 30%; }
+  50% { border-radius: 50% 20% 50% 20%; }
+  75% { border-radius: 20% 50% 20% 50%; }
+}
+
+@keyframes role-switch {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  50% { transform: scale(1.2) rotate(180deg); }
+}
+
+@keyframes icon-switch {
+  0%, 100% { opacity: 1; }
+  45%, 55% { opacity: 0; }
+}
+
+@keyframes word-switch {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  25% { opacity: 0; transform: translateY(-10px); }
+  50% { opacity: 0; transform: translateY(10px); }
+  75% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes word-switch-delayed {
+  0%, 100% { opacity: 1; transform: translateY(0); }
+  35% { opacity: 0; transform: translateY(10px); }
+  60% { opacity: 0; transform: translateY(-10px); }
+  85% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float-particle {
+  0% { transform: translate(0, 0) scale(0); opacity: 0; }
+  20% { transform: translate(10px, -20px) scale(1); opacity: 1; }
+  80% { transform: translate(-20px, -60px) scale(1); opacity: 1; }
+  100% { transform: translate(-30px, -80px) scale(0); opacity: 0; }
+}
+
+@keyframes grid-move {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
+}
+
+@keyframes draw-line {
+  0% { stroke-dasharray: 0 1000; opacity: 0; }
+  50% { stroke-dasharray: 1000 0; opacity: 1; }
+  100% { stroke-dasharray: 1000 0; opacity: 0; }
+}
+
+@keyframes role-toggle {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0); }
+}
+
+@keyframes float-random {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  33% { transform: translate(30px, -30px) rotate(120deg); }
+  66% { transform: translate(-20px, 20px) rotate(240deg); }
+}
+
+@keyframes draw-infinity {
+  0% { stroke-dasharray: 0 1000; }
+  100% { stroke-dasharray: 1000 0; }
+}
+
+@keyframes float-orbit {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+  25% { transform: translate(20px, -10px) scale(1.1); opacity: 1; }
+  50% { transform: translate(0, -20px) scale(1); opacity: 0.7; }
+  75% { transform: translate(-20px, -10px) scale(0.9); opacity: 1; }
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes rotate-3d {
+  0% { transform: perspective(1000px) rotateX(0deg) rotateY(0deg); }
+  100% { transform: perspective(1000px) rotateX(360deg) rotateY(360deg); }
+}
+
+@keyframes spin-cube {
+  0% { transform: rotateX(0deg) rotateY(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg); }
+}
+
+@keyframes orbit-3d {
+  0% { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+
+@keyframes count-up {
+  0% { opacity: 0; transform: scale(0.5); }
+  50% { transform: scale(1.1); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes progress-wave {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(0); }
+  100% { transform: translateX(100%); }
+}
+
+.animate-orbit { animation: orbit 6s linear infinite; }
+.animate-morph { animation: morph 4s ease-in-out infinite; }
+.animate-role-switch { animation: role-switch 3s ease-in-out infinite; }
+.animate-icon-switch { animation: icon-switch 3s ease-in-out infinite; }
+.animate-word-switch { animation: word-switch 4s ease-in-out infinite; }
+.animate-word-switch-delayed { animation: word-switch-delayed 4s ease-in-out infinite; }
+.animate-float-particle { animation: float-particle 3s ease-out infinite; }
+.animate-draw-line { animation: draw-line 2s ease-in-out infinite; }
+.animate-role-toggle { animation: role-toggle 3s ease-in-out infinite; }
+.animate-float-random { animation: float-random 5s ease-in-out infinite; }
+.animate-draw-infinity { animation: draw-infinity 3s ease-in-out infinite; }
+.animate-float-orbit { animation: float-orbit 4s ease-in-out infinite; }
+.animate-twinkle { animation: twinkle 3s ease-in-out infinite; }
+.animate-rotate-3d { animation: rotate-3d 20s linear infinite; }
+.animate-spin-cube { animation: spin-cube 10s linear infinite; }
+.animate-orbit-3d { animation: orbit-3d 8s linear infinite; }
+.animate-count-up { animation: count-up 1s ease-out forwards; }
+.animate-progress-wave { animation: progress-wave 2s ease-in-out infinite; }
+
+.animation-delay-200 { animation-delay: 200ms; }
+.animation-delay-400 { animation-delay: 400ms; }
+.animation-delay-500 { animation-delay: 500ms; }
+
+/* 3D Transform Support */
+.transform-style-3d { transform-style: preserve-3d; }
+.translateZ-24 { transform: translateZ(120px); }
+.rotateY-180 { transform: rotateY(180deg); }
+.rotateY-90 { transform: rotateY(90deg); }
+.rotateY--90 { transform: rotateY(-90deg); }
