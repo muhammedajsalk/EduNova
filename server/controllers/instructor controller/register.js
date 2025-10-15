@@ -7,6 +7,7 @@ dotenv.config()
 
 async function register(req, res) {
     try {
+        return res.status(400).json({ message: "This service is currently not working. We are working on it. Instructors, please register later." })
         const { name, email, password, bio, phone, skills, linkedInProfile, profession } = req.body;
 
         const skillsArray = skills.split(',')
