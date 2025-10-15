@@ -7,6 +7,7 @@ const userModel = require("../../models/usersModel")
 
 async function login(req, res) {
     try {
+        const isProduction = process.env.NODE_ENV === "production";
         const body = req.body
         if (body.credential) {
             const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
@@ -17,15 +18,15 @@ async function login(req, res) {
             const payload = ticket.getPayload()
             const { email, name, picture, sub } = payload
             const isEmailIsAvailable = await userModel.findOne({ email: email })
-            if(!isEmailIsAvailable) return res.status(400).json({ success: false, message: "please register and come to login page" })
+            if (!isEmailIsAvailable) return res.status(400).json({ success: false, message: "please register and come to login page" })
             if (isEmailIsAvailable.isActive === false) return res.status(400).json({ success: false, message: "your account is blocked" })
             if (isEmailIsAvailable) {
                 const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id, role: isEmailIsAvailable.role }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
                 res.cookie("accesTokken", accesTokken, {
                     httpOnly: true,
-                    secure: true,
-                    sameSite: "none",
-                    maxAge: 24 * 60 * 60 * 1000 
+                    secure: isProduction, // HTTPS only in production
+                    sameSite: isProduction ? "none" : "lax",
+                    maxAge: 24 * 60 * 60 * 1000
                 })
                 isEmailIsAvailable.provider = "google"
                 isEmailIsAvailable.name = name
@@ -40,7 +41,7 @@ async function login(req, res) {
                 return res.status(200).json({
                     success: true,
                     message: "user loged succefully",
-                    data:isEmailIsAvailable
+                    data: isEmailIsAvailable
                 })
             }
             const newUser = new userModel({
@@ -58,9 +59,9 @@ async function login(req, res) {
 
             res.cookie("accesTokken", accesTokken, {
                 httpOnly: true,
-                secure: true,
-                sameSite:"none",
-                maxAge: 24 * 60 * 60 * 1000 
+                secure: isProduction, // HTTPS only in production
+                sameSite: isProduction ? "none" : "lax",
+                maxAge: 24 * 60 * 60 * 1000
             })
 
             res.status(200).json({
@@ -72,25 +73,25 @@ async function login(req, res) {
         const { email, password } = body
         const user = await userModel.findOne({ email })
         if (!user)
-             return res.status(400).json({ success: false, message: "you entered incorrect details" })
-        if (user.isActive === false) 
+            return res.status(400).json({ success: false, message: "you entered incorrect details" })
+        if (user.isActive === false)
             return res.status(400).json({ success: false, message: "your account is blocked" })
-        if (user.password === null) 
+        if (user.password === null)
             return res.status(400).json({ success: false, message: "you registered with google and google to login otherwise forget password click" })
         const match = await bcrypt.compare(password, user.password)
-        if (!match) 
+        if (!match)
             return res.status(400).json({ success: false, message: "you entered password is incorrect" })
-        const accesTokken = await jwt.sign({ id: user._id,role:"user" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
+        const accesTokken = await jwt.sign({ id: user._id, role: "user" }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 24 * 60 * 60 * 1000 
+            secure: isProduction, // HTTPS only in production
+            sameSite: isProduction ? "none" : "lax",
+            maxAge: 24 * 60 * 60 * 1000
         })
         res.status(200).json({
             success: true,
             message: 'Successfully logged in',
-            data:user
+            data: user
         })
     } catch (error) {
         res.status(500).json({ success: false, message: "server side error" })

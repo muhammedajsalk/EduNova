@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken")
 
 
 async function userRegister(req, res) {
+    const isProduction = process.env.NODE_ENV === "production";
     try {
         const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID)
         const body = req.body
@@ -27,9 +28,9 @@ async function userRegister(req, res) {
             const accesTokken = await jwt.sign({ id: isEmailIsAvailable._id, role: isEmailIsAvailable.role }, process.env.JWT_SECRET_CODE, { expiresIn: "7d" })
             res.cookie("accesTokken", accesTokken, {
                 httpOnly: true,
-                secure: true,
-                sameSite: "none",
-                maxAge: 24 * 60 * 60 * 1000 
+                secure: isProduction, // HTTPS only in production
+                sameSite: isProduction ? "none" : "lax",
+                maxAge: 24 * 60 * 60 * 1000
             })
             isEmailIsAvailable.provider = "google"
             isEmailIsAvailable.name = name
@@ -63,9 +64,9 @@ async function userRegister(req, res) {
 
         res.cookie("accesTokken", accesTokken, {
             httpOnly: true,
-            secure: true,
-            sameSite: "none",
-            maxAge: 24 * 60 * 60 * 1000 
+            secure: isProduction, // HTTPS only in production
+            sameSite: isProduction ? "none" : "lax",
+            maxAge: 24 * 60 * 60 * 1000
         })
 
         res.status(200).json({

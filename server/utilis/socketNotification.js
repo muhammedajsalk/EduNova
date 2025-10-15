@@ -8,9 +8,12 @@ const userIdToSocketMap = new Map();
 const socketToUserId = new Map()
 
 const initSocket = (server) => {
-  io = new Server(server, {
+  const io = new Server(server, {
     cors: {
-      origin: "https://edunovas.vercel.app",
+      origin: [
+        "https://edunovas.vercel.app",
+        "http://localhost:5173",
+      ],
       methods: ["GET", "POST"],
       credentials: true,
     },

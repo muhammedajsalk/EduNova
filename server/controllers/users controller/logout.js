@@ -1,9 +1,10 @@
-const logOut=async (req,res)=>{
+const logOut = async (req, res) => {
+    const isProduction = process.env.NODE_ENV === "production";
     try {
         res.clearCookie('accesTokken', {
             httpOnly: true,
-            secure: true,
-            sameSite: 'none',
+            secure: isProduction, // HTTPS only in production
+            sameSite: isProduction ? "none" : "lax",
         });
         res.status(200).json({ message: 'Logged out successfully' });
     } catch (error) {
@@ -12,4 +13,4 @@ const logOut=async (req,res)=>{
     }
 }
 
-module.exports=logOut
+module.exports = logOut

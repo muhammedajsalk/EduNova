@@ -7,7 +7,7 @@ const apiLimiterGlobally = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   keyGenerator: (req) => {
-    return req.user?.id || req.body.email || req.ip;
+    return req.ip;
   },
   handler: (req, res) => {
     res.status(429).json({

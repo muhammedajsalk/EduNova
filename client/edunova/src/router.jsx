@@ -82,7 +82,7 @@ function Routers() {
   const socket = useMemo(() => io(`${import.meta.env.VITE_API_BASE_URL}`, { withCredentials: true }), []);
 
   useEffect(() => {
-    axios.get('https://edunova-o6jf.onrender.com/api/public/me', { withCredentials: true })
+    axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/public/me`, { withCredentials: true })
       .then((res) => setUser(res.data.data))
       .catch((err) => {
         setUser(null)
