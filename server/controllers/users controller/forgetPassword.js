@@ -7,7 +7,6 @@ require('dotenv').config()
 
 async function forgetPassword(req, res) {
     try {
-        return res.status(400).json({ message: "This service is currently not working. Are you a student? If so, please sign in using Google." })
         const { email, role } = req.body
         const model = role === "user" ? userModel : instructorModel;
         const user = await model.findOne({ email })

@@ -13,7 +13,6 @@ const transporter = nodemailer.createTransport({
 
 async function otpSent(req, res, next) {
     try {
-        return res.status(400).json({ message: "This service is currently not working. Are you a student? If so, please sign up using Google." })
         const { email, role } = req.body
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
