@@ -17,12 +17,15 @@ async function forgetPassword(req, res) {
         await user.save()
         const transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
-            port: 587,              // <-- Use port 587 for Render
+            port: 587,  
             secure: false,
             auth: {
                 user: process.env.EMAIL_USER,
                 pass: process.env.EMAIL_PASS,
             },
+            tls: {
+                rejectUnauthorized: false 
+            }
         });
         const resetLink = `${process.env.CLIENT_URL}/ResetPassword/${token}/${role}`;
         await transporter.sendMail({
