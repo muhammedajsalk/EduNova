@@ -16,7 +16,7 @@ async function forgetPassword(req, res) {
         user.resetTokenExpiry = Date.now() + 15 * 60 * 1000;
         await user.save()
         const transporter = nodemailer.createTransport({
-            service: "smtp.gmail.com",
+            host: "smtp.gmail.com",
             port: 465,
             secure: true,
             auth: {
