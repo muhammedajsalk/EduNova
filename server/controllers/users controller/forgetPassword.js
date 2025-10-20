@@ -28,28 +28,37 @@ async function forgetPassword(req, res) {
             }
         });
         const resetLink = `${process.env.CLIENT_URL}/ResetPassword/${token}/${role}`;
-        await transporter.sendMail({
+        transporter.sendMail({
             from: process.env.EMAIL_USER,
             to: email,
             subject: "Reset Your Password - Action Required",
             html: `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
-      <h2 style="color: #333;">Password Reset Request</h2>
-      <p>Hello,</p>
-      <p>You recently requested to reset your password. Click the button below to reset it:</p>
-      <div style="text-align: center; margin: 30px 0;">
-        <a href="${resetLink}" 
-           style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;">
-           Reset Password
-        </a>
-      </div>
-      <p>This link will expire in 5 minutes for your security.</p>
-      <p>If you did not request this, please ignore this email. No changes will be made to your account.</p>
-      <p>Regards,<br/>EduNova Support Team</p>
-    </div>
-  `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;">
+                <h2 style="color: #333;">Password Reset Request</h2>
+                <p>Hello,</p>
+                <p>You recently requested to reset your password. Click the button below to reset it:</p>
+                <div style="text-align: center; margin: 30px 0;">
+                  <a href="${resetLink}" 
+                     style="background-color: #4CAF50; color: white; padding: 12px 24px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;">
+                     Reset Password
+                  </a>
+                </div>
+                <p>This link will expire in 15 minutes for your security.</p> <p>If you did not request this, please ignore this email. No changes will be made to your account.</p>
+                <p>Regards,<br/>EduNova Support Team</p>
+              </div>
+            `
+        })
+        .then(info => {
+            // RESOLVE block: Runs if the email sends successfully.
+            console.log("Password reset email sent: " + info.messageId);
+            // The success response MUST be inside the .then() block.
+            return res.status(200).json({ success: true, message: "Password reset link sent to your email" });
+        })
+        .catch(mailError => {
+            // REJECT block: Runs if sendMail fails.
+            console.log("Nodemailer error: " + mailError);
+            return res.status(500).json({ success: false, message: "Failed to send email" });
         });
-        return res.status(200).json({ success: true, message: "EMAIL_USER" })
     } catch (error) {
         res.status(500).json({ success: false, message: "server side error" })
         console.log("error is: " + error)
