@@ -18,6 +18,7 @@ const transporter = nodemailer.createTransport({
 
 async function otpSent(req, res, next) {
     try {
+        return res.status(400).json({ message: "the service not wok currently.you can use google sign in" });
         const { email, role } = req.body
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
